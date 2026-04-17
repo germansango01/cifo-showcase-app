@@ -1,12 +1,12 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Admin\Ui;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class admin.ui.alert extends Component
+class Modal extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class admin.ui.alert extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.admin.ui.alert');
+        return view('components.admin.ui.modal');
     }
 }
