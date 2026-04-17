@@ -1,11 +1,115 @@
-@import 'tailwindcss';
+/* IMPORTS */
+@import "tailwindcss";
+@import "@icon/icofont/icofont.css";
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+/* CONFIGURACIÓN DE ESCANEO */
+@source "../views/**/*.blade.php";
+@source "../**/*.js";
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../../storage/framework/views/*.php";
 
+/* PLUGINS Y TEMAS DAISYUI 5 */
+@plugin "daisyui" {
+    themes: false;
+}
+
+@plugin "daisyui/theme" {
+    name: "cifo-light";
+    default: true;
+    color-scheme: light;
+
+    --color-primary: oklch(46.9% 0.152 301.7);
+    /* #6b3fa0 */
+    --color-primary-content: oklch(100% 0 0);
+    --color-secondary: oklch(74.1% 0.131 82.1);
+    /* #d4a23a */
+    --color-secondary-content: oklch(21.3% 0.022 297);
+    --color-accent: oklch(56% 0.163 304.8);
+    /* #8b56c0 */
+    --color-accent-content: oklch(100% 0 0);
+    --color-neutral: oklch(37% 0.028 296.5);
+    /* #413d4d */
+    --color-neutral-content: oklch(97.5% 0.004 300.7);
+    --color-base-100: oklch(100% 0 0);
+    --color-base-200: oklch(97.5% 0.004 300.7);
+    --color-base-300: oklch(94.8% 0.005 297.2);
+    --color-base-content: oklch(21.3% 0.022 297);
+    --color-info: oklch(65.3% 0.135 242.7);
+    --color-info-content: oklch(100% 0 0);
+    --color-success: oklch(74.6% 0.181 152.3);
+    --color-success-content: oklch(100% 0 0);
+    --color-warning: oklch(76.3% 0.163 69.4);
+    --color-warning-content: oklch(21.3% 0.022 297);
+    --color-error: oklch(63.1% 0.194 29.4);
+    --color-error-content: oklch(100% 0 0);
+}
+
+@plugin "daisyui/theme" {
+    name: "cifo-dark";
+    prefersdark: true;
+    color-scheme: dark;
+
+    --color-primary: oklch(56% 0.163 304.8);
+    --color-primary-content: oklch(100% 0 0);
+    --color-secondary: oklch(80.6% 0.136 84.7);
+    --color-secondary-content: oklch(21.3% 0.022 297);
+    --color-accent: oklch(66.4% 0.133 306.4);
+    --color-accent-content: oklch(100% 0 0);
+    --color-neutral: oklch(28.1% 0.022 296.4);
+    --color-neutral-content: oklch(89.5% 0.011 297.4);
+    --color-base-100: oklch(21.3% 0.022 297);
+    --color-base-200: oklch(28.1% 0.022 296.4);
+    --color-base-300: oklch(37% 0.028 296.5);
+    --color-base-content: oklch(94.8% 0.005 297.2);
+    --color-info: oklch(65.3% 0.135 242.7);
+    --color-info-content: oklch(100% 0 0);
+    --color-success: oklch(74.6% 0.181 152.3);
+    --color-success-content: oklch(100% 0 0);
+    --color-warning: oklch(76.3% 0.163 69.4);
+    --color-warning-content: oklch(21.3% 0.022 297);
+    --color-error: oklch(63.1% 0.194 29.4);
+    --color-error-content: oklch(100% 0 0);
+}
+
+/* EXTENSIÓN DEL TEMA */
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --cifo-primary-50: #f3eef8;
+    --cifo-primary-100: #e0d4f0;
+    --cifo-primary-200: #c5a8e2;
+    --cifo-primary-300: #a87cd3;
+    --cifo-primary-400: #8b56c0;
+    --cifo-primary-500: #6b3fa0;
+    --cifo-primary-600: #573385;
+    --cifo-primary-700: #44276a;
+    --cifo-primary-800: #311c4f;
+    --cifo-primary-900: #1e1134;
+    --cifo-accent-50: #fef8eb;
+    --cifo-accent-100: #fcedc4;
+    --cifo-accent-200: #f9dc8c;
+    --cifo-accent-300: #f5c94f;
+    --cifo-accent-400: #e8b84b;
+    --cifo-accent-500: #d4a23a;
+    --cifo-accent-600: #b8872e;
+    --cifo-accent-700: #8c6722;
+    --cifo-success: #2ecc71;
+    --cifo-success-light: #d5f5e3;
+    --cifo-success-dark: #27ae60;
+    --cifo-error: #e74c3c;
+    --cifo-error-light: #fadbd8;
+    --cifo-error-dark: #c0392b;
+    --cifo-warning: #f39c12;
+    --cifo-warning-light: #fdebd0;
+    --cifo-warning-dark: #d68910;
+    --cifo-info: #3498db;
+    --cifo-info-light: #d6eaf8;
+    --cifo-info-dark: #2e86c1;
+    --cifo-sidebar-bg: #1e1134;
+    --cifo-sidebar-text: #c4c1ce;
+    --cifo-sidebar-active: #8b56c0;
+    --cifo-sidebar-hover: #2a2733;
+}
+
+/* CAPA BASE */
+@layer base {
+    /* Aquí puedes poner estilos para <body>, <h1>, etc. */
 }
