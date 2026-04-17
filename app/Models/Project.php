@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Project extends Model
+{
+    /** @use HasFactory<\Database\Factories\ProjectFactory> */
+    use HasFactory, SoftDeletes;
+
+    protected $table = 'cycles';
+
+    protected $fillable = [
+        'course_id',
+        'user_id',
+        'title_ca',
+        'title_es',
+        'description_ca',
+        'description_es',
+        'thumbnail',
+        'repo_url',
+        'live_url',
+        'status',
+        'featured',
+        'published_at'
+    ];
+
+    protected $casts = [
+        'featured' => 'boolean',
+        'publised_at' => 'datetime'
+    ];
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
+    public function media()
+    {
+        return $this->hasMany(ProjectMedia::class);
+    }
+}
