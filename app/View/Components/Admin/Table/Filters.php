@@ -11,11 +11,24 @@ class Filters extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(
+        public string $action,
+        public string $searchPlaceholder = 'Buscar…',
+    ) {}
+ 
+    /**
+     * Query params to preserve as hidden inputs (exclude 'search' and 'page').
+     *
+     * @return array<string, string>
+     */
+    public function preserved(): array
     {
-        //
+        return collect(request()->query())
+            ->except(['search', 'page', '_token'])
+            ->map(fn ($v) => (string) $v)
+            ->all();
     }
-
+ 
     /**
      * Get the view / contents that represent the component.
      */

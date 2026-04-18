@@ -1,18 +1,21 @@
 <?php
 
-namespace App\View\Components\Admin\Ui;
+namespace App\View\Components\Admin\Table;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Breadcrumb extends Component
+class EmptyState extends Component
 {
     /**
      * Create a new component instance.
      */
     public function __construct(
-        public array $items = [],
+        public string $message,
+        public string $icon        = 'icofont-search-1',
+        public ?string $actionLabel = null,
+        public ?string $actionHref  = null,
     ) {}
 
     /**
@@ -20,6 +23,6 @@ class Breadcrumb extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.admin.ui.breadcrumb');
+        return view('components.admin.table.empty-state');
     }
 }

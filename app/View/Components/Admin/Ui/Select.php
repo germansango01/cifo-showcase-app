@@ -11,10 +11,17 @@ class Select extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct()
-    {
-        //
-    }
+    public function __construct(
+        public string $name,
+        public ?string $label = null,
+        public array $options = [],
+        public mixed $selected = null,
+        public ?string $placeholder = null,
+        public bool $required = false,
+        public bool $disabled = false,
+        public ?string $icon = null,
+        public ?string $help = null,
+    ) { }
 
     /**
      * Get the view / contents that represent the component.
