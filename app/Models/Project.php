@@ -9,9 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Project extends Model
 {
     /** @use HasFactory<\Database\Factories\ProjectFactory> */
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
 
-    protected $table = 'cycles';
+    protected $table = 'projects';
 
     protected $fillable = [
         'course_id',
@@ -25,12 +26,12 @@ class Project extends Model
         'live_url',
         'status',
         'featured',
-        'published_at'
+        'published_at',
     ];
 
     protected $casts = [
         'featured' => 'boolean',
-        'publised_at' => 'datetime'
+        'published_at' => 'datetime',
     ];
 
     public function course()
@@ -42,6 +43,7 @@ class Project extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     public function tags()
     {
         return $this->belongsToMany(Tag::class);

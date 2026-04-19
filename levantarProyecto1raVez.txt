@@ -1,0 +1,210 @@
+Perfecto. Te dejo un **resumen limpio, reproducible y documentable** del flujo completo para Linux Mint usando Docker + **Laravel Sail**, partiendo de un proyecto recién clonado sin `vendor`, sin Sail y sin configuración Docker.
+
+---
+
+# 🧾 SETUP COMPLETO LARAVEL + SAIL (Linux Mint + Docker)
+
+## 🧩 Supuestos iniciales
+
+* Linux Mint con Docker + Docker Compose instalados
+* Proyecto clonado desde GitHub
+* NO existe:
+
+  * `vendor/`
+  * `compose.yml` / `docker-compose.yml`
+  * Sail configurado
+
+---
+
+# 🚀 PASOS COMPLETOS
+
+## 1. Clonar proyecto
+
+```bash id="c1"
+git clone <repo>
+cd <proyecto>
+```
+
+---
+
+## 2. Crear dependencias PHP (vendor) sin Composer local
+
+```bash id="c2"
+docker run --rm \
+  -v $(pwd):/var/www/html \
+  -w /var/www/html \
+  laravelsail/php83-composer:latest \
+  composer install --ignore-platform-reqs
+```
+
+---
+
+## 3. Crear archivo `.env`
+
+```bash id="c3"
+cp .env.example .env
+```
+
+---
+
+## 4. Instalar Laravel Sail
+
+```bash id="c4"
+docker run --rm \
+  -v $(pwd):/var/www/html \
+  -w /var/www/html \
+  laravelsail/php83-composer:latest \
+  composer require laravel/sail --dev
+```
+
+---
+
+## 5. Generar configuración Docker (Sail)
+
+```bash id="c5"
+docker run --rm \
+  -v $(pwd):/var/www/html \
+  -w /var/www/html \
+  laravelsail/php83-composer:latest \
+  php artisan sail:install
+```
+
+👉 Seleccionar:
+
+* MySQL (mínimo recomendado)
+* Redis (opcional)
+
+Esto genera `compose.yml` o `docker-compose.yml`.
+
+---
+
+## 6. Configurar variables de entorno
+
+Asegurar en `.env`:
+
+```env id="c6"
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=sail
+DB_PASSWORD=password
+```
+
+---
+
+## 7. Levantar entorno Docker (Sail)
+
+```bash id="c7"
+./vendor/bin/sail up -d
+```
+
+---
+
+## 8. Generar clave de aplicación
+
+```bash id="c8"
+./vendor/bin/sail artisan key:generate
+```
+
+---
+
+## 9. Ejecutar migraciones + seeders (si aplica)
+
+```bash id="c9"
+./vendor/bin/sail artisan migrate:fresh --seed
+```
+
+---
+
+## 10. Corregir permisos (si aparece error tempnam / storage)
+
+```bash id="c10"
+./vendor/bin/sail exec laravel.test chmod -R 775 storage bootstrap/cache
+```
+
+---
+
+## 🌐 Acceso a la aplicación
+
+```text id="c11"
+http://localhost
+```
+
+---
+
+# ⚠️ PROBLEMAS FRECUENTES (documentación útil)
+
+## 🧨 Puerto 3306 ocupado
+
+```bash id="c12"
+sudo systemctl stop mysql
+```
+
+o cambiar en `compose.yml`:
+
+```yaml
+ports:
+  - "3307:3306"
+```
+
+y en `.env`:
+
+```env
+DB_PORT=3307
+```
+
+---
+
+## 🧨 vendor/bin/sail no existe
+
+👉 No se instaló Sail:
+
+```bash id="c13"
+composer require laravel/sail --dev
+```
+
+---
+
+## 🧨 compose.yml vs docker-compose.yml
+
+✔ Son equivalentes (Docker moderno usa `compose.yml`)
+
+---
+
+# 🧠 FLUJO RESUMIDO (modo checklist)
+
+```bash id="c14"
+git clone
+cd project
+
+composer install (via docker)
+cp .env.example .env
+
+composer require sail
+php artisan sail:install
+
+./vendor/bin/sail up -d
+./vendor/bin/sail artisan key:generate
+./vendor/bin/sail artisan migrate:fresh --seed
+```
+
+---
+
+# 🧩 RESULTADO
+
+Al final tienes:
+
+* Laravel funcionando en Docker
+* PHP aislado (sin instalar en sistema)
+* MySQL en contenedor
+* entorno reproducible en cualquier máquina
+
+---
+
+Si quieres, puedo convertir esto en:
+
+* README.md listo para GitHub
+* guía para equipo (onboarding devs)
+* o script automático de instalación (1 comando)
+

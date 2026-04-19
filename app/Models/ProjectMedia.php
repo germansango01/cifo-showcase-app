@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ProjectMedia extends Model
 {
     /** @use HasFactory<\Database\Factories\ProjectMediaFactory> */
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
 
     protected $table = 'project_media';
 
@@ -18,10 +19,10 @@ class ProjectMedia extends Model
         'type',
         'path',
         'alt_text',
-        'sort_order'
+        'sort_order',
     ];
 
-    protected $cast = [
+    protected $casts = [
         'sort_order' => 'integer',
     ];
 

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Cycle;
 use Illuminate\Database\Seeder;
 
 class CycleSeeder extends Seeder
@@ -12,6 +12,8 @@ class CycleSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Cycle::factory()
+    ->count(5)
+    ->create();
     }
 }

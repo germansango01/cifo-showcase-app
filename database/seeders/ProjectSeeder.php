@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Project;
+use App\Models\ProjectMedia;
+use App\Models\Tag;
 use Illuminate\Database\Seeder;
 
 class ProjectSeeder extends Seeder
@@ -12,6 +14,19 @@ class ProjectSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Project::factory()
+    ->count(30)
+    ->create()
+    ->each(function ($project) {
+        $project->tags()->attach(
+            Tag::inRandomOrder()->take(rand(2, 5))->pluck('id')
+        );
+
+        ProjectMedia::factory()
+            ->count(rand(1, 3))
+            ->create([
+                'project_id' => $project->id,
+            ]);
+    });
     }
 }
