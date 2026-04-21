@@ -10,127 +10,81 @@
         </div>
     </div>
 
-    {{-- Session errors --}}
-    @if ($errors->has('email') && ! $errors->has('email'))
-        {{-- handled below --}}
-    @endif
+    {{-- Formulario con Precognition --}}
+    <div x-data="loginForm">
+        <form @submit.prevent="submit">
+            @csrf
 
-    @if (session('status'))
-        <x-admin.ui.alert type="info" class="mb-4">
-            {{ session('status') }}
-        </x-admin.ui.alert>
-    @endif
-
-    <form method="POST" action="/login"
-          x-data="{
-              form: $form('post', '/login', {
-                  email: '',
-                  password: '',
-                  remember: false,
-              })
-          }"
-          @submit.prevent="form.submit()">
-        @csrf
-
-        <div class="flex flex-col gap-4">
-            {{-- Email --}}
-            <fieldset class="fieldset w-full">
-                <legend class="fieldset-legend">
-                    Correo electrónico <span class="text-error">*</span>
-                </legend>
-                <label class="input input-bordered w-full flex items-center gap-2"
-                       :class="form.invalid('email') ? 'input-error' : ''">
-                    <i class="icofont-email opacity-60"></i>
-                    <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        placeholder="correo@ejemplo.com"
-                        autocomplete="email"
-                        required
-                        class="grow"
-                        x-model="form.email"
-                        @change="form.validate('email')"
-                        :aria-invalid="form.invalid('email') ? 'true' : 'false'"
-                        aria-describedby="email-help"
-                    />
-                </label>
-                <p id="email-help" class="fieldset-label">
-                    <span class="text-error flex items-center gap-1"
-                          x-show="form.invalid('email')" x-cloak>
-                        <i class="icofont-warning-alt"></i>
-                        <span x-text="form.errors.email"></span>
-                    </span>
-                    @error('email')
-                        <span class="text-error flex items-center gap-1">
-                            <i class="icofont-warning-alt"></i> {{ $message }}
+            <div class="flex flex-col gap-4">
+                {{-- Email --}}
+                <fieldset class="fieldset w-full">
+                    <legend class="fieldset-legend">
+                        Correo electrónico <span class="text-error">*</span>
+                    </legend>
+                    <label class="input input-bordered w-full flex items-center gap-2"
+                        :class="form.invalid('email') ? 'input-error' : ''">
+                        <i class="icofont-email opacity-60"></i>
+                        <input type="email" id="email" placeholder="correo@ejemplo.com" autocomplete="email"
+                            required class="grow" x-model="form.email" @change="form.validate('email')"
+                            :aria-invalid="form.invalid('email')" />
+                    </label>
+                    <p class="fieldset-label">
+                        <span class="text-error flex items-center gap-1" x-show="form.invalid('email')" x-cloak
+                            x-transition>
+                            <i class="icofont-warning-alt"></i>
+                            <span x-text="form.errors.email"></span>
                         </span>
-                    @enderror
-                </p>
-            </fieldset>
+                    </p>
+                </fieldset>
 
-            {{-- Password --}}
-            <fieldset class="fieldset w-full">
-                <legend class="fieldset-legend">
-                    Contraseña <span class="text-error">*</span>
-                </legend>
-                <label class="input input-bordered w-full flex items-center gap-2"
-                       :class="form.invalid('password') ? 'input-error' : ''">
-                    <i class="icofont-lock opacity-60"></i>
-                    <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        placeholder="••••••••"
-                        autocomplete="current-password"
-                        required
-                        class="grow"
-                        x-model="form.password"
-                        @change="form.validate('password')"
-                        :aria-invalid="form.invalid('password') ? 'true' : 'false'"
-                        aria-describedby="password-help"
-                    />
-                </label>
-                <p id="password-help" class="fieldset-label">
-                    <span class="text-error flex items-center gap-1"
-                          x-show="form.invalid('password')" x-cloak>
-                        <i class="icofont-warning-alt"></i>
-                        <span x-text="form.errors.password"></span>
-                    </span>
-                    @error('password')
-                        <span class="text-error flex items-center gap-1">
-                            <i class="icofont-warning-alt"></i> {{ $message }}
+                {{-- Password --}}
+                <fieldset class="fieldset w-full">
+                    <legend class="fieldset-legend">
+                        Contraseña <span class="text-error">*</span>
+                    </legend>
+                    <label class="input input-bordered w-full flex items-center gap-2"
+                        :class="form.invalid('password') ? 'input-error' : ''">
+                        <i class="icofont-lock opacity-60"></i>
+                        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password"
+                            required class="grow" x-model="form.password" @change="form.validate('password')"
+                            :aria-invalid="form.invalid('password')" />
+                    </label>
+                    <p class="fieldset-label">
+                        <span class="text-error flex items-center gap-1" x-show="form.invalid('password')" x-cloak
+                            x-transition>
+                            <i class="icofont-warning-alt"></i>
+                            <span x-text="form.errors.password"></span>
                         </span>
-                    @enderror
-                </p>
-            </fieldset>
+                    </p>
+                </fieldset>
 
-            {{-- Remember + Forgot --}}
-            <div class="flex items-center justify-between">
-                <label class="label cursor-pointer gap-2">
-                    <input type="checkbox" name="remember" id="remember"
-                           class="checkbox checkbox-primary checkbox-sm"
-                           x-model="form.remember" />
-                    <span class="label-text text-sm">Recordarme</span>
-                </label>
-                <a href="{{ route('password.request') }}"
-                   class="text-sm text-primary hover:underline">
-                    ¿Olvidaste tu contraseña?
-                </a>
+                {{-- Remember + Forgot --}}
+                <div class="flex items-center justify-between">
+                    <label class="label cursor-pointer gap-2">
+                        <input type="checkbox" id="remember" class="checkbox checkbox-primary checkbox-sm"
+                            x-model="form.remember" />
+                        <span class="label-text text-sm">Recordarme</span>
+                    </label>
+                    <a href="{{ route('password.request') }}" class="text-sm text-primary hover:underline">
+                        ¿Olvidaste tu contraseña?
+                    </a>
+                </div>
+
+                {{-- Submit --}}
+                <button type="submit" class="btn btn-primary btn-block" :disabled="form.processing">
+                    <span x-show="!form.processing" class="flex items-center gap-2">
+                        <i class="icofont-login"></i>
+                        Iniciar sesión
+                    </span>
+                    <span x-show="form.processing" class="loading loading-spinner loading-sm"></span>
+                </button>
             </div>
-
-            {{-- Submit --}}
-            <x-admin.ui.button type="submit" icon="icofont-login" block
-                               x-bind:loading="form.processing">
-                Iniciar sesión
-            </x-admin.ui.button>
-        </div>
-    </form>
+        </form>
+    </div>
 
     {{-- Register link --}}
     <div class="divider text-xs opacity-50 mt-4">¿Nuevo en CIFO?</div>
-    <a href="{{ route('register') }}"
-       class="btn btn-outline btn-block">
+    <a href="{{ route('register') }}" class="btn btn-outline btn-block">
         <i class="icofont-ui-user"></i>
         Crear una cuenta
     </a>
