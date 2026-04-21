@@ -1,7 +1,7 @@
-<x-layouts.app :title="'Nuevo usuario'">
+<x-layouts.admin :title="'Nuevo usuario'">
     <x-admin.ui.breadcrumb :items="[
         ['label' => 'Dashboard', 'href' => route('dashboard')],
-        ['label' => 'Usuarios',  'href' => route('users.index')],
+        ['label' => 'Usuarios', 'href' => route('users.index')],
         ['label' => 'Nuevo usuario'],
     ]" />
 
@@ -11,69 +11,37 @@
     </div>
 
     <x-admin.ui.card class="max-w-2xl">
-        <form
-            method="POST"
-            action="{{ route('users.store') }}"
-            x-data="{
-                form: $form('post', '{{ route('users.store') }}', {
-                    name: '',
-                    email: '',
-                    password: '',
-                    password_confirmation: '',
-                    roles: []
-                })
-            }"
-            @submit.prevent="form.submit()"
-        >
+        <form method="POST" action="{{ route('users.store') }}" x-data="{
+            form: $form('post', '{{ route('users.store') }}', {
+                name: '',
+                email: '',
+                password: '',
+                password_confirmation: '',
+                roles: []
+            })
+        }" @submit.prevent="form.submit()">
             @csrf
 
             {{-- Datos personales --}}
             <div class="grid grid-cols-1 gap-4">
-                <x-admin.ui.input
-                    name="name"
-                    label="Nombre completo"
-                    icon="icofont-ui-user"
-                    placeholder="Nombre Apellido"
-                    :required="true"
-                    x-model="form.name"
-                    @change="form.validate('name')"
-                />
+                <x-admin.ui.input name="name" label="Nombre completo" icon="icofont-ui-user"
+                    placeholder="Nombre Apellido" :required="true" x-model="form.name"
+                    @change="form.validate('name')" />
 
-                <x-admin.ui.input
-                    name="email"
-                    label="Correo electrónico"
-                    type="email"
-                    icon="icofont-email"
-                    placeholder="usuario@ejemplo.com"
-                    :required="true"
-                    x-model="form.email"
-                    @change="form.validate('email')"
-                />
+                <x-admin.ui.input name="email" label="Correo electrónico" type="email" icon="icofont-email"
+                    placeholder="usuario@ejemplo.com" :required="true" x-model="form.email"
+                    @change="form.validate('email')" />
             </div>
 
             {{-- Contraseña --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-                <x-admin.ui.input
-                    name="password"
-                    label="Contraseña"
-                    type="password"
-                    icon="icofont-lock"
-                    placeholder="Mínimo 8 caracteres"
-                    :required="true"
-                    x-model="form.password"
-                    @change="form.validate('password')"
-                />
+                <x-admin.ui.input name="password" label="Contraseña" type="password" icon="icofont-lock"
+                    placeholder="Mínimo 8 caracteres" :required="true" x-model="form.password"
+                    @change="form.validate('password')" />
 
-                <x-admin.ui.input
-                    name="password_confirmation"
-                    label="Confirmar contraseña"
-                    type="password"
-                    icon="icofont-lock"
-                    placeholder="Repite la contraseña"
-                    :required="true"
-                    x-model="form.password_confirmation"
-                    @change="form.validate('password_confirmation')"
-                />
+                <x-admin.ui.input name="password_confirmation" label="Confirmar contraseña" type="password"
+                    icon="icofont-lock" placeholder="Repite la contraseña" :required="true"
+                    x-model="form.password_confirmation" @change="form.validate('password_confirmation')" />
             </div>
 
             {{-- Roles --}}
@@ -82,16 +50,11 @@
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend">Roles asignados</legend>
                         <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-2">
-                            @foreach($roles as $role)
+                            @foreach ($roles as $role)
                                 <label class="flex items-center gap-2 cursor-pointer select-none group">
-                                    <input
-                                        type="checkbox"
-                                        name="roles[]"
-                                        value="{{ $role->name }}"
-                                        class="checkbox checkbox-primary checkbox-sm"
-                                        x-model="form.roles"
-                                        @change="form.validate('roles')"
-                                    />
+                                    <input type="checkbox" name="roles[]" value="{{ $role->name }}"
+                                        class="checkbox checkbox-primary checkbox-sm" x-model="form.roles"
+                                        @change="form.validate('roles')" />
                                     <span class="text-sm group-hover:text-primary transition-colors">
                                         {{ $role->name }}
                                     </span>
@@ -112,14 +75,10 @@
                 <x-admin.ui.button variant="ghost" :href="route('users.index')">
                     Cancelar
                 </x-admin.ui.button>
-                <x-admin.ui.button
-                    type="submit"
-                    icon="icofont-check-circled"
-                    x-bind:loading="form.processing"
-                >
+                <x-admin.ui.button type="submit" icon="icofont-check-circled" x-bind:loading="form.processing">
                     Crear usuario
                 </x-admin.ui.button>
             </div>
         </form>
     </x-admin.ui.card>
-</x-layouts.app>
+</x-layouts.admin>

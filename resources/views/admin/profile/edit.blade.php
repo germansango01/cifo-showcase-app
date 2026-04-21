@@ -1,9 +1,6 @@
-<x-layouts.app :title="'Mi perfil'">
+<x-layouts.admin :title="'Mi perfil'">
 
-    <x-admin.ui.breadcrumb :items="[
-        ['label' => 'Dashboard', 'href' => route('dashboard')],
-        ['label' => 'Mi perfil'],
-    ]" />
+    <x-admin.ui.breadcrumb :items="[['label' => 'Dashboard', 'href' => route('dashboard')], ['label' => 'Mi perfil']]" />
 
     <div class="mb-6">
         <h1 class="text-2xl font-bold">Mi perfil</h1>
@@ -16,20 +13,18 @@
     <div class="tabs tabs-lift" role="tablist" aria-label="Secciones del perfil">
 
         {{-- ---- Tab: Información ----------------------------------------- --}}
-        <input type="radio" name="profile_tabs" class="tab"
-               aria-label="Información" id="tab-info"
-               {{ !session('tab') || session('tab') === 'info' ? 'checked' : '' }} />
+        <input type="radio" name="profile_tabs" class="tab" aria-label="Información" id="tab-info"
+            {{ !session('tab') || session('tab') === 'info' ? 'checked' : '' }} />
 
         <div class="tab-content bg-base-100 border-base-300 rounded-box p-6">
 
-            <form method="POST" action="/user/profile-information"
-                  x-data="{
-                      form: $form('post', '/user/profile-information', {
-                          name:  '{{ old('name', $user->name) }}',
-                          email: '{{ old('email', $user->email) }}',
-                      })
-                  }"
-                  @submit.prevent="form.submit()">
+            <form method="POST" action="/user/profile-information" x-data="{
+                form: $form('post', '/user/profile-information', {
+                    name: '{{ old('name', $user->name) }}',
+                    email: '{{ old('email', $user->email) }}',
+                })
+            }"
+                @submit.prevent="form.submit()">
                 @csrf
                 @method('PUT')
 
@@ -37,41 +32,26 @@
                     <i class="icofont-ui-user text-primary"></i> Información personal
                 </h2>
 
-                @if($errors->updateProfileInformation->any())
+                @if ($errors->updateProfileInformation->any())
                     <x-admin.ui.alert type="error" dismissible class="mb-4">
                         {{ $errors->updateProfileInformation->first() }}
                     </x-admin.ui.alert>
                 @endif
 
-                @if(session('status') === 'profile-information-updated')
+                @if (session('status') === 'profile-information-updated')
                     <x-admin.ui.alert type="success" dismissible class="mb-4">
                         Perfil actualizado correctamente.
                     </x-admin.ui.alert>
                 @endif
 
                 <div class="grid gap-4 sm:grid-cols-2">
-                    <x-admin.ui.input
-                        name="name"
-                        label="Nombre completo"
-                        icon="icofont-ui-user"
-                        :value="$user->name"
-                        required
-                        x-model="form.name"
-                        @change="form.validate('name')"
-                    />
-                    <x-admin.ui.input
-                        name="email"
-                        type="email"
-                        label="Correo electrónico"
-                        icon="icofont-email"
-                        :value="$user->email"
-                        required
-                        x-model="form.email"
-                        @change="form.validate('email')"
-                    />
+                    <x-admin.ui.input name="name" label="Nombre completo" icon="icofont-ui-user" :value="$user->name"
+                        required x-model="form.name" @change="form.validate('name')" />
+                    <x-admin.ui.input name="email" type="email" label="Correo electrónico" icon="icofont-email"
+                        :value="$user->email" required x-model="form.email" @change="form.validate('email')" />
                 </div>
 
-                @if($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
+                @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
                     <x-admin.ui.alert type="warning" class="mt-4">
                         Tu dirección de email no está verificada.
                         <form method="POST" action="{{ route('verification.send') }}" class="inline">
@@ -84,8 +64,7 @@
                 @endif
 
                 <div class="flex justify-end mt-6">
-                    <x-admin.ui.button type="submit" icon="icofont-check-circled"
-                                       x-bind:loading="form.processing">
+                    <x-admin.ui.button type="submit" icon="icofont-check-circled" x-bind:loading="form.processing">
                         Guardar cambios
                     </x-admin.ui.button>
                 </div>
@@ -93,21 +72,18 @@
         </div>
 
         {{-- ---- Tab: Contraseña ------------------------------------------ --}}
-        <input type="radio" name="profile_tabs" class="tab"
-               aria-label="Contraseña" id="tab-password"
-               {{ session('tab') === 'password' ? 'checked' : '' }} />
+        <input type="radio" name="profile_tabs" class="tab" aria-label="Contraseña" id="tab-password"
+            {{ session('tab') === 'password' ? 'checked' : '' }} />
 
         <div class="tab-content bg-base-100 border-base-300 rounded-box p-6">
 
-            <form method="POST" action="/user/password"
-                  x-data="{
-                      form: $form('put', '/user/password', {
-                          current_password: '',
-                          password: '',
-                          password_confirmation: '',
-                      })
-                  }"
-                  @submit.prevent="form.submit()">
+            <form method="POST" action="/user/password" x-data="{
+                form: $form('put', '/user/password', {
+                    current_password: '',
+                    password: '',
+                    password_confirmation: '',
+                })
+            }" @submit.prevent="form.submit()">
                 @csrf
                 @method('PUT')
 
@@ -115,55 +91,32 @@
                     <i class="icofont-lock text-primary"></i> Cambiar contraseña
                 </h2>
 
-                @if($errors->updatePassword->any())
+                @if ($errors->updatePassword->any())
                     <x-admin.ui.alert type="error" dismissible class="mb-4">
                         {{ $errors->updatePassword->first() }}
                     </x-admin.ui.alert>
                 @endif
 
-                @if(session('status') === 'password-updated')
+                @if (session('status') === 'password-updated')
                     <x-admin.ui.alert type="success" dismissible class="mb-4">
                         Contraseña actualizada correctamente.
                     </x-admin.ui.alert>
                 @endif
 
                 <div class="grid gap-4 max-w-md">
-                    <x-admin.ui.input
-                        name="current_password"
-                        type="password"
-                        label="Contraseña actual"
-                        icon="icofont-lock"
-                        required
-                        autocomplete="current-password"
-                        x-model="form.current_password"
-                        @change="form.validate('current_password')"
-                    />
-                    <x-admin.ui.input
-                        name="password"
-                        type="password"
-                        label="Nueva contraseña"
-                        icon="icofont-lock"
-                        required
-                        autocomplete="new-password"
-                        help="Mínimo 8 caracteres, mayúscula y número."
-                        x-model="form.password"
-                        @change="form.validate('password')"
-                    />
-                    <x-admin.ui.input
-                        name="password_confirmation"
-                        type="password"
-                        label="Confirmar nueva contraseña"
-                        icon="icofont-lock"
-                        required
-                        autocomplete="new-password"
-                        x-model="form.password_confirmation"
-                        @change="form.validate('password_confirmation')"
-                    />
+                    <x-admin.ui.input name="current_password" type="password" label="Contraseña actual"
+                        icon="icofont-lock" required autocomplete="current-password" x-model="form.current_password"
+                        @change="form.validate('current_password')" />
+                    <x-admin.ui.input name="password" type="password" label="Nueva contraseña" icon="icofont-lock"
+                        required autocomplete="new-password" help="Mínimo 8 caracteres, mayúscula y número."
+                        x-model="form.password" @change="form.validate('password')" />
+                    <x-admin.ui.input name="password_confirmation" type="password" label="Confirmar nueva contraseña"
+                        icon="icofont-lock" required autocomplete="new-password" x-model="form.password_confirmation"
+                        @change="form.validate('password_confirmation')" />
                 </div>
 
                 <div class="flex justify-end mt-6">
-                    <x-admin.ui.button type="submit" icon="icofont-check-circled"
-                                       x-bind:loading="form.processing">
+                    <x-admin.ui.button type="submit" icon="icofont-check-circled" x-bind:loading="form.processing">
                         Actualizar contraseña
                     </x-admin.ui.button>
                 </div>
@@ -171,9 +124,8 @@
         </div>
 
         {{-- ---- Tab: Autenticación 2FA ----------------------------------- --}}
-        <input type="radio" name="profile_tabs" class="tab"
-               aria-label="Autenticación 2FA" id="tab-2fa"
-               {{ session('tab') === '2fa' ? 'checked' : '' }} />
+        <input type="radio" name="profile_tabs" class="tab" aria-label="Autenticación 2FA" id="tab-2fa"
+            {{ session('tab') === '2fa' ? 'checked' : '' }} />
 
         <div class="tab-content bg-base-100 border-base-300 rounded-box p-6">
 
@@ -184,19 +136,19 @@
                 Añade una capa de seguridad adicional con una app autenticadora (Google Authenticator, Authy…).
             </p>
 
-            @if(session('status') === 'two-factor-authentication-enabled')
+            @if (session('status') === 'two-factor-authentication-enabled')
                 <x-admin.ui.alert type="success" dismissible class="mb-4">
                     2FA activado. Guarda los códigos de recuperación en un lugar seguro.
                 </x-admin.ui.alert>
             @endif
 
-            @if(session('status') === 'two-factor-authentication-disabled')
+            @if (session('status') === 'two-factor-authentication-disabled')
                 <x-admin.ui.alert type="info" dismissible class="mb-4">
                     2FA desactivado.
                 </x-admin.ui.alert>
             @endif
 
-            @if($user->two_factor_secret)
+            @if ($user->two_factor_secret)
                 {{-- ---- 2FA HABILITADO ----------------------------------- --}}
                 <div x-data="{ showCodes: {{ session('status') === 'two-factor-authentication-enabled' ? 'true' : 'false' }} }">
 
@@ -222,25 +174,25 @@
 
                     {{-- Recovery codes --}}
                     <div class="mb-6">
-                        <button type="button" class="btn btn-ghost btn-sm gap-1"
-                                @click="showCodes = !showCodes"
-                                :aria-expanded="showCodes.toString()"
-                                aria-controls="recovery-codes">
+                        <button type="button" class="btn btn-ghost btn-sm gap-1" @click="showCodes = !showCodes"
+                            :aria-expanded="showCodes.toString()" aria-controls="recovery-codes">
                             <i class="icofont-key"></i>
-                            <span x-text="showCodes ? 'Ocultar códigos de recuperación' : 'Ver códigos de recuperación'"></span>
-                            <i class="icofont-caret-down transition-transform" :class="{ 'rotate-180': showCodes }"></i>
+                            <span
+                                x-text="showCodes ? 'Ocultar códigos de recuperación' : 'Ver códigos de recuperación'"></span>
+                            <i class="icofont-caret-down transition-transform"
+                                :class="{ 'rotate-180': showCodes }"></i>
                         </button>
 
                         <div id="recovery-codes" x-show="showCodes" x-cloak
-                             x-transition:enter="transition ease-out duration-200"
-                             x-transition:enter-start="opacity-0 -translate-y-1"
-                             x-transition:enter-end="opacity-100 translate-y-0"
-                             class="mt-3">
+                            x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 -translate-y-1"
+                            x-transition:enter-end="opacity-100 translate-y-0" class="mt-3">
                             <x-admin.ui.alert type="warning" class="mb-3">
-                                Guarda estos códigos de un solo uso en un lugar seguro. Úsalos si pierdes acceso a tu app autenticadora.
+                                Guarda estos códigos de un solo uso en un lugar seguro. Úsalos si pierdes acceso a tu
+                                app autenticadora.
                             </x-admin.ui.alert>
                             <div class="grid grid-cols-2 gap-1 font-mono text-sm bg-base-200 rounded-box p-4 max-w-sm">
-                                @foreach(json_decode(decrypt($user->two_factor_recovery_codes), true) as $code)
+                                @foreach (json_decode(decrypt($user->two_factor_recovery_codes), true) as $code)
                                     <span class="tracking-widest">{{ $code }}</span>
                                 @endforeach
                             </div>
@@ -249,7 +201,7 @@
                             <form method="POST" action="{{ route('two-factor.recovery-codes') }}" class="mt-3">
                                 @csrf
                                 <x-admin.ui.button type="submit" variant="warning" size="sm"
-                                                   icon="icofont-refresh">
+                                    icon="icofont-refresh">
                                     Regenerar códigos de recuperación
                                 </x-admin.ui.button>
                             </form>
@@ -257,20 +209,17 @@
                     </div>
 
                     {{-- Desactivar 2FA --}}
-                    <form method="POST" action="{{ route('two-factor.disable') }}"
-                          x-data
-                          @submit.prevent="
+                    <form method="POST" action="{{ route('two-factor.disable') }}" x-data
+                        @submit.prevent="
                               if (confirm('¿Seguro que quieres desactivar el 2FA? Tu cuenta será menos segura.')) $el.submit()
                           ">
                         @csrf
                         @method('DELETE')
-                        <x-admin.ui.button type="submit" variant="error" outline
-                                           icon="icofont-close-circled">
+                        <x-admin.ui.button type="submit" variant="error" outline icon="icofont-close-circled">
                             Desactivar 2FA
                         </x-admin.ui.button>
                     </form>
                 </div>
-
             @else
                 {{-- ---- 2FA DESHABILITADO -------------------------------- --}}
                 <div class="badge badge-error gap-1 mb-6">
@@ -278,7 +227,8 @@
                 </div>
 
                 <p class="text-sm opacity-70 mb-6 max-w-prose">
-                    Con 2FA activo, al iniciar sesión necesitarás introducir un código generado por tu app autenticadora además de tu contraseña.
+                    Con 2FA activo, al iniciar sesión necesitarás introducir un código generado por tu app autenticadora
+                    además de tu contraseña.
                 </p>
 
                 <form method="POST" action="{{ route('two-factor.enable') }}">
@@ -292,9 +242,8 @@
         </div>
 
         {{-- ---- Tab: Sesiones ------------------------------------------- --}}
-        <input type="radio" name="profile_tabs" class="tab"
-               aria-label="Sesiones" id="tab-sessions"
-               {{ session('tab') === 'sessions' ? 'checked' : '' }} />
+        <input type="radio" name="profile_tabs" class="tab" aria-label="Sesiones" id="tab-sessions"
+            {{ session('tab') === 'sessions' ? 'checked' : '' }} />
 
         <div class="tab-content bg-base-100 border-base-300 rounded-box p-6">
 
@@ -305,7 +254,7 @@
                 Gestiona y cierra sesiones abiertas en otros dispositivos o navegadores.
             </p>
 
-            @if(session('status') === 'other-browser-sessions-terminated')
+            @if (session('status') === 'other-browser-sessions-terminated')
                 <x-admin.ui.alert type="success" dismissible class="mb-4">
                     Resto de sesiones cerradas correctamente.
                 </x-admin.ui.alert>
@@ -319,29 +268,31 @@
                             ->where('user_id', auth()->id())
                             ->orderByDesc('last_activity')
                             ->get()
-                        : []
+                        : [],
                 );
             @endphp
 
-            @if($sessions->isNotEmpty())
+            @if ($sessions->isNotEmpty())
                 <ul class="space-y-3 mb-6">
-                    @foreach($sessions as $session)
+                    @foreach ($sessions as $session)
                         @php
                             $agent = new \Jenssegers\Agent\Agent();
                             $agent->setUserAgent($session->user_agent ?? '');
                             $isCurrentSession = $session->id === request()->session()->getId();
                         @endphp
                         <li class="flex items-start gap-3 p-3 rounded-box border border-base-300 bg-base-200">
-                            <i class="{{ $agent->isDesktop() ? 'icofont-laptop-alt' : 'icofont-mobile-phone' }} text-2xl opacity-60 mt-0.5"></i>
+                            <i
+                                class="{{ $agent->isDesktop() ? 'icofont-laptop-alt' : 'icofont-mobile-phone' }} text-2xl opacity-60 mt-0.5"></i>
                             <div class="flex-1 min-w-0">
                                 <p class="font-medium text-sm">
                                     {{ $agent->platform() }} — {{ $agent->browser() }}
-                                    @if($isCurrentSession)
+                                    @if ($isCurrentSession)
                                         <span class="badge badge-success badge-xs ml-1">Esta sesión</span>
                                     @endif
                                 </p>
                                 <p class="text-xs opacity-60">
-                                    Última actividad: {{ \Carbon\Carbon::createFromTimestamp($session->last_activity)->diffForHumans() }}
+                                    Última actividad:
+                                    {{ \Carbon\Carbon::createFromTimestamp($session->last_activity)->diffForHumans() }}
                                 </p>
                             </div>
                         </li>
@@ -356,23 +307,15 @@
             @endif
 
             {{-- Logout otras sesiones --}}
-            <form method="POST" action="{{ route('other-browser-sessions.destroy') }}"
-                  x-data
-                  @submit.prevent="
+            <form method="POST" action="{{ route('other-browser-sessions.destroy') }}" x-data
+                @submit.prevent="
                       if (confirm('¿Cerrar sesión en todos los demás dispositivos?')) $el.submit()
                   ">
                 @csrf
                 @method('DELETE')
-                <x-admin.ui.input
-                    name="password"
-                    type="password"
-                    label="Confirma tu contraseña para continuar"
-                    icon="icofont-lock"
-                    required
-                    class="max-w-sm mb-4"
-                />
-                <x-admin.ui.button type="submit" variant="error" outline
-                                   icon="icofont-logout">
+                <x-admin.ui.input name="password" type="password" label="Confirma tu contraseña para continuar"
+                    icon="icofont-lock" required class="max-w-sm mb-4" />
+                <x-admin.ui.button type="submit" variant="error" outline icon="icofont-logout">
                     Cerrar otras sesiones
                 </x-admin.ui.button>
             </form>
@@ -381,4 +324,4 @@
 
     </div>{{-- /tabs --}}
 
-</x-layouts.app>
+</x-layouts.admin>

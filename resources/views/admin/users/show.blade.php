@@ -1,23 +1,19 @@
-<x-layouts.app :title="$user->name">
+<x-layouts.admin :title="$user->name">
     <x-admin.ui.breadcrumb :items="[
         ['label' => 'Dashboard', 'href' => route('dashboard')],
-        ['label' => 'Usuarios',  'href' => route('users.index')],
+        ['label' => 'Usuarios', 'href' => route('users.index')],
         ['label' => $user->name],
     ]" />
 
     {{-- Cabecera --}}
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
         <div class="flex items-center gap-4">
-            <x-admin.ui.avatar
-                :name="$user->name"
-                :src="$user->profile_photo_url ?? null"
-                size="lg"
-            />
+            <x-admin.ui.avatar :name="$user->name" :src="$user->profile_photo_url ?? null" size="lg" />
             <div>
                 <h1 class="text-2xl font-bold">{{ $user->name }}</h1>
                 <p class="text-sm opacity-60 flex items-center gap-1">
                     <i class="icofont-email"></i> {{ $user->email }}
-                    @if($user->email_verified_at)
+                    @if ($user->email_verified_at)
                         <span class="badge badge-success badge-xs">Verificado</span>
                     @else
                         <span class="badge badge-warning badge-xs">No verificado</span>
@@ -26,18 +22,11 @@
             </div>
         </div>
         <div class="flex gap-2 flex-wrap">
-            <x-admin.ui.button
-                :href="route('users.index')"
-                variant="ghost"
-                icon="icofont-arrow-left"
-            >
+            <x-admin.ui.button :href="route('users.index')" variant="ghost" icon="icofont-arrow-left">
                 Volver
             </x-admin.ui.button>
             @can('users.update')
-                <x-admin.ui.button
-                    :href="route('users.edit', $user)"
-                    icon="icofont-edit"
-                >
+                <x-admin.ui.button :href="route('users.edit', $user)" icon="icofont-edit">
                     Editar
                 </x-admin.ui.button>
             @endcan
@@ -70,7 +59,7 @@
                     <div>
                         <dt class="opacity-50 mb-0.5">Verificación de email</dt>
                         <dd>
-                            @if($user->email_verified_at)
+                            @if ($user->email_verified_at)
                                 <span class="text-success flex items-center gap-1">
                                     <i class="icofont-check-circled"></i>
                                     {{ $user->email_verified_at->format('d/m/Y') }}
@@ -105,7 +94,7 @@
                     <span class="badge badge-ghost badge-sm ml-auto">{{ $user->getAllPermissions()->count() }}</span>
                 </h2>
 
-                @if($user->getAllPermissions()->isEmpty())
+                @if ($user->getAllPermissions()->isEmpty())
                     <p class="text-sm opacity-50 flex items-center gap-2 py-4">
                         <i class="icofont-info-circle"></i>
                         Este usuario no tiene permisos asignados a través de sus roles.
@@ -113,13 +102,13 @@
                 @else
                     @php $permsByGroup = $user->getAllPermissions()->groupBy(fn($p) => explode('.', $p->name)[0]); @endphp
                     <div class="flex flex-col gap-4">
-                        @foreach($permsByGroup as $module => $permissions)
+                        @foreach ($permsByGroup as $module => $permissions)
                             <div>
                                 <p class="text-xs font-semibold uppercase tracking-wide opacity-50 mb-2">
                                     {{ $module }}
                                 </p>
                                 <div class="flex flex-wrap gap-1.5">
-                                    @foreach($permissions as $permission)
+                                    @foreach ($permissions as $permission)
                                         <span class="badge badge-outline badge-sm font-mono">
                                             <i class="icofont-key text-xs mr-1"></i>
                                             {{ $permission->name }}
@@ -143,24 +132,22 @@
                     <span class="badge badge-ghost badge-sm ml-auto">{{ $user->roles->count() }}</span>
                 </h2>
 
-                @if($user->roles->isEmpty())
+                @if ($user->roles->isEmpty())
                     <p class="text-sm opacity-50 flex items-center gap-2">
                         <i class="icofont-info-circle"></i> Sin roles asignados.
                     </p>
                 @else
                     <div class="flex flex-col gap-2">
-                        @foreach($user->roles as $role)
+                        @foreach ($user->roles as $role)
                             <div class="flex items-center justify-between p-2 rounded-lg bg-base-200">
                                 <span class="text-sm font-medium">{{ $role->name }}</span>
-                                <x-admin.ui.badge
-                                    :label="$role->name"
-                                    color="{{ match($role->name) {
+                                <x-admin.ui.badge :label="$role->name"
+                                    color="{{ match ($role->name) {
                                         'Super Admin' => 'error',
-                                        'Admin'       => 'warning',
-                                        'Editor'      => 'info',
-                                        default       => 'neutral',
-                                    } }}"
-                                />
+                                        'Admin' => 'warning',
+                                        'Editor' => 'info',
+                                        default => 'neutral',
+                                    } }}" />
                             </div>
                         @endforeach
                     </div>
@@ -176,25 +163,17 @@
 
                     <div class="flex flex-col gap-2">
                         @can('users.update')
-                            <x-admin.ui.button
-                                :href="route('users.edit', $user)"
-                                variant="warning"
-                                icon="icofont-edit"
-                                :block="true"
-                                :outline="true"
-                            >
+                            <x-admin.ui.button :href="route('users.edit', $user)" variant="warning" icon="icofont-edit" :block="true"
+                                :outline="true">
                                 Editar usuario
                             </x-admin.ui.button>
                         @endcan
 
                         @can('users.delete')
-                            @if(auth()->id() !== $user->id)
-                                <button
-                                    type="button"
-                                    class="btn btn-error btn-outline btn-block"
+                            @if (auth()->id() !== $user->id)
+                                <button type="button" class="btn btn-error btn-outline btn-block"
                                     onclick="confirm-delete-show.showModal()"
-                                    aria-label="Eliminar usuario {{ $user->name }}"
-                                >
+                                    aria-label="Eliminar usuario {{ $user->name }}">
                                     <i class="icofont-ui-delete"></i> Eliminar usuario
                                 </button>
                             @endif
@@ -207,7 +186,7 @@
 
     {{-- Modal confirmación delete --}}
     @can('users.delete')
-        @if(auth()->id() !== $user->id)
+        @if (auth()->id() !== $user->id)
             <x-admin.ui.modal id="confirm-delete-show" title="Eliminar usuario" size="sm">
                 <p class="text-sm opacity-80 mb-1">
                     ¿Seguro que quieres eliminar a <strong>{{ $user->name }}</strong>?
@@ -219,21 +198,14 @@
                         @csrf
                         @method('DELETE')
                         <div class="flex gap-2 justify-end">
-                            <button
-                                type="button"
-                                class="btn btn-ghost btn-sm"
-                                onclick="confirm-delete-show.close()"
-                            >Cancelar</button>
-                            <x-admin.ui.button
-                                type="submit"
-                                variant="error"
-                                size="sm"
-                                icon="icofont-ui-delete"
-                            >Eliminar</x-admin.ui.button>
+                            <button type="button" class="btn btn-ghost btn-sm"
+                                onclick="confirm-delete-show.close()">Cancelar</button>
+                            <x-admin.ui.button type="submit" variant="error" size="sm"
+                                icon="icofont-ui-delete">Eliminar</x-admin.ui.button>
                         </div>
                     </form>
                 </x-slot>
             </x-admin.ui.modal>
         @endif
     @endcan
-</x-layouts.app>
+</x-layouts.admin>
