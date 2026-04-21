@@ -13,10 +13,11 @@ class EmptyState extends Component
      */
     public function __construct(
         public string $message,
-        public string $icon        = 'icofont-search-1',
+        public string $icon = 'icofont-search-1',
         public ?string $actionLabel = null,
-        public ?string $actionHref  = null,
-    ) {}
+        public ?string $actionHref = null,
+    ) {
+    }
 
     /**
      * Get the view / contents that represent the component.

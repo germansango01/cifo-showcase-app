@@ -16,37 +16,38 @@ class Avatar extends Component
         public ?string $src = null,
         public string $size = 'md',   // xs | sm | md | lg
         public bool $ring = false,
-    ) {}
- 
+    ) {
+    }
+
     public function initials(): string
     {
         $parts = array_filter(explode(' ', trim($this->name)));
         $first = mb_strtoupper(mb_substr($parts[0] ?? '?', 0, 1));
-        $last  = isset($parts[1]) ? mb_strtoupper(mb_substr($parts[1], 0, 1)) : '';
- 
+        $last = isset($parts[1]) ? mb_strtoupper(mb_substr($parts[1], 0, 1)) : '';
+
         return $first . $last;
     }
- 
+
     public function sizeClass(): string
     {
         return match ($this->size) {
-            'xs'    => 'w-6',
-            'sm'    => 'w-8',
-            'lg'    => 'w-16',
+            'xs' => 'w-6',
+            'sm' => 'w-8',
+            'lg' => 'w-16',
             default => 'w-10',
         };
     }
- 
+
     public function textSizeClass(): string
     {
         return match ($this->size) {
-            'xs'    => 'text-xs',
-            'sm'    => 'text-xs',
-            'lg'    => 'text-xl',
+            'xs' => 'text-xs',
+            'sm' => 'text-xs',
+            'lg' => 'text-xl',
             default => 'text-sm',
         };
     }
- 
+
     /** Deterministic hue from name → DaisyUI semantic color */
     public function bgColorClass(): string
     {
@@ -58,9 +59,9 @@ class Avatar extends Component
             'bg-success',
             'bg-warning',
         ];
- 
+
         $hash = array_sum(array_map('ord', str_split($this->name)));
- 
+
         return $colors[$hash % count($colors)];
     }
 

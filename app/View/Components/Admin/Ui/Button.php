@@ -22,7 +22,8 @@ class Button extends Component
         public bool $loading = false,
         public bool $block = false,
         public ?string $href = null,
-    ) { }
+    ) {
+    }
 
     public function classes(): string
     {

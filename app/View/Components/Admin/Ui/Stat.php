@@ -18,36 +18,37 @@ class Stat extends Component
         public ?string $trend = null,   // 'positive' | 'negative' | null
         public ?string $trendValue = null,
         public string $color = 'primary',
-    ) {}
- 
+    ) {
+    }
+
     public function trendClass(): string
     {
         return match ($this->trend) {
             'positive' => 'text-success',
             'negative' => 'text-error',
-            default    => 'text-base-content/60',
+            default => 'text-base-content/60',
         };
     }
- 
+
     public function trendIcon(): string
     {
         return match ($this->trend) {
             'positive' => 'icofont-arrow-up',
             'negative' => 'icofont-arrow-down',
-            default    => 'icofont-minus',
+            default => 'icofont-minus',
         };
     }
- 
+
     public function colorClass(): string
     {
         return match ($this->color) {
             'secondary' => 'text-secondary',
-            'accent'    => 'text-accent',
-            'success'   => 'text-success',
-            'warning'   => 'text-warning',
-            'error'     => 'text-error',
-            'info'      => 'text-info',
-            default     => 'text-primary',
+            'accent' => 'text-accent',
+            'success' => 'text-success',
+            'warning' => 'text-warning',
+            'error' => 'text-error',
+            'info' => 'text-info',
+            default => 'text-primary',
         };
     }
 

@@ -21,7 +21,8 @@ class Input extends Component
         public ?string $icon = null,
         public bool $required = false,
         public bool $disabled = false,
-    ) { }
+    ) {
+    }
 
     /**
      * Get the view / contents that represent the component.

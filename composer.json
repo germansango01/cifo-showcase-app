@@ -18,6 +18,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "friendsofphp/php-cs-fixer": "^3.95",
         "laravel/pail": "^1.2.5",
         "laravel/pint": "^1.27",
         "laravel/sail": "^1.57",
@@ -71,7 +72,10 @@
         ],
         "pre-package-uninstall": [
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
-        ]
+        ],
+        "fix": "vendor/bin/php-cs-fixer fix",
+        "fix:dry": "vendor/bin/php-cs-fixer fix --dry-run --diff",
+        "fix:check": "vendor/bin/php-cs-fixer check"
     },
     "extra": {
         "laravel": {

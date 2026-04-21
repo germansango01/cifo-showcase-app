@@ -20,7 +20,8 @@ class Textarea extends Component
         public bool $required = false,
         public bool $disabled = false,
         public ?string $help = null,
-    ) { }
+    ) {
+    }
 
     /**
      * Get the view / contents that represent the component.

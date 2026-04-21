@@ -17,7 +17,8 @@ class Pagination extends Component
         public string $message,
         public ?string $actionLabel = null,
         public ?string $actionHref = null,
-    ) {}
+    ) {
+    }
 
     /**
      * Get the view / contents that represent the component.

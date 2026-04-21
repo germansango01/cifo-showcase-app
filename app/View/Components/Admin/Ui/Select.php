@@ -21,7 +21,8 @@ class Select extends Component
         public bool $disabled = false,
         public ?string $icon = null,
         public ?string $help = null,
-    ) { }
+    ) {
+    }
 
     /**
      * Get the view / contents that represent the component.

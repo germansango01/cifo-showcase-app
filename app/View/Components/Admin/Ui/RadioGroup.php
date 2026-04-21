@@ -17,7 +17,8 @@ class RadioGroup extends Component
         public array $options = [],
         public mixed $selected = null,
         public bool $inline = false,
-    ) { }
+    ) {
+    }
 
     /**
      * Get the view / contents that represent the component.
