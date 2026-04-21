@@ -1,19 +1,19 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Admin\Ui;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class admin.ui.modal extends Component
+class Breadcrumb extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct()
-    {
-        //
+    public function __construct(
+        public array $items = [],
+    ) {
     }
 
     /**
@@ -21,6 +21,6 @@ class admin.ui.modal extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.admin.ui.modal');
+        return view('components.admin.ui.breadcrumb');
     }
 }

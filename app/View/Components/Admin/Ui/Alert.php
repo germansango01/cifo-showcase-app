@@ -1,19 +1,21 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Admin\Ui;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class admin.table.row extends Component
+class Alert extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct()
-    {
-        //
+    public function __construct(
+        public string $type = 'info',
+        public bool $dismissible = false,
+        public ?string $icon = null,
+    ) {
     }
 
     /**
@@ -21,6 +23,6 @@ class admin.table.row extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.admin.table.row');
+        return view('components.admin.ui.alert');
     }
 }

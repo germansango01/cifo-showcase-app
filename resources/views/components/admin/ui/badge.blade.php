@@ -1,3 +1,3 @@
-<div>
-    <!-- Because you are alive, everything is possible. - Thich Nhat Hanh -->
-</div>
+@props(['color' => 'primary', 'size' => 'md', 'outline' => false])
+
+<span {{ $attributes->merge(['class' => $classes()]) }}>{{ $slot }}</span>
