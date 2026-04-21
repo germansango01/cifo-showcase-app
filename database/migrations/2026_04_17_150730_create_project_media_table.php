@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,8 +17,8 @@ return new class extends Migration
                 ->constrained('projects')
                 ->onDelete('cascade');
 
-            $table->enum('type',['image','video','document','pdf'])->default('image');
-            $table->string('path',512);
+            $table->enum('type', ['image','video','document','pdf'])->default('image');
+            $table->string('path', 512);
             $table->string('alt_text')->nullable();
             $table->unsignedInteger('sort_order')->default(0);
 

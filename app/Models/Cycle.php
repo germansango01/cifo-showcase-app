@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Cycle extends Model
 {
     /** @use HasFactory<\Database\Factories\CycleFactory> */
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
 
     protected $table = 'cycles';
 
@@ -19,7 +20,7 @@ class Cycle extends Model
         'name_es',
         'description_ca',
         'description_es',
-        'icon'
+        'icon',
     ];
 
     public function courses()

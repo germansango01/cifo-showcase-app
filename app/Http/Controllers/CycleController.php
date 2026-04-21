@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cycle;
 use App\Http\Requests\StoreCycleRequest;
 use App\Http\Requests\UpdateCycleRequest;
+use App\Models\Cycle;
 
 class CycleController extends Controller
 {

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProjectMedia;
 use App\Http\Requests\StoreProjectMediaRequest;
 use App\Http\Requests\UpdateProjectMediaRequest;
+use App\Models\ProjectMedia;
 
 class ProjectMediaController extends Controller
 {

@@ -36,8 +36,9 @@ class CourseFactory extends Factory
             "Validación y Seguridad Básica en Formularios Web",
             "Despliegue Básico de Aplicaciones Web en Servidores",
             "Optimización Práctica de Rendimiento en PHP",
-            "Mantenimiento y Mejora de Aplicaciones Web Existentes"
+            "Mantenimiento y Mejora de Aplicaciones Web Existentes",
         ];
+
         return [
             'cycle_id' => Cycle::factory(),
             'user_id' => User::factory(),
