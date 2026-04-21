@@ -1,19 +1,19 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Admin\Ui;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class admin.ui.breadcrumb extends Component
+class Breadcrumb extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct()
-    {
-        //
+    public function __construct(
+        public array $items = [],
+    ) {
     }
 
     /**

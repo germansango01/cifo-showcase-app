@@ -1,19 +1,20 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Admin\Ui;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class admin.table.index extends Component
+class Card extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct()
-    {
-        //
+    public function __construct(
+        public bool $padding = true,
+        public bool $shadow = true,
+    ) {
     }
 
     /**
@@ -21,6 +22,6 @@ class admin.table.index extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.admin.table.index');
+        return view('components.admin.ui.card');
     }
 }
