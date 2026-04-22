@@ -1,5 +1,4 @@
 <x-layouts.guest title="Nueva contraseña">
-    {{-- Header --}}
     <div class="flex items-center gap-3 mb-6">
         <div class="bg-primary/10 text-primary rounded-xl p-3">
             <i class="icofont-lock text-2xl"></i>
@@ -13,15 +12,21 @@
     <form method="POST" action="/reset-password">
         @csrf
 
-        {{-- Hidden fields --}}
         <input type="hidden" name="token" value="{{ $request->route('token') }}" />
+        <input type="hidden" name="email" value="{{ old('email', $request->email) }}" />
 
         <div class="flex flex-col gap-4">
-            <x-admin.ui.input name="email" label="Correo electrónico" type="email" icon="icofont-email" placeholder="correo@ejemplo.com" :value="old('email', $request->email)" required />
+            {{-- Mostrar a quién pertenece el reset --}}
+            <div class="bg-base-200 rounded-lg px-4 py-3 text-sm flex items-center gap-2">
+                <i class="icofont-email opacity-60"></i>
+                <span class="opacity-70">{{ old('email', $request->email) }}</span>
+            </div>
 
-            <x-admin.ui.input name="password" label="Nueva contraseña" type="password" icon="icofont-lock" placeholder="Mínimo 8 caracteres" required />
+            <x-admin.ui.input name="password" label="Nueva contraseña" type="password" icon="icofont-lock"
+                placeholder="Mínimo 8 caracteres" autocomplete="new-password" />
 
-            <x-admin.ui.input name="password_confirmation" label="Confirmar contraseña" type="password" icon="icofont-lock" placeholder="Repite la contraseña" required />
+            <x-admin.ui.input name="password_confirmation" label="Confirmar contraseña" type="password"
+                icon="icofont-lock" placeholder="Repite la contraseña" autocomplete="new-password" />
 
             <x-admin.ui.button type="submit" icon="icofont-check-circled" block>
                 Restablecer contraseña

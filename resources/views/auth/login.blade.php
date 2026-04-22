@@ -1,5 +1,4 @@
 <x-layouts.guest title="Iniciar sesión">
-    {{-- Header --}}
     <div class="flex items-center gap-3 mb-6">
         <div class="bg-primary/10 text-primary rounded-xl p-3">
             <i class="icofont-login text-2xl"></i>
@@ -10,9 +9,8 @@
         </div>
     </div>
 
-    {{-- Formulario con Precognition --}}
     <div x-data="loginForm">
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" novalidate>
             @csrf
 
             <div class="flex flex-col gap-4">
@@ -22,10 +20,10 @@
                         Correo electrónico <span class="text-error">*</span>
                     </legend>
                     <label class="input input-bordered w-full flex items-center gap-2"
-                        :class="form.invalid('email') ? 'input-error' : ''">
+                        :class="form.invalid('email') && 'input-error'">
                         <i class="icofont-email opacity-60"></i>
-                        <input type="email" id="email" placeholder="correo@ejemplo.com" autocomplete="email"
-                            required class="grow" x-model="form.email" @change="form.validate('email')"
+                        <input type="email" name="email" autocomplete="email" placeholder="correo@ejemplo.com"
+                            class="grow" x-model="form.email" @blur="validateField('email')"
                             :aria-invalid="form.invalid('email')" />
                     </label>
                     <p class="fieldset-label">
@@ -43,10 +41,10 @@
                         Contraseña <span class="text-error">*</span>
                     </legend>
                     <label class="input input-bordered w-full flex items-center gap-2"
-                        :class="form.invalid('password') ? 'input-error' : ''">
+                        :class="form.invalid('password') && 'input-error'">
                         <i class="icofont-lock opacity-60"></i>
-                        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password"
-                            required class="grow" x-model="form.password" @change="form.validate('password')"
+                        <input type="password" name="password" autocomplete="current-password" placeholder="••••••••"
+                            class="grow" x-model="form.password" @blur="validateField('password')"
                             :aria-invalid="form.invalid('password')" />
                     </label>
                     <p class="fieldset-label">
@@ -61,7 +59,7 @@
                 {{-- Remember + Forgot --}}
                 <div class="flex items-center justify-between">
                     <label class="label cursor-pointer gap-2">
-                        <input type="checkbox" id="remember" class="checkbox checkbox-primary checkbox-sm"
+                        <input type="checkbox" name="remember" class="checkbox checkbox-primary checkbox-sm"
                             x-model="form.remember" />
                         <span class="label-text text-sm">Recordarme</span>
                     </label>
@@ -73,8 +71,7 @@
                 {{-- Submit --}}
                 <button type="submit" class="btn btn-primary btn-block" :disabled="form.processing">
                     <span x-show="!form.processing" class="flex items-center gap-2">
-                        <i class="icofont-login"></i>
-                        Iniciar sesión
+                        <i class="icofont-login"></i> Iniciar sesión
                     </span>
                     <span x-show="form.processing" class="loading loading-spinner loading-sm"></span>
                 </button>
@@ -82,10 +79,8 @@
         </form>
     </div>
 
-    {{-- Register link --}}
     <div class="divider text-xs opacity-50 mt-4">¿Nuevo en CIFO?</div>
     <a href="{{ route('register') }}" class="btn btn-outline btn-block">
-        <i class="icofont-ui-user"></i>
-        Crear una cuenta
+        <i class="icofont-ui-user"></i> Crear una cuenta
     </a>
 </x-layouts.guest>

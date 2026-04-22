@@ -10,18 +10,10 @@ class LoginRequest extends FortifyLoginRequest
     public function rules(): array
     {
         return [
-            Fortify::username() => ['required', 'string', 'email'],
+            Fortify::username() => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:8'],
+            'remember' => ['sometimes', 'boolean'],
         ];
     }
 
-    public function messages(): array
-    {
-        return [
-            'email.required' => 'El correo electrónico es obligatorio.',
-            'email.email' => 'Debes introducir un correo válido.',
-            'password.required' => 'La contraseña es obligatoria.',
-            'password.min' => 'La contraseña debe tener al menos :min caracteres.',
-        ];
-    }
 }
