@@ -1,0 +1,41 @@
+/* ══════════════════════════════════════════════════════════
+   PAGE.CSS — CIFO Violeta Showcase
+   Main page grid: header / main / footer
+   ══════════════════════════════════════════════════════════ */
+
+.page {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "header"
+        "main"
+        "footer";
+    min-height: 100vh;
+    background-color: var(--color-bg);
+}
+
+.site-header {
+    grid-area: header;
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    background-color: var(--color-bg-elevated);
+    border-bottom: 1px solid var(--color-border);
+    transition: box-shadow var(--transition-base);
+}
+
+/* Header shadow on scroll — toggled via JS */
+.site-header.is-scrolled {
+    box-shadow: var(--shadow-md);
+    border-bottom-color: transparent;
+}
+
+main {
+    grid-area: main;
+}
+
+.site-footer {
+    grid-area: footer;
+    background-color: var(--color-neutral-900);
+    color: var(--color-neutral-300);
+}

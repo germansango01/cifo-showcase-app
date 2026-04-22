@@ -1,0 +1,67 @@
+/* ══════════════════════════════════════════════════════════
+   BADGE.CSS — CIFO Violeta Showcase
+   Category badges / tags with color per cycle
+   ══════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────
+   BASE
+   ───────────────────────────────────────── */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-1) var(--space-3);
+    font-family: var(--font-heading);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-wide);
+    line-height: 1;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+}
+
+/* ─────────────────────────────────────────
+   CICLOS FORMATIVOS
+   ───────────────────────────────────────── */
+
+/* DAW — Desarrollo Web · Violeta (brand color) */
+.badge[data-cycle="daw"] {
+    background-color: var(--color-primary-100);
+    color: var(--color-primary-700);
+}
+
+/* DAM — Desarrollo Multiplataforma · Verde */
+.badge[data-cycle="dam"] {
+    background-color: #e0f5ee;
+    color: #1a7a4a;
+}
+
+/* ASIR — Administración de Sistemas · Dorado */
+.badge[data-cycle="asir"] {
+    background-color: var(--color-accent-100);
+    color: var(--color-accent-700);
+}
+
+/* SMX — Microinformática · Azul */
+.badge[data-cycle="smx"] {
+    background-color: #ddeeff;
+    color: #1a5fa8;
+}
+
+/* ─────────────────────────────────────────
+   YEAR / GENERIC
+   ───────────────────────────────────────── */
+.badge[data-type="year"] {
+    background-color: var(--color-neutral-100);
+    color: var(--color-neutral-600);
+}
+
+/* ─────────────────────────────────────────
+   TECH TAG (for project detail)
+   ───────────────────────────────────────── */
+.badge[data-type="tech"] {
+    background-color: var(--color-neutral-100);
+    color: var(--color-neutral-700);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0;
+}

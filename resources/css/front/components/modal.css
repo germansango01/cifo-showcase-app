@@ -1,0 +1,299 @@
+/* =====================================================
+   MODAL
+   Quick-view overlay for project cards.
+   Accessible: focus trap, aria-hidden, scroll lock.
+   ===================================================== */
+
+/* ── Overlay container ── */
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-modal);
+
+    display: grid;
+    place-items: center;
+    padding: var(--space-4);
+
+    visibility: hidden;
+    opacity: 0;
+    transition:
+        opacity var(--duration-base) var(--ease-out),
+        visibility var(--duration-base) var(--ease-out);
+}
+
+.modal.is-open {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* ── Backdrop ── */
+.modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-bg-overlay);
+    cursor: pointer;
+}
+
+/* ── Dialog ── */
+.modal-dialog {
+    position: relative;
+    z-index: 1;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+
+    width: 95vw;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    background-color: var(--color-bg-elevated);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+
+    transform: translateY(1.5rem) scale(0.98);
+    transition: transform var(--duration-base) var(--ease-out);
+}
+
+.modal.is-open .modal-dialog {
+    transform: translateY(0) scale(1);
+}
+
+/* Two-column layout on tablet+ */
+@media (min-width: 48em) {
+    .modal-dialog {
+        grid-template-columns: 55% 45%;
+        grid-template-rows: 1fr;
+        max-height: 85vh;
+        overflow: hidden;
+    }
+}
+
+/* ── Close button ── */
+.modal-close {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-full);
+    border: none;
+    cursor: pointer;
+
+    background-color: rgba(255, 255, 255, 0.9);
+    color: var(--color-neutral-700);
+    box-shadow: var(--shadow-sm);
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.modal-close:hover {
+    background-color: var(--color-neutral-0);
+    transform: scale(1.1);
+}
+
+.modal-close:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+}
+
+.modal-close img {
+    width: 1.125rem;
+    height: 1.125rem;
+    pointer-events: none;
+}
+
+/* ── Carousel area ── */
+.modal-carousel {
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    aspect-ratio: 3 / 2;
+    flex-shrink: 0;
+}
+
+@media (min-width: 48em) {
+    .modal-carousel {
+        border-radius: var(--radius-xl) 0 0 var(--radius-xl);
+        aspect-ratio: unset;
+        height: 100%;
+    }
+}
+
+/* ── Content area ── */
+.modal-content {
+    padding: var(--space-6) var(--space-6) var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    overflow-y: auto;
+}
+
+@media (min-width: 48em) {
+    .modal-content {
+        padding: var(--space-8) var(--space-6);
+    }
+}
+
+/* ── Badges ── */
+.modal-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+/* ── Title ── */
+.modal-content h2 {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-bold);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text);
+    margin: 0;
+}
+
+@media (min-width: 48em) {
+    .modal-content h2 {
+        font-size: var(--text-2xl);
+    }
+}
+
+/* ── Description ── */
+.modal-content p {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    color: var(--color-text-muted);
+    margin: 0;
+}
+
+/* ── Metadata ── */
+.modal-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background-color: var(--color-neutral-50);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    margin: 0;
+}
+
+.modal-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.modal-meta-label {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+.modal-meta-value {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+}
+
+/* ── Technologies ── */
+.modal-tech-label,
+.modal-tags-label {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    display: block;
+    margin-bottom: var(--space-2);
+}
+
+.modal-tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.tech-chip {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    color: var(--color-primary-700);
+    background-color: var(--color-primary-50);
+    border: 1px solid var(--color-primary-100);
+    border-radius: var(--radius-full);
+    padding: var(--space-1) var(--space-3);
+    white-space: nowrap;
+}
+
+/* ── Tags ── */
+.modal-tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.modal-tag {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    color: var(--color-neutral-600);
+    background-color: var(--color-neutral-100);
+    border-radius: var(--radius-full);
+    padding: var(--space-1) var(--space-3);
+    white-space: nowrap;
+}
+
+/* ── CTA ── */
+.modal-cta {
+    margin-top: auto;
+    align-self: flex-start;
+}
+
+/* ── Card quick-view button (overlay on card image) ── */
+.card-quick-view {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border: none;
+    cursor: pointer;
+    border-radius: inherit;
+
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-text-inverse);
+
+    background-color: rgba(107, 63, 160, 0.75);
+    backdrop-filter: blur(2px);
+
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+
+.card:hover .card-quick-view,
+.card:focus-within .card-quick-view {
+    opacity: 1;
+}
+
+.card-quick-view:focus-visible {
+    opacity: 1;
+    outline: 3px solid var(--color-accent-400);
+    outline-offset: -3px;
+}

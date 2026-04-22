@@ -1,0 +1,211 @@
+/* ══════════════════════════════════════════════════════════
+   HOME.CSS — CIFO Violeta Showcase
+   Home page — featured projects, stats strip, about teaser
+   ══════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────
+   SECTION SHARED UTILITIES (home-scoped)
+   ───────────────────────────────────────── */
+.section {
+    padding-block: var(--space-20);
+}
+
+.section-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-4);
+    margin-bottom: var(--space-12);
+}
+
+.section-header h2 {
+    flex: 1 1 auto;
+    font-family: var(--font-heading);
+    font-size: clamp(var(--text-2xl), 4vw, var(--text-4xl));
+    font-weight: var(--weight-extrabold);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-neutral-900);
+}
+
+.section-eyebrow {
+    display: block;
+    width: 100%;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--color-primary-500);
+    margin-bottom: var(--space-2);
+}
+
+/* ─────────────────────────────────────────
+   FEATURED PROJECTS (GRID SYSTEM)
+   ───────────────────────────────────────── */
+
+.featured-projects {
+    background: var(--color-neutral-0);
+    padding: var(--space-10) 0;
+}
+
+/* Base: Mobile (1 sola columna al 100%) */
+.featured-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    margin-bottom: var(--space-10);
+}
+
+/* Tablet (≥40em): 2 columnas */
+@media (min-width: 40em) {
+    .featured-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Desktop (≥64em): Proporciones 50/25/25 */
+@media (min-width: 64em) {
+    .featured-grid {
+        /* 2fr(50%) + 1fr(25%) + 1fr(25%) = 4 partes */
+        grid-template-columns: 2fr 1fr 1fr;
+        align-items: stretch;
+    }
+
+    /* Versión Invertida: 25/25/50 */
+    .featured-grid--inverted {
+        grid-template-columns: 1fr 1fr 2fr;
+    }
+
+    /* --- Ajustes de Aspect Ratio para las imágenes "Hero" --- */
+
+    /* Card grande en diseño normal (la primera) */
+    .featured-grid:not(.featured-grid--inverted) article:nth-child(1) .card-media {
+        aspect-ratio: 21 / 9;
+    }
+
+    /* Card grande en diseño invertido (la tercera) */
+    .featured-grid--inverted article:nth-child(3) .card-media {
+        aspect-ratio: 21 / 9;
+    }
+
+    /* Reset para las cards pequeñas en diseño invertido (la primera ahora es pequeña) */
+    .featured-grid--inverted article:nth-child(1) .card-media {
+        aspect-ratio: 3 / 2;
+    }
+}
+
+/* ─────────────────────────────────────────
+   STATS STRIP
+   ───────────────────────────────────────── */
+.stats-strip {
+    background: linear-gradient(135deg, var(--color-primary-900) 0%, var(--color-primary-800) 100%);
+    padding-block: var(--space-16);
+}
+
+.stats-inner {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-10) var(--space-8);
+    text-align: center;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.stat-number {
+    font-family: var(--font-heading);
+    font-size: clamp(var(--text-4xl), 6vw, var(--text-5xl));
+    font-weight: var(--weight-extrabold);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-neutral-0);
+    line-height: 1;
+}
+
+.stat-number::after {
+    content: attr(data-suffix);
+    font-size: 0.6em;
+    color: var(--color-accent-400);
+    margin-left: 2px;
+}
+
+.stat-label {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--color-primary-300);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+}
+
+@media (min-width: 40em) {
+    .stats-inner {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* ─────────────────────────────────────────
+   ABOUT TEASER
+   ───────────────────────────────────────── */
+.about-teaser {
+    background: var(--color-neutral-50);
+    overflow: hidden;
+}
+
+.about-teaser-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+    align-items: center;
+}
+
+.about-teaser-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+}
+
+.about-teaser-content h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(var(--text-2xl), 4vw, var(--text-4xl));
+    font-weight: var(--weight-extrabold);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-neutral-900);
+    line-height: var(--leading-tight);
+}
+
+.about-teaser-content p {
+    font-size: var(--text-lg);
+    color: var(--color-neutral-600);
+    line-height: var(--leading-normal);
+    max-width: 52ch;
+}
+
+.about-teaser-figure {
+    margin: 0;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    aspect-ratio: 4 / 3;
+}
+
+.about-teaser-figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--duration-slower) var(--ease-out);
+}
+
+.about-teaser-figure:hover img {
+    transform: scale(1.03);
+}
+
+@media (min-width: 64em) {
+    .about-teaser-inner {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-20);
+    }
+}

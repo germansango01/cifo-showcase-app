@@ -1,0 +1,202 @@
+/* ══════════════════════════════════════════════════════════
+   TYPOGRAPHY.CSS — CIFO Violeta Showcase
+   Base typographic styles and heading scale
+   ══════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────
+   BODY BASE
+   ───────────────────────────────────────── */
+body {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: var(--weight-regular);
+    line-height: var(--leading-normal);
+    color: var(--color-text);
+    letter-spacing: var(--tracking-normal);
+}
+
+/* ─────────────────────────────────────────
+   HEADINGS
+   ───────────────────────────────────────── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading);
+    font-weight: var(--weight-bold);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text);
+}
+
+h1 {
+    font-size: var(--text-4xl);
+    font-weight: var(--weight-extrabold);
+}
+
+h2 {
+    font-size: var(--text-3xl);
+}
+
+h3 {
+    font-size: var(--text-2xl);
+}
+
+h4 {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-semibold);
+}
+
+h5 {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-semibold);
+}
+
+h6 {
+    font-size: var(--text-base);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-wide);
+}
+
+/* Responsive heading scale */
+@media (min-width: 64em) {
+
+    h1 {
+        font-size: var(--text-4xl);
+    }
+
+    h2 {
+        font-size: var(--text-3xl);
+    }
+
+    h3 {
+        font-size: var(--text-2xl);
+    }
+}
+
+/* ─────────────────────────────────────────
+   PARAGRAPHS & BODY TEXT
+   ───────────────────────────────────────── */
+p {
+    max-width: 68ch;
+    margin-bottom: var(--space-4);
+}
+
+p:last-child {
+    margin-bottom: 0;
+}
+
+.text-lg {
+    font-size: var(--text-lg);
+    line-height: var(--leading-normal);
+}
+
+.text-sm {
+    font-size: var(--text-sm);
+}
+
+.text-xs {
+    font-size: var(--text-xs);
+}
+
+.text-muted {
+    color: var(--color-text-muted);
+}
+
+/* ─────────────────────────────────────────
+   LINKS
+   ───────────────────────────────────────── */
+a:not([class]) {
+    color: var(--color-primary-500);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.15em;
+    transition: color var(--transition-fast),
+        text-decoration-color var(--transition-fast);
+}
+
+a:not([class]):hover {
+    color: var(--color-primary-700);
+    text-decoration: underline;
+    text-decoration-color: var(--color-primary-300);
+}
+
+a:not([class]):focus-visible {
+    outline: 2px solid var(--color-primary-400);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
+/* ─────────────────────────────────────────
+   META & LABEL TEXT
+   ───────────────────────────────────────── */
+.meta {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-muted);
+    line-height: var(--leading-normal);
+    letter-spacing: var(--tracking-wide);
+}
+
+.label {
+    font-family: var(--font-heading);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+/* ─────────────────────────────────────────
+   CODE / MONOSPACE
+   ───────────────────────────────────────── */
+code,
+pre,
+.mono {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+}
+
+code {
+    background: var(--color-primary-50);
+    color: var(--color-primary-700);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+}
+
+pre {
+    background: var(--color-neutral-800);
+    color: var(--color-neutral-100);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    overflow-x: auto;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+}
+
+/* ─────────────────────────────────────────
+   SELECTION
+   ───────────────────────────────────────── */
+::selection {
+    background: var(--color-primary-200);
+    color: var(--color-primary-900);
+}
+
+/* ─────────────────────────────────────────
+   STRONG / EM
+   ───────────────────────────────────────── */
+strong,
+b {
+    font-weight: var(--weight-semibold);
+}
+
+em,
+i {
+    font-style: italic;
+}

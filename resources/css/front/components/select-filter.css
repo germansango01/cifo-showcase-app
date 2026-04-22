@@ -1,0 +1,137 @@
+/* ══════════════════════════════════════════════════════════
+   SELECT-FILTER.CSS — CIFO Violeta Showcase
+   Dropdown filter toolbar — replaces filter pills
+   ══════════════════════════════════════════════════════════ */
+
+.filter-toolbar {
+  background: var(--color-neutral-0);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+.filter-toolbar-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding-block: var(--space-4);
+}
+
+/* ─────────────────────────────────────────
+   SELECT WRAPPER — custom arrow
+   ───────────────────────────────────────── */
+.filter-select-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.filter-select-wrap::after {
+  content: '';
+  position: absolute;
+  right: var(--space-3);
+  top: 50%;
+  translate: 0 -50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 1.5px solid var(--color-neutral-500);
+  border-bottom: 1.5px solid var(--color-neutral-500);
+  rotate: 45deg;
+  pointer-events: none;
+  margin-top: -2px;
+}
+
+/* ─────────────────────────────────────────
+   SELECT ELEMENT
+   ───────────────────────────────────────── */
+.filter-toolbar select {
+  appearance: none;
+  background: var(--color-neutral-0);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-8) var(--space-2) var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text);
+  cursor: pointer;
+  min-width: 9rem;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.filter-toolbar select:hover {
+  border-color: var(--color-primary-400);
+}
+
+.filter-toolbar select:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+  border-color: var(--color-primary-400);
+}
+
+/* Active (non-default value selected) */
+.filter-toolbar select.is-active {
+  border-color: var(--color-primary-500);
+  background: var(--color-primary-50);
+  color: var(--color-primary-800);
+}
+
+/* ─────────────────────────────────────────
+   FILTER COUNT
+   ───────────────────────────────────────── */
+.filter-count {
+  margin-left: auto;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  aria-live: polite;
+}
+
+.filter-count strong {
+  color: var(--color-text);
+  font-weight: var(--weight-semibold);
+}
+
+/* ─────────────────────────────────────────
+   RESET BUTTON
+   ───────────────────────────────────────── */
+.filter-reset {
+  display: none;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-primary-600);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.filter-reset.is-visible {
+  display: inline-flex;
+}
+
+.filter-reset:hover {
+  background: var(--color-primary-50);
+}
+
+.filter-reset:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+/* ─────────────────────────────────────────
+   DESKTOP
+   ───────────────────────────────────────── */
+@media (min-width: 64em) {
+  .filter-toolbar-inner {
+    flex-wrap: nowrap;
+  }
+}
