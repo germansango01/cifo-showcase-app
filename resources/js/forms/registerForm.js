@@ -1,11 +1,11 @@
 import { createFieldValidator } from './helpers';
 
-export default () => ({
+export default (registerUrl, redirectUrl) => ({
     form: null,
     validateField: null,
 
     init() {
-        this.form = this.$form('post', '/register', {
+        this.form = this.$form('post', registerUrl, {
             name: '',
             email: '',
             password: '',
@@ -19,7 +19,7 @@ export default () => ({
         this.form
             .submit()
             .then(() => {
-                window.location.href = '/dashboard';
+                window.location.href = redirectUrl;
             })
             .catch((error) => {
                 if (error?.response?.status !== 422) {

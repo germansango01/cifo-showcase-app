@@ -9,7 +9,7 @@
         </div>
     </div>
 
-    <div x-data="registerForm">
+    <div x-data="registerForm('{{ route('register') }}', '{{ route('dashboard') }}')">
         <form @submit.prevent="submit" novalidate>
             @csrf
 
@@ -19,15 +19,12 @@
                     <legend class="fieldset-legend">
                         Nombre completo <span class="text-error">*</span>
                     </legend>
-                    <label class="input input-bordered w-full flex items-center gap-2"
-                        :class="form.invalid('name') && 'input-error'">
+                    <label class="input input-bordered w-full flex items-center gap-2" :class="form.invalid('name') && 'input-error'">
                         <i class="icofont-ui-user opacity-60"></i>
-                        <input type="text" name="name" autocomplete="name" placeholder="Tu nombre" class="grow"
-                            x-model="form.name" @blur="validateField('name')" :aria-invalid="form.invalid('name')" />
+                        <input type="text" name="name" autocomplete="name" placeholder="Tu nombre" class="grow" x-model="form.name" @blur="validateField('name')" :aria-invalid="form.invalid('name')" />
                     </label>
                     <p class="fieldset-label">
-                        <span class="text-error flex items-center gap-1" x-show="form.invalid('name')" x-cloak
-                            x-transition>
+                        <span class="text-error flex items-center gap-1" x-show="form.invalid('name')" x-cloak x-transition>
                             <i class="icofont-warning-alt"></i>
                             <span x-text="form.errors.name"></span>
                         </span>
@@ -39,16 +36,12 @@
                     <legend class="fieldset-legend">
                         Correo electrónico <span class="text-error">*</span>
                     </legend>
-                    <label class="input input-bordered w-full flex items-center gap-2"
-                        :class="form.invalid('email') && 'input-error'">
+                    <label class="input input-bordered w-full flex items-center gap-2" :class="form.invalid('email') && 'input-error'">
                         <i class="icofont-email opacity-60"></i>
-                        <input type="email" name="email" autocomplete="email" placeholder="correo@ejemplo.com"
-                            class="grow" x-model="form.email" @blur="validateField('email')"
-                            :aria-invalid="form.invalid('email')" />
+                        <input type="email" name="email" autocomplete="email" placeholder="correo@ejemplo.com" class="grow" x-model="form.email" @blur="validateField('email')" :aria-invalid="form.invalid('email')" />
                     </label>
                     <p class="fieldset-label">
-                        <span class="text-error flex items-center gap-1" x-show="form.invalid('email')" x-cloak
-                            x-transition>
+                        <span class="text-error flex items-center gap-1" x-show="form.invalid('email')" x-cloak x-transition>
                             <i class="icofont-warning-alt"></i>
                             <span x-text="form.errors.email"></span>
                         </span>
@@ -60,16 +53,12 @@
                     <legend class="fieldset-legend">
                         Contraseña <span class="text-error">*</span>
                     </legend>
-                    <label class="input input-bordered w-full flex items-center gap-2"
-                        :class="form.invalid('password') && 'input-error'">
+                    <label class="input input-bordered w-full flex items-center gap-2" :class="form.invalid('password') && 'input-error'">
                         <i class="icofont-lock opacity-60"></i>
-                        <input type="password" name="password" autocomplete="new-password"
-                            placeholder="Mínimo 8 caracteres" class="grow" x-model="form.password"
-                            @blur="validateField('password')" :aria-invalid="form.invalid('password')" />
+                        <input type="password" name="password" autocomplete="new-password" placeholder="Mínimo 8 caracteres" class="grow" x-model="form.password" @blur="validateField('password')" :aria-invalid="form.invalid('password')" />
                     </label>
                     <p class="fieldset-label">
-                        <span class="text-error flex items-center gap-1" x-show="form.invalid('password')" x-cloak
-                            x-transition>
+                        <span class="text-error flex items-center gap-1" x-show="form.invalid('password')" x-cloak x-transition>
                             <i class="icofont-warning-alt"></i>
                             <span x-text="form.errors.password"></span>
                         </span>
@@ -81,17 +70,12 @@
                     <legend class="fieldset-legend">
                         Confirmar contraseña <span class="text-error">*</span>
                     </legend>
-                    <label class="input input-bordered w-full flex items-center gap-2"
-                        :class="form.invalid('password_confirmation') && 'input-error'">
+                    <label class="input input-bordered w-full flex items-center gap-2" :class="form.invalid('password_confirmation') && 'input-error'">
                         <i class="icofont-lock opacity-60"></i>
-                        <input type="password" name="password_confirmation" autocomplete="new-password"
-                            placeholder="Repite la contraseña" class="grow" x-model="form.password_confirmation"
-                            @blur="validateField('password_confirmation')"
-                            :aria-invalid="form.invalid('password_confirmation')" />
+                        <input type="password" name="password_confirmation" autocomplete="new-password" placeholder="Repite la contraseña" class="grow" x-model="form.password_confirmation" @blur="validateField('password_confirmation')" :aria-invalid="form.invalid('password_confirmation')" />
                     </label>
                     <p class="fieldset-label">
-                        <span class="text-error flex items-center gap-1" x-show="form.invalid('password_confirmation')"
-                            x-cloak x-transition>
+                        <span class="text-error flex items-center gap-1" x-show="form.invalid('password_confirmation')" x-cloak x-transition>
                             <i class="icofont-warning-alt"></i>
                             <span x-text="form.errors.password_confirmation"></span>
                         </span>

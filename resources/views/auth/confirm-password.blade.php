@@ -13,7 +13,7 @@
         Estás accediendo a una zona segura. Introduce tu contraseña actual para confirmar que eres tú.
     </p>
 
-    <div x-data="confirmPasswordForm">
+    <div x-data="confirmPasswordForm('{{ route('password.confirm') }}')">
         <form @submit.prevent="submit" novalidate>
             @csrf
 
@@ -22,16 +22,12 @@
                     <legend class="fieldset-legend">
                         Contraseña <span class="text-error">*</span>
                     </legend>
-                    <label class="input input-bordered w-full flex items-center gap-2"
-                        :class="form.invalid('password') && 'input-error'">
+                    <label class="input input-bordered w-full flex items-center gap-2" :class="form.invalid('password') && 'input-error'">
                         <i class="icofont-lock opacity-60"></i>
-                        <input type="password" name="password" autocomplete="current-password"
-                            placeholder="Tu contraseña actual" class="grow" x-model="form.password"
-                            @blur="validateField('password')" :aria-invalid="form.invalid('password')" />
+                        <input type="password" name="password" autocomplete="current-password" placeholder="Tu contraseña actual" class="grow" x-model="form.password" @blur="validateField('password')" :aria-invalid="form.invalid('password')" />
                     </label>
                     <p class="fieldset-label">
-                        <span class="text-error flex items-center gap-1" x-show="form.invalid('password')" x-cloak
-                            x-transition>
+                        <span class="text-error flex items-center gap-1" x-show="form.invalid('password')" x-cloak x-transition>
                             <i class="icofont-warning-alt"></i>
                             <span x-text="form.errors.password"></span>
                         </span>

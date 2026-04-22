@@ -1,11 +1,11 @@
 import { createFieldValidator } from './helpers';
 
-export default () => ({
+export default (confirmUrl) => ({
     form: null,
     validateField: null,
 
     init() {
-        this.form = this.$form('post', '/user/confirm-password', {
+        this.form = this.$form('post', confirmUrl, {
             password: '',
         }).setValidationTimeout(1000);
 

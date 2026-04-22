@@ -1,12 +1,12 @@
 import { createFieldValidator } from './helpers';
 
-export default () => ({
+export default (forgotPasswordUrl) => ({
     form: null,
     validateField: null,
     status: null,
 
     init() {
-        this.form = this.$form('post', '/forgot-password', {
+        this.form = this.$form('post', forgotPasswordUrl, {
             email: '',
         }).setValidationTimeout(1000);
 
