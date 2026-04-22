@@ -16,7 +16,7 @@ class Project extends Model
 
     protected $fillable = [
         'course_id',
-        'user_id',
+        'student_id',
         'title_ca',
         'title_es',
         'description_ca',
@@ -39,9 +39,9 @@ class Project extends Model
         return $this->belongsTo(Course::class);
     }
 
-    public function user()
+    public function students()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(Student::class);
     }
 
     public function tags()

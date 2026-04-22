@@ -6,25 +6,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Cycle extends Model
+class Student extends Model
 {
-    /** @use HasFactory<\Database\Factories\CycleFactory> */
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'cycles';
+    protected $table = 'students';
 
     protected $fillable = [
-        'slug',
-        'name_ca',
-        'name_es',
-        'description_ca',
-        'description_es',
-        'icon',
+        'name',
+        'email'
     ];
 
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
+    }
     public function courses()
     {
-        return $this->hasMany(Course::class);
+        return $this->belongsToMany(Course::class);
     }
 }

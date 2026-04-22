@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProjectMedia extends Model
 {
-    /** @use HasFactory<\Database\Factories\ProjectMediaFactory> */
     use HasFactory;
     use SoftDeletes;
 

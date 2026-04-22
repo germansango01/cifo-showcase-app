@@ -8,26 +8,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Course extends Model
 {
-    /** @use HasFactory<\Database\Factories\CourseFactory> */
     use HasFactory;
     use SoftDeletes;
 
     protected $table = 'courses';
 
     protected $fillable = [
-        'cycle_id',
-        'user_id',
+        'category_id',
+        'student_id',
         'name',
-        'academic_year',
     ];
 
-    public function cycle()
+    public function category()
     {
-        return $this->belongsTo(Cycle::class);
+        return $this->belongsTo(Category::class);
     }
 
-    public function user()
+    public function students()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(Student::class);
     }
 }
