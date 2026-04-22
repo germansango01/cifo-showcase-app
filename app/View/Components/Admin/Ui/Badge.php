@@ -29,6 +29,7 @@ class Badge extends Component
             'error' => 'badge-error',
             'info' => 'badge-info',
             'ghost' => 'badge-ghost',
+            'neutral' => 'badge-neutral',
         ];
 
         $sizes = [

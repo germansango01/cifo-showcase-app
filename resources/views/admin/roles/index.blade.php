@@ -22,17 +22,17 @@
                             <i class="icofont-shield text-primary text-lg"></i>
                             <span class="font-medium">{{ $role->name }}</span>
                             @if ($role->name === 'Super Admin')
-                                <x-admin.ui.badge type="warning">Sistema</x-admin.ui.badge>
+                                <x-admin.ui.badge color="warning">Sistema</x-admin.ui.badge>
                             @endif
                         </div>
                     </td>
                     <td>
-                        <x-admin.ui.badge type="info">
+                        <x-admin.ui.badge color="info">
                             {{ $role->permissions_count }} permisos
                         </x-admin.ui.badge>
                     </td>
                     <td>
-                        <x-admin.ui.badge type="neutral">
+                        <x-admin.ui.badge color="neutral">
                             {{ $role->users_count }} usuarios
                         </x-admin.ui.badge>
                     </td>

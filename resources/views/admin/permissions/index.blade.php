@@ -6,7 +6,7 @@
             <h1 class="text-2xl font-bold">Permisos del sistema</h1>
             <p class="text-sm opacity-70">Vista de sólo lectura. Los permisos se crean en código (seeder).</p>
         </div>
-        <x-admin.ui.badge type="neutral">
+        <x-admin.ui.badge color="neutral">
             {{ $permissions->flatten()->count() }} permisos · {{ $totalRoles }} roles
         </x-admin.ui.badge>
     </div>
@@ -24,7 +24,7 @@
                     class="collapse-title text-base font-semibold capitalize flex items-center gap-2 cursor-pointer select-none">
                     <i class="icofont-key text-primary text-lg"></i>
                     {{ $module }}
-                    <x-admin.ui.badge type="neutral" class="ml-auto mr-6">
+                    <x-admin.ui.badge color="neutral" class="ml-auto mr-6">
                         {{ $modulePerms->count() }} permiso{{ $modulePerms->count() !== 1 ? 's' : '' }}
                     </x-admin.ui.badge>
                 </summary>
@@ -48,7 +48,7 @@
                                         <td>
                                             @php $action = explode('.', $permission->name)[1] ?? '—'; @endphp
                                             <x-admin.ui.badge
-                                                type="{{ match ($action) {
+                                                color="{{ match ($action) {
                                                     'view' => 'info',
                                                     'create' => 'success',
                                                     'update' => 'warning',
@@ -63,7 +63,7 @@
                                             <div class="flex flex-wrap gap-1">
                                                 @forelse($permission->roles as $role)
                                                     <x-admin.ui.badge
-                                                        type="primary">{{ $role->name }}</x-admin.ui.badge>
+                                                        color="primary">{{ $role->name }}</x-admin.ui.badge>
                                                 @empty
                                                     <span class="text-sm opacity-40 italic">Sin asignar</span>
                                                 @endforelse

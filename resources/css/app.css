@@ -32,6 +32,7 @@
     --color-error: oklch(63.1% 0.194 29.4);
     --radius-box: 0.75rem;
     --radius-btn: 0.5rem;
+    --border: 1px;
 }
 
 @plugin "daisyui/theme" {
@@ -54,6 +55,7 @@
     --color-success: oklch(74.6% 0.181 152.3);
     --color-warning: oklch(76.3% 0.163 69.4);
     --color-error: oklch(63.1% 0.194 29.4);
+    --border: 1px;
 }
 
 @layer base {

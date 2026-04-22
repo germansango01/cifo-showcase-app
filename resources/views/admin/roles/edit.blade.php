@@ -8,7 +8,8 @@
     <div class="mb-6">
         <h1 class="text-2xl font-bold">Editar rol</h1>
         <p class="text-sm opacity-70">Modifica el nombre y los permisos asignados al rol
-            <strong>{{ $role->name }}</strong>.</p>
+            <strong>{{ $role->name }}</strong>.
+        </p>
     </div>
 
     <x-admin.ui.card>
@@ -43,7 +44,7 @@
             {{-- Contador en vivo --}}
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-lg font-semibold">Permisos</h2>
-                <x-admin.ui.badge type="primary">
+                <x-admin.ui.badge color="primary">
                     <span x-text="selectedCount"></span> de {{ $permissions->flatten()->count() }} seleccionados
                 </x-admin.ui.badge>
             </div>
@@ -91,7 +92,7 @@
             </div>
 
             <div class="flex justify-end gap-2">
-                <x-admin.ui.button variant="ghost" :href="route('roles.index')">
+                <x-admin.ui.button :ghost="true" :href="route('roles.index')">
                     Cancelar
                 </x-admin.ui.button>
                 <x-admin.ui.button type="submit" icon="icofont-check-circled">
