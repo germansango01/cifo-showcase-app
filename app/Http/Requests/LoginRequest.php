@@ -15,5 +15,4 @@ class LoginRequest extends FortifyLoginRequest
             'remember' => ['sometimes', 'boolean'],
         ];
     }
-
 }
