@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+<<<<<<< HEAD
 use App\Models\Professor;
 use App\Models\Project;
 use App\Models\ProjectImage;
@@ -10,11 +11,19 @@ use App\Models\Tag;
 use App\Models\Technology;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+=======
+use App\Models\Project;
+use App\Models\ProjectMedia;
+use App\Models\Student;
+use App\Models\Tag;
+use Illuminate\Database\Seeder;
+>>>>>>> main
 
 class ProjectSeeder extends Seeder
 {
     public function run(): void
     {
+<<<<<<< HEAD
         // ── Professors ────────────────────────────────────────
         $professors = collect([
             ['name' => 'Carlos Martínez', 'email' => 'carlos.martinez@cifo.cat', 'department' => 'DAW'],
@@ -264,5 +273,30 @@ class ProjectSeeder extends Seeder
                 ->toArray();
             $project->tags()->syncWithoutDetaching($tagIds);
         }
+=======
+        Project::factory()
+            ->count(20)
+            ->create()
+            ->each(function ($project) {
+
+                $project->students()->attach(
+                    Student::inRandomOrder()
+                        ->take(rand(1, 4))
+                        ->pluck('id')
+                );
+
+                $project->tags()->attach(
+                    Tag::inRandomOrder()
+                        ->take(rand(1, 5))
+                        ->pluck('id')
+                );
+
+                ProjectMedia::factory()
+                    ->count(rand(1, 4))
+                    ->create([
+                        'project_id' => $project->id,
+                    ]);
+            });
+>>>>>>> main
     }
 }
