@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProfileController;
@@ -20,10 +21,10 @@ Route::get('/language/{locale}', function (string $locale) {
 })->name('language');
 
 // ── Front public ─────────────────────────────────────────────
-Route::get('/', [PageController::class,    'index'])->name('home');
+Route::get('/', [PageController::class, 'index'])->name('home');
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects');
 Route::get('/projects/{project:slug}', [ProjectController::class, 'show']) ->name('projects.show');
-Route::get('/about', [PageController::class,   'about'])->name('about');
+Route::get('/about', [PageController::class, 'about'])->name('about');
 
 // ── Admin (authenticated + verified) ─────────────────────────
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -34,3 +35,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('roles', RoleController::class)->except('show');
     Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions.index');
 });
+
+Route::get('/prueba', [CourseController::class, 'index'])->name('prueba');

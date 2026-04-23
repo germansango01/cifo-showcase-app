@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Teacher;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class TeacherSeeder extends Seeder
 {

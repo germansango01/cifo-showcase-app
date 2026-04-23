@@ -2,10 +2,7 @@
 
 namespace Database\Factories;
 
-<<<<<<< HEAD
-=======
 use App\Models\Course;
->>>>>>> main
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -14,17 +11,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ProjectFactory extends Factory
 {
-<<<<<<< HEAD
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
-    {
-        return [
-            //
-=======
     protected $model = Project::class;
 
     public function definition(): array
@@ -45,11 +31,10 @@ class ProjectFactory extends Factory
                 'draft',
                 'pending',
                 'published',
-                'rejected'
+                'rejected',
             ]),
             'featured' => $this->faker->boolean(20),
             'published_at' => $this->faker->optional()->dateTimeBetween('-1 year', 'now'),
->>>>>>> main
         ];
     }
 }

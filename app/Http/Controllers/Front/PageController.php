@@ -13,20 +13,12 @@ class PageController extends Controller
      */
     public function index(): View
     {
-        $featured = Project::with(['student', 'professor'])
-            ->where('featured', true)
-            ->latest('year')
-            ->take(6)
-            ->get();
 
-        $stats = [
-            'graduates' => 350,
-            'projects' => Project::count(),
-            'years' => 18,
-            'teachers' => 24,
-        ];
+        $proyects = Project::where()->get();
 
-        return view('front.home', compact('featured', 'stats'));
+
+
+        return view('front.home', compact('projects'));
     }
 
     /**
