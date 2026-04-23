@@ -1,0 +1,85 @@
+/* =============================================================
+ * resources/css/admin.css  — Admin panel entry point
+ * Stack: Tailwind v4 + DaisyUI v5 + Alpine.js
+ * ============================================================= */
+
+@import "tailwindcss";
+@import "./icofont.css";
+
+@source "../views/admin/**/*.blade.php";
+@source "../views/components/admin/**/*.blade.php";
+@source "../**/*.js";
+@source "../../app/View/Components/**/*.php";
+@source "../../storage/framework/views/*.php";
+
+@plugin "daisyui" {
+    themes: false;
+}
+
+@plugin "daisyui/theme" {
+    name: "cifo-light";
+    default: true;
+    color-scheme: light;
+    --color-primary: oklch(46.9% 0.152 301.7);
+    --color-primary-content: oklch(100% 0 0);
+    --color-secondary: oklch(74.1% 0.131 82.1);
+    --color-secondary-content: oklch(21.3% 0.022 297);
+    --color-accent: oklch(56% 0.163 304.8);
+    --color-accent-content: oklch(100% 0 0);
+    --color-neutral: oklch(37% 0.028 296.5);
+    --color-neutral-content: oklch(97.5% 0.004 300.7);
+    --color-base-100: oklch(100% 0 0);
+    --color-base-200: oklch(97.5% 0.004 300.7);
+    --color-base-300: oklch(94.8% 0.005 297.2);
+    --color-base-content: oklch(21.3% 0.022 297);
+    --color-info: oklch(65.3% 0.135 242.7);
+    --color-success: oklch(74.6% 0.181 152.3);
+    --color-warning: oklch(76.3% 0.163 69.4);
+    --color-error: oklch(63.1% 0.194 29.4);
+    --radius-box: 0.75rem;
+    --radius-btn: 0.5rem;
+    --border: 1px;
+}
+
+@plugin "daisyui/theme" {
+    name: "cifo-dark";
+    prefersdark: true;
+    color-scheme: dark;
+    --color-primary: oklch(56% 0.163 304.8);
+    --color-primary-content: oklch(100% 0 0);
+    --color-secondary: oklch(80.6% 0.136 84.7);
+    --color-secondary-content: oklch(21.3% 0.022 297);
+    --color-accent: oklch(66.4% 0.133 306.4);
+    --color-accent-content: oklch(100% 0 0);
+    --color-neutral: oklch(28.1% 0.022 296.4);
+    --color-neutral-content: oklch(89.5% 0.011 297.4);
+    --color-base-100: oklch(21.3% 0.022 297);
+    --color-base-200: oklch(28.1% 0.022 296.4);
+    --color-base-300: oklch(37% 0.028 296.5);
+    --color-base-content: oklch(94.8% 0.005 297.2);
+    --color-info: oklch(65.3% 0.135 242.7);
+    --color-success: oklch(74.6% 0.181 152.3);
+    --color-warning: oklch(76.3% 0.163 69.4);
+    --color-error: oklch(63.1% 0.194 29.4);
+    --border: 1px;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply antialiased;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+@layer components {
+    .cifo-sidebar-active {
+        @apply bg-primary/10 text-primary border-l-4 border-primary font-medium;
+    }
+}

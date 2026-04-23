@@ -1,0 +1,110 @@
+/* ══════════════════════════════════════════════════════════
+   BUTTONS.CSS — CIFO Violeta Showcase
+   Button variants: primary, secondary, ghost, icon
+   ══════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────
+   BASE
+   ───────────────────────────────────────── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-wide);
+    line-height: 1;
+    border-radius: var(--radius-full);
+    border: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background-color var(--transition-fast),
+        color var(--transition-fast),
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        transform var(--transition-fast);
+    user-select: none;
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--color-primary-400);
+    outline-offset: 3px;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+/* ─────────────────────────────────────────
+   VARIANTS
+   ───────────────────────────────────────── */
+
+/* Primary — filled violet */
+.btn[data-variant="primary"] {
+    background-color: var(--color-primary-500);
+    color: var(--color-text-inverse);
+    border-color: var(--color-primary-500);
+}
+
+.btn[data-variant="primary"]:hover {
+    background-color: var(--color-primary-600);
+    border-color: var(--color-primary-600);
+}
+
+/* Secondary — soft tinted */
+.btn[data-variant="secondary"] {
+    background-color: var(--color-primary-100);
+    color: var(--color-primary-700);
+    border-color: var(--color-primary-100);
+}
+
+.btn[data-variant="secondary"]:hover {
+    background-color: var(--color-primary-200);
+    border-color: var(--color-primary-200);
+}
+
+/* Ghost — outlined */
+.btn[data-variant="ghost"] {
+    background-color: transparent;
+    color: var(--color-primary-600);
+    border-color: var(--color-primary-300);
+}
+
+.btn[data-variant="ghost"]:hover {
+    background-color: var(--color-primary-50);
+    border-color: var(--color-primary-400);
+}
+
+/* ─────────────────────────────────────────
+   SIZES
+   ───────────────────────────────────────── */
+
+.btn[data-size="sm"] {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-xs);
+}
+
+.btn[data-size="lg"] {
+    padding: var(--space-4) var(--space-8);
+    font-size: var(--text-base);
+}
+
+/* ─────────────────────────────────────────
+   ICON BUTTON
+   ───────────────────────────────────────── */
+.btn[data-type="icon"] {
+    padding: var(--space-3);
+    border-radius: var(--radius-full);
+    width: 44px;
+    height: 44px;
+}
+
+.btn[data-type="icon"][data-size="sm"] {
+    width: 36px;
+    height: 36px;
+    padding: var(--space-2);
+}

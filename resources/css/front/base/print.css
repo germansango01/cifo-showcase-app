@@ -1,0 +1,112 @@
+/* ══════════════════════════════════════════════════════════
+   PRINT.CSS — CIFO Violeta Showcase
+   Basic print styles
+   ══════════════════════════════════════════════════════════ */
+
+@media print {
+
+    /* ── Reset visual for print ───────────────────────── */
+    *,
+    *::before,
+    *::after {
+        background: transparent !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    body {
+        font-size: 12pt;
+        line-height: 1.5;
+    }
+
+    /* ── Hide non-printable elements ──────────────────── */
+    .site-header,
+    .skip-link,
+    .filter-toolbar,
+    .menu-toggle,
+    .mobile-nav,
+    .lang-switcher,
+    .card-quick-view,
+    .modal,
+    .btn,
+    .carousel-btn,
+    .carousel-dots,
+    .project-detail-nav,
+    .footer-links {
+        display: none !important;
+    }
+
+    /* ── Show main content as block ───────────────────── */
+    main {
+        display: block;
+    }
+
+    /* ── Links — show URL ─────────────────────────────── */
+    a[href]::after {
+        content: " (" attr(href) ")";
+        font-size: 0.85em;
+        color: #444 !important;
+    }
+
+    /* Exclude anchor links and javascript: */
+    a[href^="#"]::after,
+    a[href^="javascript:"]::after {
+        content: "";
+    }
+
+    /* ── Images ───────────────────────────────────────── */
+    img {
+        max-width: 100% !important;
+        page-break-inside: avoid;
+    }
+
+    /* ── Cards — avoid page breaks inside ────────────── */
+    .card,
+    .about-mission-card,
+    .about-programs-card {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        border: 1pt solid #ccc;
+        margin-bottom: 16pt;
+        padding: 8pt;
+    }
+
+    /* ── Hero sections — simplify ─────────────────────── */
+    .hero,
+    .about-hero,
+    .project-detail-hero {
+        padding: 16pt 0;
+        page-break-after: avoid;
+    }
+
+    /* ── Project detail — ensure metadata is visible ─── */
+    .project-detail-meta,
+    .project-detail-tech-list,
+    .project-detail-tags {
+        display: block;
+    }
+
+    /* ── Stats grid — inline for print ───────────────── */
+    .about-stats-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16pt;
+    }
+
+    .about-stats-item {
+        min-width: 100pt;
+    }
+
+    /* ── Footer — copyright only ──────────────────────── */
+    .footer-top {
+        display: none;
+    }
+
+    .footer-bottom {
+        border-top: 1pt solid #ccc;
+        padding-top: 8pt;
+        font-size: 9pt;
+    }
+
+}

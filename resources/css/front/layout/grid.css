@@ -1,0 +1,51 @@
+/* ══════════════════════════════════════════════════════════
+   GRID.CSS — CIFO Violeta Showcase
+   Responsive project card grid
+   ══════════════════════════════════════════════════════════ */
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+}
+
+/* 2 columns from tablet */
+@media (min-width: 40em) {
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-8);
+    }
+}
+
+/* 3 columns from desktop */
+@media (min-width: 64em) {
+    .projects-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Optional: allow flexible auto-fill for very wide screens */
+@media (min-width: 90em) {
+    .projects-grid[data-layout="auto"] {
+        grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    }
+}
+
+/* ─────────────────────────────────────────
+   GRID ITEM — Base transitions for cards
+   ───────────────────────────────────────── */
+.grid-item {
+    transition: opacity var(--transition-slow),
+        transform var(--transition-slow);
+}
+
+/* Hide items when filtered out — display:none handled by .card.is-hidden in card.css */
+.grid-item.is-hidden {
+    pointer-events: none;
+}
+
+/* Animate items appearing */
+.grid-item.is-visible {
+    opacity: 1;
+    transform: scale(1);
+}

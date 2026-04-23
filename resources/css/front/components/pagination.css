@@ -1,0 +1,97 @@
+/* ══════════════════════════════════════════════════════════
+   PAGINATION.CSS — CIFO Violeta Showcase
+   Page pagination — Laravel-ready (replaced by $projects->links())
+   ══════════════════════════════════════════════════════════ */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding-block: var(--space-12) var(--space-16);
+}
+
+/* ─────────────────────────────────────────
+   BASE ITEM
+   ───────────────────────────────────────── */
+.pagination a,
+.pagination button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  padding-inline: var(--space-3);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-muted);
+  background: var(--color-neutral-0);
+  border: 1.5px solid var(--color-border);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.pagination a:hover,
+.pagination button:hover {
+  border-color: var(--color-primary-400);
+  color: var(--color-primary-700);
+  background: var(--color-primary-50);
+}
+
+.pagination a:focus-visible,
+.pagination button:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+/* ─────────────────────────────────────────
+   CURRENT PAGE
+   ───────────────────────────────────────── */
+.pagination [aria-current="page"] {
+  background: var(--color-primary-600);
+  border-color: var(--color-primary-600);
+  color: var(--color-neutral-0);
+  font-weight: var(--weight-semibold);
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────
+   PREV / NEXT
+   ───────────────────────────────────────── */
+.pagination-prev,
+.pagination-next {
+  font-size: var(--text-base);
+  gap: var(--space-1);
+}
+
+/* Disabled state */
+.pagination-prev[aria-disabled="true"],
+.pagination-next[aria-disabled="true"] {
+  opacity: 0.38;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────
+   ELLIPSIS SEPARATOR
+   ───────────────────────────────────────── */
+.pagination-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  cursor: default;
+  user-select: none;
+}

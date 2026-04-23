@@ -1,0 +1,164 @@
+/* =============================================================
+ * resources/css/front/components/mobile-nav.css
+ * Mobile navigation drawer — slide-in from right.
+ * State managed by mobile-nav.js (.is-open toggle).
+ * ============================================================= */
+
+/* ── Drawer ─────────────────────────────────────────────────── */
+
+.mobile-nav {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+
+    /* Backdrop */
+    background: oklch(0% 0 0 / 0.5);
+
+    /* Hidden by default */
+    visibility: hidden;
+    opacity: 0;
+    transition:
+        opacity var(--transition-base),
+        visibility var(--transition-base);
+}
+
+.mobile-nav.is-open {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* ── Inner panel ─────────────────────────────────────────────── */
+
+.mobile-nav-inner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(320px, 85vw);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-6) var(--space-4);
+
+    background: var(--color-surface);
+    box-shadow: var(--shadow-lg);
+
+    transform: translateX(100%);
+    transition: transform var(--transition-base);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.mobile-nav.is-open .mobile-nav-inner {
+    transform: translateX(0);
+}
+
+/* ── Close button row ────────────────────────────────────────── */
+
+.mobile-close {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: var(--space-4);
+}
+
+.mobile-close-btn {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    font-size: var(--text-lg);
+    line-height: 1;
+    color: var(--color-text-muted);
+    cursor: pointer;
+
+    transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.mobile-close-btn:hover {
+    background: var(--color-surface-3);
+    color: var(--color-text);
+}
+
+/* ── Nav links ───────────────────────────────────────────────── */
+
+.mobile-nav-link {
+    display: block;
+    padding: var(--space-3) var(--space-4);
+
+    font-size: var(--text-lg);
+    font-weight: 500;
+    color: var(--color-text);
+    text-decoration: none;
+
+    border-radius: var(--radius-md);
+    transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.mobile-nav-link:hover {
+    background: var(--color-surface-2);
+}
+
+.mobile-nav-link[aria-current="page"] {
+    background: oklch(from var(--color-primary) l c h / 0.08);
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+/* ── Language switcher inside mobile nav ────────────────────── */
+
+.mobile-nav .lang-switcher {
+    margin-top: auto;
+    padding: var(--space-3) var(--space-4);
+}
+
+/* ── Hamburger button (in header) ───────────────────────────── */
+
+.menu-toggle {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    color: var(--color-text);
+
+    transition: background var(--transition-fast);
+}
+
+.menu-toggle:hover {
+    background: var(--color-surface-2);
+}
+
+.menu-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 20px;
+    height: 20px;
+}
+
+.menu-icon span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform var(--transition-base), opacity var(--transition-fast);
+}
+
+/* Hide hamburger on desktop */
+@media (min-width: 768px) {
+    .menu-toggle {
+        display: none;
+    }
+}

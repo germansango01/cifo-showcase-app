@@ -1,79 +1,39 @@
-@import "tailwindcss";
-@import "./icofont.css";
+/* =============================================================
+ * resources/css/app.css  — Front public entry point
+ * Stack: vanilla CSS moderno (custom properties, cascade layers)
+ * NO Tailwind, NO DaisyUI en el front público.
+ * ============================================================= */
 
-@source "../views/**/*.blade.php";
-@source "../**/*.js";
-@source "../../app/View/Components/**/*.php";
-@source "../../storage/framework/views/*.php";
+/* ── Base ─────────────────────────────────────────────────── */
+@import "./front/base/reset.css";
+@import "./front/base/variables.css";
+@import "./front/base/typography.css";
+@import "./front/base/utilities.css";
+@import "./front/base/print.css";
 
-@plugin "daisyui" {
-    themes: false;
-}
+/* ── Layout ───────────────────────────────────────────────── */
+@import "./front/layout/page.css";
+@import "./front/layout/container.css";
+@import "./front/layout/grid.css";
 
-@plugin "daisyui/theme" {
-    name: "cifo-light";
-    default: true;
-    color-scheme: light;
-    --color-primary: oklch(46.9% 0.152 301.7);
-    --color-primary-content: oklch(100% 0 0);
-    --color-secondary: oklch(74.1% 0.131 82.1);
-    --color-secondary-content: oklch(21.3% 0.022 297);
-    --color-accent: oklch(56% 0.163 304.8);
-    --color-accent-content: oklch(100% 0 0);
-    --color-neutral: oklch(37% 0.028 296.5);
-    --color-neutral-content: oklch(97.5% 0.004 300.7);
-    --color-base-100: oklch(100% 0 0);
-    --color-base-200: oklch(97.5% 0.004 300.7);
-    --color-base-300: oklch(94.8% 0.005 297.2);
-    --color-base-content: oklch(21.3% 0.022 297);
-    --color-info: oklch(65.3% 0.135 242.7);
-    --color-success: oklch(74.6% 0.181 152.3);
-    --color-warning: oklch(76.3% 0.163 69.4);
-    --color-error: oklch(63.1% 0.194 29.4);
-    --radius-box: 0.75rem;
-    --radius-btn: 0.5rem;
-    --border: 1px;
-}
+/* ── Components ───────────────────────────────────────────── */
+@import "./front/components/skip-link.css";
+@import "./front/components/badge.css";
+@import "./front/components/buttons.css";
+@import "./front/components/card.css";
+@import "./front/components/header.css";
+@import "./front/components/footer.css";
+@import "./front/components/mobile-nav.css";
+@import "./front/components/language-switcher.css";
+/* @import "./front/components/breadcrumb.css"; */
+@import "./front/components/carousel.css";
+@import "./front/components/modal.css";
+@import "./front/components/back-to-top.css";
+@import "./front/components/pagination.css";
+@import "./front/components/select-filter.css";
 
-@plugin "daisyui/theme" {
-    name: "cifo-dark";
-    prefersdark: true;
-    color-scheme: dark;
-    --color-primary: oklch(56% 0.163 304.8);
-    --color-primary-content: oklch(100% 0 0);
-    --color-secondary: oklch(80.6% 0.136 84.7);
-    --color-secondary-content: oklch(21.3% 0.022 297);
-    --color-accent: oklch(66.4% 0.133 306.4);
-    --color-accent-content: oklch(100% 0 0);
-    --color-neutral: oklch(28.1% 0.022 296.4);
-    --color-neutral-content: oklch(89.5% 0.011 297.4);
-    --color-base-100: oklch(21.3% 0.022 297);
-    --color-base-200: oklch(28.1% 0.022 296.4);
-    --color-base-300: oklch(37% 0.028 296.5);
-    --color-base-content: oklch(94.8% 0.005 297.2);
-    --color-info: oklch(65.3% 0.135 242.7);
-    --color-success: oklch(74.6% 0.181 152.3);
-    --color-warning: oklch(76.3% 0.163 69.4);
-    --color-error: oklch(63.1% 0.194 29.4);
-    --border: 1px;
-}
-
-@layer base {
-    html {
-        scroll-behavior: smooth;
-    }
-
-    body {
-        @apply antialiased;
-    }
-
-    [x-cloak] {
-        display: none !important;
-    }
-}
-
-@layer components {
-    .cifo-sidebar-active {
-        @apply bg-primary/10 text-primary border-l-4 border-primary font-medium;
-    }
-}
+/* ── Pages ────────────────────────────────────────────────── */
+@import "./front/pages/home.css";
+@import "./front/pages/projects.css";
+@import "./front/pages/about.css";
+@import "./front/pages/project-detail.css";

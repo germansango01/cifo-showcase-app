@@ -1,0 +1,40 @@
+/* ══════════════════════════════════════════════════════════
+   CONTAINER.CSS — CIFO Violeta Showcase
+   Centered content wrapper with responsive padding
+   ══════════════════════════════════════════════════════════ */
+
+.container {
+    width: 100%;
+    max-width: var(--max-width);
+    margin-inline: auto;
+    padding-inline: var(--container-padding);
+}
+
+.container[data-size="sm"] {
+    max-width: var(--max-width-sm);
+}
+
+.container[data-size="md"] {
+    max-width: var(--max-width-md);
+}
+
+.container[data-size="lg"] {
+    max-width: var(--max-width-lg);
+}
+
+.container[data-size="2xl"] {
+    max-width: var(--max-width-2xl);
+}
+
+/* Wider padding on larger screens */
+@media (min-width: 48em) {
+    .container {
+        padding-inline: var(--space-8);
+    }
+}
+
+@media (min-width: 80em) {
+    .container {
+        padding-inline: var(--space-12);
+    }
+}
