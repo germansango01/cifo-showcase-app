@@ -6,21 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends Model
+class Teacher extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $table = 'categories';
+
+    protected $table = 'teachers';
 
     protected $fillable = [
-        'slug',
-        'name_ca',
-        'name_es',
-        'icon',
+            'name',
+        'email',
     ];
 
     public function courses()
     {
-        return $this->hasMany(Course::class);
+        return $this->belongsToMany(Course::class);
     }
 }

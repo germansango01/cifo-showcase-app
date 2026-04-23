@@ -17,10 +17,11 @@ return new class() extends Migration {
                 ->constrained('courses')
                 ->onDelete('cascade');
 
+            $table->date('project_date');
             $table->string('title_ca');
             $table->string('title_es');
-            $table->text('description_ca');
-            $table->text('description_es');
+            $table->text('description_ca')->nullable();
+            $table->text('description_es')->nullable();
             $table->string('thumbnail');
             $table->string('repo_url', 512)->nullable();
             $table->string('live_url', 512)->nullable();
@@ -28,6 +29,10 @@ return new class() extends Migration {
                 ->default('draft');
             $table->boolean('featured')->default(false);
             $table->timestamp('published_at')->nullable();
+
+            $table->index('status');
+            $table->index('featured');
+            $table->index('project_date');
 
             $table->timestamps();
 

@@ -17,7 +17,8 @@ return new class() extends Migration {
                 ->constrained('categories')
                 ->onDelete('cascade');
 
-            $table->string('name');
+            $table->string('course_code',50);
+            $table->string('name',150);
 
             $table->timestamps();
 
