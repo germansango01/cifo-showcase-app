@@ -15,11 +15,11 @@ class CourseSeeder extends Seeder
     {
         Course::factory()->count(10)->create()
         ->each(function ($course) {
-                $course->teachers()->attach(
-                    Teacher::inRandomOrder()
-                        ->take(rand(1, 2))
-                        ->pluck('id')
-                );
-            });
-}
+            $course->teachers()->attach(
+                Teacher::inRandomOrder()
+                    ->take(rand(1, 2))
+                    ->pluck('id')
+            );
+        });
+    }
 }

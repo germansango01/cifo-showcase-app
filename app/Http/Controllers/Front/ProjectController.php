@@ -4,38 +4,32 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ProjectController extends Controller
 {
-    /**
-     * Show the paginated, filterable projects catalog.
-     */
     public function index(Request $request): View
     {
-        $query = Project::with(['student', 'professor'])
-            ->when($request->filled('year'), fn ($q) => $q->where('year', $request->year))
-            ->when($request->filled('cycle'), fn ($q) => $q->where('cycle', $request->cycle))
-            ->when($request->filled('professor'), fn ($q) => $q->whereHas('professor', function ($q) use ($request) {
-                $q->whereRaw("LOWER(REPLACE(name, ' ', '-')) = ?", [$request->professor]);
-            }))
+        $query = Project::where('status', 'published')
+            ->with(['students', 'course.category', 'tags'])
+            ->when($request->filled('year'), fn ($q) => $q->whereYear('project_date', $request->year))
+            ->when($request->filled('cycle'), fn ($q) => $q->whereHas('course.category', fn ($q) => $q->where('slug', $request->cycle)))
+            ->when($request->filled('professor'), fn ($q) => $q->whereHas('course.teachers', fn ($q) => $q->whereRaw("LOWER(REPLACE(name,' ','-')) = ?", [$request->professor])))
             ->when($request->filled('tag'), fn ($q) => $q->whereHas('tags', fn ($q) => $q->where('slug', $request->tag)))
-            ->latest('year');
+            ->latest('project_date');
 
         $projects = $query->paginate(12)->withQueryString();
-        $years = Project::distinct()->orderByDesc('year')->pluck('year');
-        $professors = Professor::orderBy('name')->get();
+        $years = Project::selectRaw('YEAR(project_date) as year')->distinct()->orderByDesc('year')->pluck('year');
+        $teachers = Teacher::orderBy('name')->get();
 
-        return view('front.projects', compact('projects', 'years', 'professors'));
+        return view('front.projects', compact('projects', 'years', 'teachers'));
     }
 
-    /**
-     * Show an individual project detail page.
-     */
     public function show(Project $project): View
     {
-        $project->load(['student', 'professor', 'images', 'technologies', 'tags']);
+        $project->load(['students', 'course.category', 'media', 'tags']);
 
         return view('front.project-detail', compact('project'));
     }

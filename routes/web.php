@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProfileController;
@@ -35,5 +34,3 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('roles', RoleController::class)->except('show');
     Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions.index');
 });
-
-Route::get('/prueba', [CourseController::class, 'index'])->name('prueba');
