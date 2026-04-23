@@ -66,7 +66,7 @@
     </div>
 
     {{-- Toast de notificaciones global --}}
-    <x-admin.ui.toast />
+    {{-- <x-admin.ui.toast /> --}}
 
 </body>
 

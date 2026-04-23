@@ -66,9 +66,10 @@
         </li>
 
         <li class="border-t border-base-300 mt-1 pt-1" role="none">
-            <form method="POST" action="{{ route('logout') }}" class="w-full">
+            <form method="POST" action="{{ route('logout') }}" class="flex">
                 @csrf
-                <button type="submit" class="flex items-center gap-2 w-full rounded-lg text-error hover:bg-error/10"
+                <button type="submit"
+                    class="flex items-center gap-2 w-full cursor-pointer rounded-lg text-error hover:bg-error/10"
                     role="menuitem">
                     <i class="icofont-logout text-base" aria-hidden="true"></i>
                     Cerrar sesión

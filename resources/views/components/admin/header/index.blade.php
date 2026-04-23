@@ -9,7 +9,7 @@
 
     {{-- Breadcrumb (ocupa el espacio central) --}}
     <div class="flex-1 min-w-0 overflow-hidden">
-        <x-admin.ui.breadcrumb />
+
     </div>
 
     {{-- Acciones del header --}}
