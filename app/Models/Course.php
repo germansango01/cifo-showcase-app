@@ -15,7 +15,7 @@ class Course extends Model
 
     protected $fillable = [
         'category_id',
-        'student_id',
+        'course_code',
         'name',
     ];
 
@@ -24,8 +24,13 @@ class Course extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function students()
+    public function projects()
     {
-        return $this->belongsToMany(Student::class);
+        return $this->hasMany(Project::class);
+    }
+
+    public function teachers()
+    {
+        return $this->belongsToMany(Teacher::class);
     }
 }

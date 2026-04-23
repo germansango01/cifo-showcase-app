@@ -16,7 +16,7 @@ class Project extends Model
 
     protected $fillable = [
         'course_id',
-        'student_id',
+        'project_date',
         'title_ca',
         'title_es',
         'description_ca',
@@ -30,18 +30,19 @@ class Project extends Model
     ];
 
     protected $casts = [
+        'project_date'=> 'date',
         'featured' => 'boolean',
         'published_at' => 'datetime',
     ];
 
-    public function course()
-    {
-        return $this->belongsTo(Course::class);
-    }
-
     public function students()
     {
         return $this->belongsToMany(Student::class);
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
     }
 
     public function tags()
@@ -51,6 +52,6 @@ class Project extends Model
 
     public function media()
     {
-        return $this->hasMany(ProjectMedia::class);
+        return $this->hasMany(ProjectMedia::class)->orderBy('order');
     }
 }

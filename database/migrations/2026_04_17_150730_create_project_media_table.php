@@ -22,6 +22,10 @@ return new class () extends Migration {
             $table->string('alt_text')->nullable();
             $table->unsignedInteger('sort_order')->default(0);
 
+            $table->index('project_id');
+            $table->index('sort_order');
+            $table->index('type');
+
             $table->timestamps();
 
             $table->softDeletes();

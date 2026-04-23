@@ -22,13 +22,9 @@ return new class () extends Migration {
 
             $table->primary(['project_id', 'tag_id']);
 
-            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('project_tag');
