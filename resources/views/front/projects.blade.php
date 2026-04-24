@@ -48,9 +48,9 @@
                     <label for="filter-professor" class="sr-only">{{ __('Filtrar por docente') }}</label>
                     <select id="filter-professor" name="professor" aria-label="{{ __('Filtrar por docente') }}">
                         <option value="">{{ __('Todos los docentes') }}</option>
-                        @foreach ($professors as $professor)
-                        <option value="{{ Str::slug($professor->name) }}" @selected(request('professor')===Str::slug($professor->name))>
-                            {{ $professor->name }}
+                        @foreach ($teachers as $teacher)
+                        <option value="{{ Str::slug($teacher->name) }}" @selected(request('professor')===Str::slug($teacher->name))>
+                            {{ $teacher->name }}
                         </option>
                         @endforeach
                     </select>
@@ -76,7 +76,7 @@
 
             <div class="projects-grid stagger">
                 @forelse ($projects as $project)
-                <div class="grid-item" data-course="{{ $project->cycle }}" data-year="{{ $project->year }}" data-professor="{{ Str::slug($project->professor->name ?? '') }}">
+                <div class="grid-item" data-course="{{ $project->course?->course_code ?? '' }}" data-year="{{ $project->project_date?->year ?? '' }}">
                     <x-front.project-card :project="$project" />
                 </div>
                 @empty

@@ -17,6 +17,7 @@
 @import "./front/layout/grid.css";
 
 /* ── Components ───────────────────────────────────────────── */
+@import "./front/components/hero.css";
 @import "./front/components/skip-link.css";
 @import "./front/components/badge.css";
 @import "./front/components/buttons.css";

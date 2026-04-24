@@ -22,7 +22,7 @@ class PageController extends Controller
         $stats = [
             'graduates' => Student::count(),
             'projects' => Project::where('status', 'published')->count(),
-            'years' => Project::selectRaw('YEAR(project_date) as y')->distinct()->count('y'),
+            'years' => Project::distinct()->count(\DB::raw('YEAR(project_date)')),
             'teachers' => Teacher::count(),
         ];
 

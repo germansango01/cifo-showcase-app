@@ -5,7 +5,21 @@
  * @var \App\Models\Project $project
  --}}
 
-<x-layouts.app :title="$project->title" :description="$project->short_description" ogType="article" :ogImage="$project->thumbnail_url">
+@php
+    $locale    = app()->getLocale();
+    $title     = $locale === 'ca' ? $project->title_ca : $project->title_es;
+    $desc      = $locale === 'ca' ? $project->description_ca : $project->description_es;
+    $cycleCode = $project->course?->course_code ?? '';
+    $cycleName = $project->course?->category?->{'name_'.$locale} ?? $cycleCode;
+    $year      = $project->project_date?->year;
+@endphp
+
+<x-layouts.app
+    :title="$title"
+    :description="$desc"
+    ogType="article"
+    :ogImage="$project->thumbnail"
+>
 
     <article class="project-detail" aria-labelledby="detail-title">
 
@@ -17,7 +31,7 @@
                     <li aria-hidden="true"><span class="breadcrumb-sep">›</span></li>
                     <li><a href="{{ route('projects') }}">{{ __('Proyectos') }}</a></li>
                     <li aria-hidden="true"><span class="breadcrumb-sep">›</span></li>
-                    <li><span class="breadcrumb-current" aria-current="page">{{ $project->title }}</span></li>
+                    <li><span class="breadcrumb-current" aria-current="page">{{ $title }}</span></li>
                 </ol>
             </div>
         </nav>
@@ -25,16 +39,20 @@
         {{-- ── HERO IMAGE ─────────────────────────────────── --}}
         <header class="project-detail-hero">
             <figure>
-                <img src="{{ $project->thumbnail_url }}" alt="{{ __('Imagen principal de') }} {{ $project->title }}" width="1200" height="800">
+                <img src="{{ $project->thumbnail }}" alt="{{ __('Imagen principal de') }} {{ $title }}" width="1200" height="800">
             </figure>
 
             <div class="project-detail-hero-overlay">
                 <div class="container">
                     <div class="project-detail-hero-badges">
-                        <span class="badge" data-cycle="{{ strtolower($project->cycle) }}">{{ $project->cycle }}</span>
-                        <span class="badge" data-type="year">{{ $project->year }}</span>
+                        @if ($cycleCode)
+                        <span class="badge" data-cycle="{{ strtolower($cycleCode) }}">{{ $cycleName }}</span>
+                        @endif
+                        @if ($year)
+                        <span class="badge" data-type="year">{{ $year }}</span>
+                        @endif
                     </div>
-                    <h1 id="detail-title">{{ $project->title }}</h1>
+                    <h1 id="detail-title">{{ $title }}</h1>
                 </div>
             </div>
         </header>
@@ -49,16 +67,19 @@
                     {{-- Description --}}
                     <section class="project-detail-section" aria-labelledby="section-description">
                         <h2 id="section-description">{{ __('Sobre el proyecto') }}</h2>
-                        <p class="project-detail-description">{{ $project->description }}</p>
+                        <p class="project-detail-description">{{ $desc }}</p>
                     </section>
 
                     {{-- Gallery --}}
-                    @if ($project->images->count())
+                    @if ($project->media->count())
                     <section class="project-detail-section" aria-labelledby="section-gallery">
                         <h2 id="section-gallery">{{ __('Galería') }}</h2>
                         <figure class="project-detail-gallery">
-                            <div class="carousel project-detail-carousel" id="detail-carousel" role="region" aria-label="{{ __('Galería de imágenes del proyecto') }}" data-images="{{ json_encode($project->images->map(fn($img) => ['src' => $img->url, 'alt' => $img->alt])) }}">
-
+                            <div class="carousel project-detail-carousel" id="detail-carousel"
+                                role="region"
+                                aria-label="{{ __('Galería de imágenes del proyecto') }}"
+                                data-images="{{ json_encode($project->media->map(fn ($m) => ['src' => $m->path, 'alt' => $m->alt_text])->values()) }}"
+                            >
                                 <div class="carousel-track"></div>
 
                                 <button class="carousel-btn" data-direction="prev" aria-label="{{ __('Imagen anterior') }}">
@@ -79,23 +100,6 @@
                     </section>
                     @endif
 
-                    {{-- Technologies --}}
-                    @if ($project->technologies->count())
-                    <section class="project-detail-section" aria-labelledby="section-tech">
-                        <h2 id="section-tech">{{ __('Tecnologías utilizadas') }}</h2>
-                        <div class="project-detail-tech-grid">
-                            @foreach ($project->technologies as $tech)
-                            <div class="tech-item">
-                                @if ($tech->icon_url)
-                                <img src="{{ $tech->icon_url }}" alt="{{ $tech->name }}" width="32" height="32" loading="lazy">
-                                @endif
-                                <span>{{ $tech->name }}</span>
-                            </div>
-                            @endforeach
-                        </div>
-                    </section>
-                    @endif
-
                 </div>
 
                 {{-- Sidebar --}}
@@ -104,26 +108,28 @@
                     <div class="project-detail-meta-card">
                         <h3>{{ __('Información') }}</h3>
                         <dl class="project-detail-meta">
-                            <dt>{{ __('Alumno/a') }}</dt>
-                            <dd>{{ $project->student->name ?? '—' }}</dd>
 
-                            <dt>{{ __('Docente') }}</dt>
-                            <dd>{{ $project->professor->name ?? '—' }}</dd>
+                            <dt>{{ __('Alumno/a') }}</dt>
+                            <dd>{{ $project->students->pluck('name')->join(', ') ?: '—' }}</dd>
 
                             <dt>{{ __('Ciclo') }}</dt>
                             <dd>
-                                <span class="badge" data-cycle="{{ strtolower($project->cycle) }}">
-                                    {{ $project->cycle }}
+                                @if ($cycleCode)
+                                <span class="badge" data-cycle="{{ strtolower($cycleCode) }}">
+                                    {{ $cycleName }}
                                 </span>
+                                @else
+                                —
+                                @endif
                             </dd>
 
                             <dt>{{ __('Año') }}</dt>
-                            <dd>{{ $project->year }}</dd>
+                            <dd>{{ $year ?? '—' }}</dd>
 
-                            @if ($project->demo_url)
+                            @if ($project->live_url)
                             <dt>{{ __('Demo') }}</dt>
                             <dd>
-                                <a href="{{ $project->demo_url }}" target="_blank" rel="noopener noreferrer" class="btn" data-variant="primary" data-size="sm">
+                                <a href="{{ $project->live_url }}" target="_blank" rel="noopener noreferrer" class="btn" data-variant="primary" data-size="sm">
                                     {{ __('Ver demo') }} ↗
                                 </a>
                             </dd>
@@ -137,6 +143,7 @@
                                 </a>
                             </dd>
                             @endif
+
                         </dl>
                     </div>
 
