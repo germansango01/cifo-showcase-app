@@ -45,7 +45,8 @@
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-lg font-semibold">{{ __('admin.roles.permissions') }}</h2>
                 <x-admin.ui.badge color="primary">
-                    <span x-text="selectedCount"></span> {{ __('admin.roles.selected_count', ['selected' => '', 'total' => $permissions->flatten()->count()]) }}
+                    <span x-text="selectedCount"></span>
+                    {{ __('admin.roles.selected_count', ['selected' => '', 'total' => $permissions->flatten()->count()]) }}
                 </x-admin.ui.badge>
             </div>
 

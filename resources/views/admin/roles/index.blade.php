@@ -17,12 +17,7 @@
     </div>
 
     <x-admin.ui.card>
-        <x-admin.table.index :items="$roles" :columns="[
-            __('admin.roles.col_role'),
-            __('admin.roles.col_perms'),
-            __('admin.roles.col_users'),
-            '',
-        ]">
+        <x-admin.table.index :items="$roles" :columns="[__('admin.roles.col_role'), __('admin.roles.col_perms'), __('admin.roles.col_users'), '']">
             @forelse($roles as $role)
                 <tr>
                     <td>
@@ -46,8 +41,7 @@
                     </td>
                     <td class="text-right">
                         @if ($role->name !== 'Super Admin')
-                            <x-admin.table.actions :edit-url="route('roles.edit', $role)" :delete-url="route('roles.destroy', $role)"
-                                :delete-confirm="__('admin.roles.delete_confirm', ['name' => $role->name])"
+                            <x-admin.table.actions :edit-url="route('roles.edit', $role)" :delete-url="route('roles.destroy', $role)" :delete-confirm="__('admin.roles.delete_confirm', ['name' => $role->name])"
                                 edit-permission="roles.update" delete-permission="roles.delete" />
                         @else
                             <span class="text-sm opacity-40 italic">{{ __('admin.common.protected') }}</span>

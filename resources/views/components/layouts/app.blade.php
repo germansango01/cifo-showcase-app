@@ -16,7 +16,8 @@
     <title>{{ isset($title) ? $title . ' — ' . config('app.name') : config('app.name') }}</title>
 
     {{-- Favicon --}}
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🟣%3C/text%3E%3C/svg%3E">
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🟣%3C/text%3E%3C/svg%3E">
 
     {{-- Front CSS (vanilla — no Tailwind/DaisyUI) --}}
     @vite('resources/css/app.css')
@@ -45,7 +46,7 @@
     <x-front.mobile-nav />
 
     {{-- ── Back to top ─────────────────────────────────── --}}
-    <button id="back-to-top" aria-label="Volver al inicio de la página">
+    <button id="back-to-top" class="back-to-top" aria-label="Volver al inicio de la página">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M10 4l-6 6h12l-6-6z" fill="currentColor" />
         </svg>
@@ -57,4 +58,5 @@
     {{-- Extra scripts from pages --}}
     {{ $scripts ?? '' }}
 </body>
+
 </html>

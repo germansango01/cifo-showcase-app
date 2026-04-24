@@ -30,8 +30,8 @@
                 <x-admin.ui.input name="name" :label="__('admin.users.full_name')" icon="icofont-ui-user" :value="$user->name"
                     :required="true" x-model="form.name" @change="form.validate('name')" />
 
-                <x-admin.ui.input name="email" :label="__('admin.common.email')" type="email" icon="icofont-email"
-                    :value="$user->email" :required="true" x-model="form.email" @change="form.validate('email')" />
+                <x-admin.ui.input name="email" :label="__('admin.common.email')" type="email" icon="icofont-email" :value="$user->email"
+                    :required="true" x-model="form.email" @change="form.validate('email')" />
             </div>
 
             {{-- Contraseña (opcional) --}}
@@ -43,8 +43,8 @@
                     help="Mínimo 8 caracteres. Déjalo vacío para mantener la actual." x-model="form.password"
                     @change="form.validate('password')" />
 
-                <x-admin.ui.input name="password_confirmation" :label="__('admin.users.confirm_new_password')" type="password"
-                    icon="icofont-lock" placeholder="Repite la nueva contraseña" x-model="form.password_confirmation"
+                <x-admin.ui.input name="password_confirmation" :label="__('admin.users.confirm_new_password')" type="password" icon="icofont-lock"
+                    placeholder="Repite la nueva contraseña" x-model="form.password_confirmation"
                     @change="form.validate('password_confirmation')" />
             </div>
 
@@ -88,12 +88,17 @@
 
             {{-- Meta info --}}
             <div class="mt-6 flex flex-wrap gap-x-6 gap-y-1 text-xs opacity-50">
-                <span><i class="icofont-calendar"></i> {{ __('admin.common.created_at') }}: {{ $user->created_at->format('d/m/Y H:i') }}</span>
-                <span><i class="icofont-clock-time"></i> {{ __('admin.common.updated_at') }}: {{ $user->updated_at->format('d/m/Y H:i') }}</span>
+                <span><i class="icofont-calendar"></i> {{ __('admin.common.created_at') }}:
+                    {{ $user->created_at->format('d/m/Y H:i') }}</span>
+                <span><i class="icofont-clock-time"></i> {{ __('admin.common.updated_at') }}:
+                    {{ $user->updated_at->format('d/m/Y H:i') }}</span>
                 @if ($user->email_verified_at)
-                    <span><i class="icofont-check-circled text-success"></i> {{ __('admin.common.email_verified_at') }}: {{ $user->email_verified_at->format('d/m/Y') }}</span>
+                    <span><i class="icofont-check-circled text-success"></i>
+                        {{ __('admin.common.email_verified_at') }}:
+                        {{ $user->email_verified_at->format('d/m/Y') }}</span>
                 @else
-                    <span><i class="icofont-warning-alt text-warning"></i> {{ __('admin.common.email_not_verified') }}</span>
+                    <span><i class="icofont-warning-alt text-warning"></i>
+                        {{ __('admin.common.email_not_verified') }}</span>
                 @endif
             </div>
 

@@ -22,10 +22,12 @@
                 <label class="input input-bordered flex items-center gap-2 flex-1">
                     <i class="icofont-search-1 opacity-60"></i>
                     <input type="search" name="search" value="{{ request('search') }}"
-                        placeholder="{{ __('admin.users.search_placeholder') }}" class="grow" aria-label="{{ __('admin.users.search_placeholder') }}" />
+                        placeholder="{{ __('admin.users.search_placeholder') }}" class="grow"
+                        aria-label="{{ __('admin.users.search_placeholder') }}" />
                 </label>
 
-                <select name="role" class="select select-bordered w-full sm:w-48" aria-label="{{ __('admin.common.filter') }}">
+                <select name="role" class="select select-bordered w-full sm:w-48"
+                    aria-label="{{ __('admin.common.filter') }}">
                     <option value="">{{ __('admin.users.all_roles') }}</option>
                     @foreach ($roles as $role)
                         <option value="{{ $role->name }}" @selected(request('role') === $role->name)>
@@ -57,9 +59,11 @@
                     <td>
                         <span class="text-sm">{{ $user->email }}</span>
                         @if ($user->email_verified_at)
-                            <i class="icofont-check-circled text-success text-xs ml-1" title="{{ __('admin.users.email_verified_title') }}"></i>
+                            <i class="icofont-check-circled text-success text-xs ml-1"
+                                title="{{ __('admin.users.email_verified_title') }}"></i>
                         @else
-                            <i class="icofont-warning-alt text-warning text-xs ml-1" title="{{ __('admin.users.email_not_verified_title') }}"></i>
+                            <i class="icofont-warning-alt text-warning text-xs ml-1"
+                                title="{{ __('admin.users.email_not_verified_title') }}"></i>
                         @endif
                     </td>
                     <td>

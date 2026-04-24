@@ -24,9 +24,8 @@
 
             {{-- Datos personales --}}
             <div class="grid grid-cols-1 gap-4">
-                <x-admin.ui.input name="name" :label="__('admin.users.full_name')" icon="icofont-ui-user"
-                    placeholder="Nombre Apellido" :required="true" x-model="form.name"
-                    @change="form.validate('name')" />
+                <x-admin.ui.input name="name" :label="__('admin.users.full_name')" icon="icofont-ui-user" placeholder="Nombre Apellido"
+                    :required="true" x-model="form.name" @change="form.validate('name')" />
 
                 <x-admin.ui.input name="email" :label="__('admin.common.email')" type="email" icon="icofont-email"
                     placeholder="usuario@ejemplo.com" :required="true" x-model="form.email"
@@ -39,9 +38,9 @@
                     placeholder="Mínimo 8 caracteres" :required="true" x-model="form.password"
                     @change="form.validate('password')" />
 
-                <x-admin.ui.input name="password_confirmation" :label="__('admin.common.password_confirm')" type="password"
-                    icon="icofont-lock" placeholder="Repite la contraseña" :required="true"
-                    x-model="form.password_confirmation" @change="form.validate('password_confirmation')" />
+                <x-admin.ui.input name="password_confirmation" :label="__('admin.common.password_confirm')" type="password" icon="icofont-lock"
+                    placeholder="Repite la contraseña" :required="true" x-model="form.password_confirmation"
+                    @change="form.validate('password_confirmation')" />
             </div>
 
             {{-- Roles --}}

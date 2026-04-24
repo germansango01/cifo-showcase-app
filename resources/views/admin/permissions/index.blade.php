@@ -10,7 +10,8 @@
             <p class="text-sm opacity-70">{{ __('admin.permissions.subtitle') }}</p>
         </div>
         <x-admin.ui.badge color="neutral">
-            {{ $permissions->flatten()->count() }} {{ __('admin.nav.permissions') }} · {{ $totalRoles }} {{ __('admin.nav.roles') }}
+            {{ $permissions->flatten()->count() }} {{ __('admin.nav.permissions') }} · {{ $totalRoles }}
+            {{ __('admin.nav.roles') }}
         </x-admin.ui.badge>
     </div>
 
@@ -68,7 +69,8 @@
                                                     <x-admin.ui.badge
                                                         color="primary">{{ $role->name }}</x-admin.ui.badge>
                                                 @empty
-                                                    <span class="text-sm opacity-40 italic">{{ __('admin.permissions.unassigned') }}</span>
+                                                    <span
+                                                        class="text-sm opacity-40 italic">{{ __('admin.permissions.unassigned') }}</span>
                                                 @endforelse
                                             </div>
                                         </td>

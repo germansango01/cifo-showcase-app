@@ -77,7 +77,9 @@
                                                 {{ $role->name }}
                                             </x-admin.ui.badge>
                                         @empty
-                                            <x-admin.ui.badge color="neutral" size="sm">{{ __('admin.dashboard.no_role') }}</x-admin.ui.badge>
+                                            <x-admin.ui.badge color="neutral"
+                                                size="sm">{{ __('admin.dashboard.no_role') }}
+                                            </x-admin.ui.badge>
                                         @endforelse
                                     </td>
                                     <td class="text-xs opacity-60 whitespace-nowrap">

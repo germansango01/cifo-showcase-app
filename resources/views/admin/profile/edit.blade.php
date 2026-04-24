@@ -16,8 +16,8 @@
     <div class="tabs tabs-lift" role="tablist" aria-label="{{ __('admin.profile.title') }}">
 
         {{-- ---- Tab: Información ----------------------------------------- --}}
-        <input type="radio" name="profile_tabs" class="tab" aria-label="{{ __('admin.profile.tab_info') }}" id="tab-info"
-            {{ !session('tab') || session('tab') === 'info' ? 'checked' : '' }} />
+        <input type="radio" name="profile_tabs" class="tab" aria-label="{{ __('admin.profile.tab_info') }}"
+            id="tab-info" {{ !session('tab') || session('tab') === 'info' ? 'checked' : '' }} />
 
         <div class="tab-content bg-base-100 border-base-300 rounded-box p-6">
 
@@ -48,8 +48,8 @@
                 @endif
 
                 <div class="grid gap-4 sm:grid-cols-2">
-                    <x-admin.ui.input name="name" :label="__('admin.users.full_name')" icon="icofont-ui-user" :value="$user->name"
-                        required x-model="form.name" @change="form.validate('name')" />
+                    <x-admin.ui.input name="name" :label="__('admin.users.full_name')" icon="icofont-ui-user" :value="$user->name" required
+                        x-model="form.name" @change="form.validate('name')" />
                     <x-admin.ui.input name="email" type="email" :label="__('admin.common.email')" icon="icofont-email"
                         :value="$user->email" required x-model="form.email" @change="form.validate('email')" />
                 </div>
@@ -75,8 +75,8 @@
         </div>
 
         {{-- ---- Tab: Contraseña ------------------------------------------ --}}
-        <input type="radio" name="profile_tabs" class="tab" aria-label="{{ __('admin.profile.tab_password') }}" id="tab-password"
-            {{ session('tab') === 'password' ? 'checked' : '' }} />
+        <input type="radio" name="profile_tabs" class="tab" aria-label="{{ __('admin.profile.tab_password') }}"
+            id="tab-password" {{ session('tab') === 'password' ? 'checked' : '' }} />
 
         <div class="tab-content bg-base-100 border-base-300 rounded-box p-6">
 
@@ -107,14 +107,14 @@
                 @endif
 
                 <div class="grid gap-4 max-w-md">
-                    <x-admin.ui.input name="current_password" type="password" :label="__('admin.profile.current_password')"
-                        icon="icofont-lock" required autocomplete="current-password" x-model="form.current_password"
+                    <x-admin.ui.input name="current_password" type="password" :label="__('admin.profile.current_password')" icon="icofont-lock"
+                        required autocomplete="current-password" x-model="form.current_password"
                         @change="form.validate('current_password')" />
-                    <x-admin.ui.input name="password" type="password" :label="__('admin.profile.new_password')" icon="icofont-lock"
-                        required autocomplete="new-password" help="Mínimo 8 caracteres, mayúscula y número."
+                    <x-admin.ui.input name="password" type="password" :label="__('admin.profile.new_password')" icon="icofont-lock" required
+                        autocomplete="new-password" help="Mínimo 8 caracteres, mayúscula y número."
                         x-model="form.password" @change="form.validate('password')" />
-                    <x-admin.ui.input name="password_confirmation" type="password" :label="__('admin.profile.confirm_new_password')"
-                        icon="icofont-lock" required autocomplete="new-password" x-model="form.password_confirmation"
+                    <x-admin.ui.input name="password_confirmation" type="password" :label="__('admin.profile.confirm_new_password')" icon="icofont-lock"
+                        required autocomplete="new-password" x-model="form.password_confirmation"
                         @change="form.validate('password_confirmation')" />
                 </div>
 
@@ -127,8 +127,8 @@
         </div>
 
         {{-- ---- Tab: Autenticación 2FA ----------------------------------- --}}
-        <input type="radio" name="profile_tabs" class="tab" aria-label="{{ __('admin.profile.tab_2fa') }}" id="tab-2fa"
-            {{ session('tab') === '2fa' ? 'checked' : '' }} />
+        <input type="radio" name="profile_tabs" class="tab" aria-label="{{ __('admin.profile.tab_2fa') }}"
+            id="tab-2fa" {{ session('tab') === '2fa' ? 'checked' : '' }} />
 
         <div class="tab-content bg-base-100 border-base-300 rounded-box p-6">
 
@@ -243,7 +243,8 @@
         </div>
 
         {{-- ---- Tab: Sesiones ------------------------------------------- --}}
-        <input type="radio" name="profile_tabs" class="tab" aria-label="{{ __('admin.profile.tab_sessions') }}" id="tab-sessions"
+        <input type="radio" name="profile_tabs" class="tab"
+            aria-label="{{ __('admin.profile.tab_sessions') }}" id="tab-sessions"
             {{ session('tab') === 'sessions' ? 'checked' : '' }} />
 
         <div class="tab-content bg-base-100 border-base-300 rounded-box p-6">
@@ -288,7 +289,8 @@
                                 <p class="font-medium text-sm">
                                     {{ $agent->platform() }} — {{ $agent->browser() }}
                                     @if ($isCurrentSession)
-                                        <span class="badge badge-success badge-xs ml-1">{{ __('admin.profile.session_current') }}</span>
+                                        <span
+                                            class="badge badge-success badge-xs ml-1">{{ __('admin.profile.session_current') }}</span>
                                     @endif
                                 </p>
                                 <p class="text-xs opacity-60">
@@ -312,8 +314,8 @@
                   ">
                 @csrf
                 @method('DELETE')
-                <x-admin.ui.input name="password" type="password" :label="__('admin.profile.confirm_password_label')"
-                    icon="icofont-lock" required class="max-w-sm mb-4" />
+                <x-admin.ui.input name="password" type="password" :label="__('admin.profile.confirm_password_label')" icon="icofont-lock" required
+                    class="max-w-sm mb-4" />
                 <x-admin.ui.button type="submit" variant="error" outline icon="icofont-logout">
                     {{ __('admin.profile.close_other_sessions') }}
                 </x-admin.ui.button>
