@@ -69,13 +69,14 @@
                     <td>
                         <div class="flex flex-wrap gap-1">
                             @forelse($user->roles as $role)
-                                <x-admin.ui.badge :label="$role->name"
+                                <x-admin.ui.badge
                                     color="{{ match ($role->name) {
-                                        'Super Admin' => 'error',
                                         'Admin' => 'warning',
                                         'Editor' => 'info',
                                         default => 'neutral',
-                                    } }}" />
+                                    } }}">
+                                    {{ $role->name }}
+                                </x-admin.ui.badge>
                             @empty
                                 <span class="text-xs opacity-50">{{ __('admin.users.no_roles') }}</span>
                             @endforelse

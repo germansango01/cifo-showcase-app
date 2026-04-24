@@ -2,71 +2,56 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
     public function run(): void
     {
-        // Reset cached roles and permissions
+        // Resetear caché de Spatie
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // ── Permisos ──────────────────────────────────────────────────────────
+        // Definir Entidades y Acciones CRUD
+        $entities = ['categories', 'courses', 'projects', 'students', 'tags', 'teachers', 'users'];
+        $actions = ['view', 'create', 'update', 'delete'];
+
         $permissions = [
-            // users
-            'users.view', 'users.create', 'users.update', 'users.delete', 'users.assign-roles',
-            // roles
             'roles.view', 'roles.create', 'roles.update', 'roles.delete',
-            // permissions
             'permissions.view',
-            // dashboard
             'dashboard.view',
+            'users.assign-roles',
         ];
+
+        foreach ($entities as $entity) {
+            foreach ($actions as $action) {
+                $permissions[] = "{$entity}.{$action}";
+            }
+        }
 
         foreach ($permissions as $permission) {
             Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'web']);
         }
 
-        // ── Roles ─────────────────────────────────────────────────────────────
+        // Definir Roles
 
-        /** Super Admin — Gate::before bypasses individual checks */
-        $superAdmin = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
-        $superAdmin->syncPermissions(Permission::all());
-
-        /** Admin — todo excepto eliminar Super Admin (controlado en RoleController) */
+        // ADMIN: Tiene todos los permisos explícitos
         $admin = Role::firstOrCreate(['name' => 'Admin', 'guard_name' => 'web']);
         $admin->syncPermissions(Permission::all());
 
-        /** Editor — gestión básica de usuarios + dashboard */
+        // EDITOR: Gestión de contenido
         $editor = Role::firstOrCreate(['name' => 'Editor', 'guard_name' => 'web']);
-        $editor->syncPermissions([
-            'users.view', 'users.update',
-            'dashboard.view',
-        ]);
-
-        /** Viewer — sólo lectura */
-        $viewer = Role::firstOrCreate(['name' => 'Viewer', 'guard_name' => 'web']);
-        $viewer->syncPermissions([
-            'users.view',
-            'roles.view',
-            'permissions.view',
-            'dashboard.view',
-        ]);
-
-        // ── Usuario demo ──────────────────────────────────────────────────────
-        $user = User::firstOrCreate(
-            ['email' => 'admin@cifo.local'],
-            [
-                'name' => 'Super Admin',
-                'password' => bcrypt('password'),
-                'email_verified_at' => now(),
-            ]
+        $editor->syncPermissions(
+            Permission::where('name', 'not like', 'users.%')
+                ->where('name', 'not like', 'roles.%')
+                ->where('name', 'not like', 'permissions.%')
+                ->get()
         );
 
-        $user->assignRole($superAdmin);
+        // VIEWER: Solo lectura
+        $viewer = Role::firstOrCreate(['name' => 'Viewer', 'guard_name' => 'web']);
+        $viewer->syncPermissions(Permission::where('name', 'like', '%.view')->get());
     }
 }

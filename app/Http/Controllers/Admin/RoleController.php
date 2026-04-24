@@ -6,23 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['auth', 'verified']);
-        $this->middleware('can:roles.view')->only(['index']);
-        $this->middleware('can:roles.create')->only(['create', 'store']);
-        $this->middleware('can:roles.update')->only(['edit', 'update']);
-        $this->middleware('can:roles.delete')->only(['destroy']);
-    }
-
     public function index(): View
     {
+        Gate::authorize('roles.view');
+
         $roles = Role::withCount(['permissions', 'users'])->orderBy('name')->paginate(15);
 
         return view('admin.roles.index', compact('roles'));
@@ -30,15 +24,17 @@ class RoleController extends Controller
 
     public function create(): View
     {
-        $permissions = Permission::orderBy('name')->get()->groupBy(function ($p) {
-            return explode('.', $p->name)[0];
-        });
+        Gate::authorize('roles.create');
+
+        $permissions = Permission::orderBy('name')->get()->groupBy(fn ($p) => explode('.', $p->name)[0]);
 
         return view('admin.roles.create', compact('permissions'));
     }
 
     public function store(StoreRoleRequest $request): RedirectResponse
     {
+        Gate::authorize('roles.create');
+
         $role = Role::create(['name' => $request->name, 'guard_name' => 'web']);
         $role->syncPermissions($request->permissions ?? []);
 
@@ -48,12 +44,12 @@ class RoleController extends Controller
 
     public function edit(Role $role): View
     {
-        abort_if($role->name === 'Super Admin', 403, 'El rol Super Admin no puede modificarse.');
+        Gate::authorize('roles.update');
 
-        $permissions = Permission::orderBy('name')->get()->groupBy(function ($p) {
-            return explode('.', $p->name)[0];
-        });
+        // Protección contra edición de Admin
+        abort_if($role->name === 'Admin', 403, 'El rol Admin no puede modificarse.');
 
+        $permissions = Permission::orderBy('name')->get()->groupBy(fn ($p) => explode('.', $p->name)[0]);
         $rolePermissions = $role->permissions->pluck('name')->toArray();
 
         return view('admin.roles.edit', compact('role', 'permissions', 'rolePermissions'));
@@ -61,7 +57,8 @@ class RoleController extends Controller
 
     public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
     {
-        abort_if($role->name === 'Super Admin', 403, 'El rol Super Admin no puede modificarse.');
+        Gate::authorize('roles.update');
+        abort_if($role->name === 'Admin', 403, 'El rol Admin no puede modificarse.');
 
         $role->update(['name' => $request->name]);
         $role->syncPermissions($request->permissions ?? []);
@@ -72,12 +69,13 @@ class RoleController extends Controller
 
     public function destroy(Role $role): RedirectResponse
     {
-        abort_if($role->name === 'Super Admin', 403, 'El rol Super Admin no puede eliminarse.');
+        Gate::authorize('roles.delete');
+        abort_if($role->name === 'Admin', 403, 'El rol Admin no puede eliminarse.');
 
         $name = $role->name;
         $role->delete();
 
         return redirect()->route('roles.index')
-            ->with('success', "Rol «{$name}» eliminado correctamente.");
+            ->with('success', "Rol «{$name}» eliminado.");
     }
 }
