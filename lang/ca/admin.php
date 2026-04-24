@@ -101,8 +101,10 @@ return [
         'col_action' => 'Acció',
         'col_roles'  => 'Rols que l\'inclouen',
         'unassigned' => 'Sense assignar',
-        'perm_count' => ':count permís|:count permisos',
-        'view_link'  => 'Veure permisos',
+        'perm_count'   => ':count permís|:count permisos',
+        'view_link'    => 'Veure permisos',
+        'seeder_notice'=> 'Els permisos són immutables des de la interfície. Per afegir o modificar permisos, actualitza el seeder i executa',
+        'seeder_cmd'   => 'php artisan db:seed --class=RolesAndPermissionsSeeder',
     ],
     'profile' => [
         'title'                   => 'El meu perfil',

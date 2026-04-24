@@ -16,9 +16,8 @@
     </div>
 
     <x-admin.ui.alert type="info" class="mb-6">
-        Los permisos son inmutables desde la interfaz. Para añadir o modificar permisos, actualiza el seeder y ejecuta
-        <code class="font-mono text-xs bg-base-300 px-1 py-0.5 rounded">php artisan db:seed
-            --class=RolesAndPermissionsSeeder</code>.
+        {{ __('admin.permissions.seeder_notice') }}
+        <code class="font-mono text-xs bg-base-300 px-1 py-0.5 rounded">{{ __('admin.permissions.seeder_cmd') }}</code>.
     </x-admin.ui.alert>
 
     <div class="space-y-3">
