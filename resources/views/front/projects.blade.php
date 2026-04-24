@@ -100,9 +100,9 @@
 
             {{-- Pagination --}}
             @if ($projects->hasPages())
-                <nav class="pagination-wrapper" aria-label="{{ __('front.projects.pagination_aria') }}">
+                <div class="pagination-wrapper" aria-label="{{ __('front.projects.pagination_aria') }}">
                     {{ $projects->withQueryString()->links('components.front.pagination') }}
-                </nav>
+                </div>
             @endif
 
         </div>

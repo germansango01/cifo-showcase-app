@@ -1,6 +1,7 @@
 /* ══════════════════════════════════════════════════════════
    PAGINATION.CSS — CIFO Violeta Showcase
-   Page pagination — Laravel-ready (replaced by $projects->links())
+   Targets blade structure: nav.pagination > ul.pagination-list >
+   li.pagination-item[.active|.disabled] > a|span.pagination-link
    ══════════════════════════════════════════════════════════ */
 
 .pagination {
@@ -12,11 +13,14 @@
     padding-block: var(--space-12) var(--space-16);
 }
 
+.pagination-list {
+    display: flex;
+}
+
 /* ─────────────────────────────────────────
-   BASE ITEM
+   BASE ITEM — applies to links AND spans
    ───────────────────────────────────────── */
-.pagination a,
-.pagination button {
+.pagination-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -39,15 +43,13 @@
         box-shadow var(--transition-fast);
 }
 
-.pagination a:hover,
-.pagination button:hover {
+a.pagination-link:hover {
     border-color: var(--color-primary-400);
     color: var(--color-primary-700);
     background: var(--color-primary-50);
 }
 
-.pagination a:focus-visible,
-.pagination button:focus-visible {
+a.pagination-link:focus-visible {
     outline: 2px solid var(--color-primary-500);
     outline-offset: 2px;
 }
@@ -55,7 +57,7 @@
 /* ─────────────────────────────────────────
    CURRENT PAGE
    ───────────────────────────────────────── */
-.pagination [aria-current="page"] {
+.pagination-item.active .pagination-link {
     background: var(--color-primary-600);
     border-color: var(--color-primary-600);
     color: var(--color-neutral-0);
@@ -65,33 +67,23 @@
 }
 
 /* ─────────────────────────────────────────
-   PREV / NEXT
+   DISABLED — prev/next at boundaries
+   aria-disabled="true" on the <li>
    ───────────────────────────────────────── */
-.pagination-prev,
-.pagination-next {
-    font-size: var(--text-base);
-    gap: var(--space-1);
-}
-
-/* Disabled state */
-.pagination-prev[aria-disabled="true"],
-.pagination-next[aria-disabled="true"] {
+.pagination-item[aria-disabled="true"] .pagination-link {
     opacity: 0.38;
     cursor: default;
     pointer-events: none;
 }
 
 /* ─────────────────────────────────────────
-   ELLIPSIS SEPARATOR
+   ELLIPSIS — aria-hidden="true" on the <li>
    ───────────────────────────────────────── */
-.pagination-ellipsis {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 2.5rem;
-    height: 2.5rem;
-    font-size: var(--text-sm);
+.pagination-item[aria-hidden="true"] .pagination-link {
+    border-color: transparent;
+    background: transparent;
     color: var(--color-text-muted);
     cursor: default;
+    pointer-events: none;
     user-select: none;
 }

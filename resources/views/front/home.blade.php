@@ -19,7 +19,7 @@
             </div>
 
             <div class="hero-visual reveal" aria-hidden="true">
-                <img src="{{ asset('img/hero-pattern.svg') }}" alt="" width="420" height="263">
+                <img src="{{ asset('img/hero-pattern.svg') }}" alt="Hero Pattern" width="420" height="263">
             </div>
 
         </div>

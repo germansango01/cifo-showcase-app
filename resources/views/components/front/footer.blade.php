@@ -27,15 +27,6 @@
                             <a href="{{ route('about') }}" class="footer-link">{{ __('front.nav.about') }}</a>
                         </div>
                     </div>
-                    <div>
-                        <p class="footer-link-group-title">{{ __('front.footer.cycles_title') }}</p>
-                        <div class="footer-link-group-items">
-                            <span class="footer-cycle-item">DAW — {{ __('front.footer.cycle_daw') }}</span>
-                            <span class="footer-cycle-item">DAM — {{ __('front.footer.cycle_dam') }}</span>
-                            <span class="footer-cycle-item">ASIR — {{ __('front.footer.cycle_asir') }}</span>
-                            <span class="footer-cycle-item">SMX — {{ __('front.footer.cycle_smx') }}</span>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -43,7 +34,6 @@
 
             <div class="footer-bottom">
                 <p>&copy; {{ date('Y') }} CIFO La Violeta — Barcelona. {{ __('front.footer.rights') }}</p>
-                <p>{{ __('front.footer.made_by') }}</p>
             </div>
 
         </div>
