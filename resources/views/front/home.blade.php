@@ -32,23 +32,24 @@
             <header class="section-header reveal">
                 <span class="section-eyebrow">{{ __('front.home.featured_eyebrow') }}</span>
                 <h2 id="featured-title">{{ __('front.home.featured_title') }}</h2>
-                <a href="{{ route('projects') }}" class="btn" data-variant="ghost">{{ __('front.home.featured_view_all') }}</a>
+                <a href="{{ route('projects') }}" class="btn"
+                    data-variant="ghost">{{ __('front.home.featured_view_all') }}</a>
             </header>
 
             {{-- Row 1: first 3 featured --}}
             <div class="featured-grid">
                 @foreach ($featured->take(3) as $index => $project)
-                <x-front.project-card :project="$project" :class="$index === 0 ? 'featured-card-main' : ''" />
+                    <x-front.project-card :project="$project" :class="$index === 0 ? 'featured-card-main' : ''" />
                 @endforeach
             </div>
 
             {{-- Row 2: next 3 featured (inverted layout) --}}
             @if ($featured->count() > 3)
-            <div class="featured-grid featured-grid--inverted">
-                @foreach ($featured->skip(3)->take(3) as $project)
-                <x-front.project-card :project="$project" />
-                @endforeach
-            </div>
+                <div class="featured-grid featured-grid--inverted">
+                    @foreach ($featured->skip(3)->take(3) as $project)
+                        <x-front.project-card :project="$project" />
+                    @endforeach
+                </div>
             @endif
 
         </div>
@@ -87,11 +88,13 @@
                     <span class="section-eyebrow">{{ __('front.home.teaser_eyebrow') }}</span>
                     <h2 id="teaser-title">{{ __('front.home.teaser_title') }}</h2>
                     <p>{{ __('front.home.teaser_body') }}</p>
-                    <a href="{{ route('about') }}" class="btn" data-variant="primary">{{ __('front.home.teaser_link') }}</a>
+                    <a href="{{ route('about') }}" class="btn"
+                        data-variant="primary">{{ __('front.home.teaser_link') }}</a>
                 </div>
 
                 <figure class="about-teaser-figure">
-                    <img src="https://picsum.photos/seed/cifo-building/800/600" alt="{{ __('front.home.teaser_img_alt') }}" width="800" height="600" loading="lazy">
+                    <img src="https://picsum.photos/seed/cifo-building/800/600"
+                        alt="{{ __('front.home.teaser_img_alt') }}" width="800" height="600" loading="lazy">
                 </figure>
 
             </div>

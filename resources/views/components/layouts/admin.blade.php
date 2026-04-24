@@ -1,7 +1,8 @@
 @props(['title' => null])
 
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="cifo-light" x-data="{ theme: localStorage.getItem('cifo-theme') || 'cifo-light' }" x-init="$el.setAttribute('data-theme', theme)" :data-theme="theme">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="cifo-light" x-data="{ theme: localStorage.getItem('cifo-theme') || 'cifo-light' }"
+    x-init="$el.setAttribute('data-theme', theme)" :data-theme="theme">
 
 <head>
     <meta charset="utf-8">
@@ -25,24 +26,24 @@
             {{-- Flash alerts --}}
             <div class="px-4 lg:px-6 pt-4 max-w-7xl w-full mx-auto space-y-2">
                 @if (session('success'))
-                <x-admin.ui.alert type="success" :dismissible="true">
-                    {{ session('success') }}
-                </x-admin.ui.alert>
+                    <x-admin.ui.alert type="success" :dismissible="true">
+                        {{ session('success') }}
+                    </x-admin.ui.alert>
                 @endif
                 @if (session('error'))
-                <x-admin.ui.alert type="error" :dismissible="true">
-                    {{ session('error') }}
-                </x-admin.ui.alert>
+                    <x-admin.ui.alert type="error" :dismissible="true">
+                        {{ session('error') }}
+                    </x-admin.ui.alert>
                 @endif
                 @if (session('warning'))
-                <x-admin.ui.alert type="warning" :dismissible="true">
-                    {{ session('warning') }}
-                </x-admin.ui.alert>
+                    <x-admin.ui.alert type="warning" :dismissible="true">
+                        {{ session('warning') }}
+                    </x-admin.ui.alert>
                 @endif
                 @if (session('info'))
-                <x-admin.ui.alert type="info" :dismissible="true">
-                    {{ session('info') }}
-                </x-admin.ui.alert>
+                    <x-admin.ui.alert type="info" :dismissible="true">
+                        {{ session('info') }}
+                    </x-admin.ui.alert>
                 @endif
             </div>
 

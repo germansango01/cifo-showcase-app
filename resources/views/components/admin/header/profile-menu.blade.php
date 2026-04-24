@@ -59,7 +59,8 @@
             </a>
         </li>
         <li role="none">
-            <a href="{{ route('profile.edit') }}#two-factor" class="flex items-center gap-2 rounded-lg" role="menuitem">
+            <a href="{{ route('profile.edit') }}#two-factor" class="flex items-center gap-2 rounded-lg"
+                role="menuitem">
                 <i class="icofont-shield text-base" aria-hidden="true"></i>
                 {{ __('admin.profile.two_factor') }}
             </a>

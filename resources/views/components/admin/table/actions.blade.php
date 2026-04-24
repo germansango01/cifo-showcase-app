@@ -5,7 +5,8 @@
     {{-- Show --}}
     @if ($showHref)
         <div class="tooltip tooltip-left" data-tip="{{ __('admin.common.view') }}">
-            <a href="{{ $showHref }}" class="btn btn-ghost btn-xs btn-square" aria-label="{{ __('admin.common.view') }}">
+            <a href="{{ $showHref }}" class="btn btn-ghost btn-xs btn-square"
+                aria-label="{{ __('admin.common.view') }}">
                 <i class="icofont-eye text-base text-info"></i>
             </a>
         </div>
@@ -14,7 +15,8 @@
     {{-- Edit --}}
     @if ($editHref)
         <div class="tooltip tooltip-left" data-tip="{{ __('admin.common.edit') }}">
-            <a href="{{ $editHref }}" class="btn btn-ghost btn-xs btn-square" aria-label="{{ __('admin.common.edit') }}">
+            <a href="{{ $editHref }}" class="btn btn-ghost btn-xs btn-square"
+                aria-label="{{ __('admin.common.edit') }}">
                 <i class="icofont-edit text-base text-warning"></i>
             </a>
         </div>

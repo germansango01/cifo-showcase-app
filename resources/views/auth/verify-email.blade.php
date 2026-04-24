@@ -12,9 +12,9 @@
 
     {{-- Resend success --}}
     @if (session('status') === 'verification-link-sent')
-    <x-admin.ui.alert type="success" dismissible class="mb-4">
-        {{ __('admin.auth.verify_resent') }}
-    </x-admin.ui.alert>
+        <x-admin.ui.alert type="success" dismissible class="mb-4">
+            {{ __('admin.auth.verify_resent') }}
+        </x-admin.ui.alert>
     @endif
 
     <div class="prose prose-sm max-w-none mb-6">

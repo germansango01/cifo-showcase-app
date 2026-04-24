@@ -19,9 +19,9 @@
 
         {{-- Success de sesión (fallback) --}}
         @if (session('status'))
-        <x-admin.ui.alert type="success" class="mb-4">
-            {{ session('status') }}
-        </x-admin.ui.alert>
+            <x-admin.ui.alert type="success" class="mb-4">
+                {{ session('status') }}
+            </x-admin.ui.alert>
         @endif
 
         <form @submit.prevent="submit" novalidate>
@@ -32,12 +32,16 @@
                     <legend class="fieldset-legend">
                         {{ __('admin.auth.email') }} <span class="text-error">*</span>
                     </legend>
-                    <label class="input input-bordered w-full flex items-center gap-2" :class="form.invalid('email') && 'input-error'">
+                    <label class="input input-bordered w-full flex items-center gap-2"
+                        :class="form.invalid('email') && 'input-error'">
                         <i class="icofont-email opacity-60"></i>
-                        <input type="email" name="email" autocomplete="email" placeholder="correo@ejemplo.com" class="grow" x-model="form.email" @blur="validateField('email')" :aria-invalid="form.invalid('email')" />
+                        <input type="email" name="email" autocomplete="email" placeholder="correo@ejemplo.com"
+                            class="grow" x-model="form.email" @blur="validateField('email')"
+                            :aria-invalid="form.invalid('email')" />
                     </label>
                     <p class="fieldset-label">
-                        <span class="text-error flex items-center gap-1" x-show="form.invalid('email')" x-cloak x-transition>
+                        <span class="text-error flex items-center gap-1" x-show="form.invalid('email')" x-cloak
+                            x-transition>
                             <i class="icofont-warning-alt"></i>
                             <span x-text="form.errors.email"></span>
                         </span>

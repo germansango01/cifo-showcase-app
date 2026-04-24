@@ -25,8 +25,8 @@
             <x-admin.ui.input name="password" :label="__('admin.auth.new_password')" type="password" icon="icofont-lock"
                 placeholder="Mínimo 8 caracteres" autocomplete="new-password" />
 
-            <x-admin.ui.input name="password_confirmation" :label="__('admin.auth.password_confirm')" type="password"
-                icon="icofont-lock" placeholder="Repite la contraseña" autocomplete="new-password" />
+            <x-admin.ui.input name="password_confirmation" :label="__('admin.auth.password_confirm')" type="password" icon="icofont-lock"
+                placeholder="Repite la contraseña" autocomplete="new-password" />
 
             <x-admin.ui.button type="submit" icon="icofont-check-circled" block>
                 {{ __('admin.auth.reset_btn') }}

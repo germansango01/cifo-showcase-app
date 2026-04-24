@@ -19,12 +19,16 @@
                     <legend class="fieldset-legend">
                         {{ __('admin.auth.email') }} <span class="text-error">*</span>
                     </legend>
-                    <label class="input input-bordered w-full flex items-center gap-2" :class="form.invalid('email') && 'input-error'">
+                    <label class="input input-bordered w-full flex items-center gap-2"
+                        :class="form.invalid('email') && 'input-error'">
                         <i class="icofont-email opacity-60"></i>
-                        <input type="email" name="email" autocomplete="email" placeholder="correo@ejemplo.com" class="grow" x-model="form.email" @blur="validateField('email')" :aria-invalid="form.invalid('email')" />
+                        <input type="email" name="email" autocomplete="email" placeholder="correo@ejemplo.com"
+                            class="grow" x-model="form.email" @blur="validateField('email')"
+                            :aria-invalid="form.invalid('email')" />
                     </label>
                     <p class="fieldset-label">
-                        <span class="text-error flex items-center gap-1" x-show="form.invalid('email')" x-cloak x-transition>
+                        <span class="text-error flex items-center gap-1" x-show="form.invalid('email')" x-cloak
+                            x-transition>
                             <i class="icofont-warning-alt"></i>
                             <span x-text="form.errors.email"></span>
                         </span>
@@ -36,12 +40,16 @@
                     <legend class="fieldset-legend">
                         {{ __('admin.auth.password') }} <span class="text-error">*</span>
                     </legend>
-                    <label class="input input-bordered w-full flex items-center gap-2" :class="form.invalid('password') && 'input-error'">
+                    <label class="input input-bordered w-full flex items-center gap-2"
+                        :class="form.invalid('password') && 'input-error'">
                         <i class="icofont-lock opacity-60"></i>
-                        <input type="password" name="password" autocomplete="current-password" placeholder="••••••••" class="grow" x-model="form.password" @blur="validateField('password')" :aria-invalid="form.invalid('password')" />
+                        <input type="password" name="password" autocomplete="current-password" placeholder="••••••••"
+                            class="grow" x-model="form.password" @blur="validateField('password')"
+                            :aria-invalid="form.invalid('password')" />
                     </label>
                     <p class="fieldset-label">
-                        <span class="text-error flex items-center gap-1" x-show="form.invalid('password')" x-cloak x-transition>
+                        <span class="text-error flex items-center gap-1" x-show="form.invalid('password')" x-cloak
+                            x-transition>
                             <i class="icofont-warning-alt"></i>
                             <span x-text="form.errors.password"></span>
                         </span>
@@ -51,7 +59,8 @@
                 {{-- Remember + Forgot --}}
                 <div class="flex items-center justify-between">
                     <label class="label cursor-pointer gap-2">
-                        <input type="checkbox" name="remember" class="checkbox checkbox-primary checkbox-sm" x-model="form.remember" />
+                        <input type="checkbox" name="remember" class="checkbox checkbox-primary checkbox-sm"
+                            x-model="form.remember" />
                         <span class="label-text text-sm">{{ __('admin.auth.remember') }}</span>
                     </label>
                     <a href="{{ route('password.request') }}" class="text-sm text-primary hover:underline">

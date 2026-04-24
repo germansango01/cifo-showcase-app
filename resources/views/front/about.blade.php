@@ -37,7 +37,8 @@
             {{-- Misión --}}
             <div class="about-split reveal">
                 <div class="about-split-media">
-                    <img src="https://picsum.photos/seed/cifo-mission/800/600" alt="{{ __('front.about.mission_img_alt') }}" width="800" height="600" loading="lazy">
+                    <img src="https://picsum.photos/seed/cifo-mission/800/600"
+                        alt="{{ __('front.about.mission_img_alt') }}" width="800" height="600" loading="lazy">
                 </div>
                 <div class="about-split-content">
                     <div class="about-split-icon" aria-hidden="true">
@@ -45,10 +46,15 @@
                             <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2" />
                             <circle cx="20" cy="20" r="8" fill="currentColor" opacity="0.2" />
                             <circle cx="20" cy="20" r="3" fill="currentColor" />
-                            <line x1="20" y1="2" x2="20" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                            <line x1="20" y1="30" x2="20" y2="38" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                            <line x1="2" y1="20" x2="10" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                            <line x1="30" y1="20" x2="38" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+                            <line x1="20" y1="2" x2="20" y2="10" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" />
+                            <line x1="20" y1="30" x2="20" y2="38" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" />
+                            <line x1="2" y1="20" x2="10" y2="20" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" />
+                            <line x1="30" y1="20" x2="38" y2="20" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" />
+                        </svg>
                     </div>
                     <h3>{{ __('front.about.mission_heading') }}</h3>
                     <p>{{ __('front.about.mission_body') }}</p>
@@ -58,14 +64,17 @@
             {{-- Visión --}}
             <div class="about-split reveal" data-reverse>
                 <div class="about-split-media">
-                    <img src="https://picsum.photos/seed/cifo-vision/800/600" alt="{{ __('front.about.vision_img_alt') }}" width="800" height="600" loading="lazy">
+                    <img src="https://picsum.photos/seed/cifo-vision/800/600"
+                        alt="{{ __('front.about.vision_img_alt') }}" width="800" height="600" loading="lazy">
                 </div>
                 <div class="about-split-content">
                     <div class="about-split-icon" aria-hidden="true">
                         <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                            <path d="M20 8C10 8 3 20 3 20C3 20 10 32 20 32C30 32 37 20 37 20C37 20 30 8 20 8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                            <path d="M20 8C10 8 3 20 3 20C3 20 10 32 20 32C30 32 37 20 37 20C37 20 30 8 20 8Z"
+                                stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
                             <circle cx="20" cy="20" r="6" stroke="currentColor" stroke-width="2" />
-                            <circle cx="20" cy="20" r="2.5" fill="currentColor" /></svg>
+                            <circle cx="20" cy="20" r="2.5" fill="currentColor" />
+                        </svg>
                     </div>
                     <h3>{{ __('front.about.vision_heading') }}</h3>
                     <p>{{ __('front.about.vision_body') }}</p>
@@ -86,11 +95,13 @@
 
             <div class="about-stats-grid">
                 <div class="about-stats-item reveal">
-                    <span class="about-stats-number" aria-label="{{ __('front.about.stats_graduates_aria') }}">+500</span>
+                    <span class="about-stats-number"
+                        aria-label="{{ __('front.about.stats_graduates_aria') }}">+500</span>
                     <span class="about-stats-label">{{ __('front.about.stats_graduates') }}</span>
                 </div>
                 <div class="about-stats-item reveal">
-                    <span class="about-stats-number" aria-label="{{ __('front.about.stats_projects_aria') }}">+120</span>
+                    <span class="about-stats-number"
+                        aria-label="{{ __('front.about.stats_projects_aria') }}">+120</span>
                     <span class="about-stats-label">{{ __('front.about.stats_projects') }}</span>
                 </div>
                 <div class="about-stats-item reveal">
@@ -98,7 +109,8 @@
                     <span class="about-stats-label">{{ __('front.about.stats_years') }}</span>
                 </div>
                 <div class="about-stats-item reveal">
-                    <span class="about-stats-number" aria-label="{{ __('front.about.stats_teachers_aria') }}">20</span>
+                    <span class="about-stats-number"
+                        aria-label="{{ __('front.about.stats_teachers_aria') }}">20</span>
                     <span class="about-stats-label">{{ __('front.about.stats_teachers') }}</span>
                 </div>
             </div>
@@ -111,14 +123,17 @@
         <div class="container">
 
             <header class="about-programs-header reveal">
-                <h2 class="about-programs-title" id="about-programs-title">{{ __('front.about.programs_title') }}</h2>
+                <h2 class="about-programs-title" id="about-programs-title">{{ __('front.about.programs_title') }}
+                </h2>
                 <p class="about-programs-intro">{{ __('front.about.programs_intro') }}</p>
             </header>
 
             {{-- DAW --}}
             <div class="about-split reveal" aria-labelledby="program-daw-title">
                 <div class="about-split-media">
-                    <img src="https://picsum.photos/seed/cifo-daw/800/600" alt="{{ __('front.about.program_daw_img_alt') }}" width="800" height="600" loading="lazy">
+                    <img src="https://picsum.photos/seed/cifo-daw/800/600"
+                        alt="{{ __('front.about.program_daw_img_alt') }}" width="800" height="600"
+                        loading="lazy">
                 </div>
                 <div class="about-split-content">
                     <span class="badge" data-cycle="daw">DAW</span>
@@ -133,7 +148,9 @@
             {{-- DAM --}}
             <div class="about-split reveal" data-reverse aria-labelledby="program-dam-title">
                 <div class="about-split-media">
-                    <img src="https://picsum.photos/seed/cifo-dam/800/600" alt="{{ __('front.about.program_dam_img_alt') }}" width="800" height="600" loading="lazy">
+                    <img src="https://picsum.photos/seed/cifo-dam/800/600"
+                        alt="{{ __('front.about.program_dam_img_alt') }}" width="800" height="600"
+                        loading="lazy">
                 </div>
                 <div class="about-split-content">
                     <span class="badge" data-cycle="dam">DAM</span>
@@ -148,7 +165,9 @@
             {{-- ASIR --}}
             <div class="about-split reveal" aria-labelledby="program-asir-title">
                 <div class="about-split-media">
-                    <img src="https://picsum.photos/seed/cifo-asir/800/600" alt="{{ __('front.about.program_asir_img_alt') }}" width="800" height="600" loading="lazy">
+                    <img src="https://picsum.photos/seed/cifo-asir/800/600"
+                        alt="{{ __('front.about.program_asir_img_alt') }}" width="800" height="600"
+                        loading="lazy">
                 </div>
                 <div class="about-split-content">
                     <span class="badge" data-cycle="asir">ASIR</span>
@@ -163,7 +182,9 @@
             {{-- SMX --}}
             <div class="about-split reveal" data-reverse aria-labelledby="program-smx-title">
                 <div class="about-split-media">
-                    <img src="https://picsum.photos/seed/cifo-smx/800/600" alt="{{ __('front.about.program_smx_img_alt') }}" width="800" height="600" loading="lazy">
+                    <img src="https://picsum.photos/seed/cifo-smx/800/600"
+                        alt="{{ __('front.about.program_smx_img_alt') }}" width="800" height="600"
+                        loading="lazy">
                 </div>
                 <div class="about-split-content">
                     <span class="badge" data-cycle="smx">SMX</span>
