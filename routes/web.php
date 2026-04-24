@@ -26,16 +26,15 @@ Route::get('/projects/{project:slug}', [ProjectController::class, 'show']) ->nam
 Route::get('/about', [PageController::class, 'about'])->name('about');
 
 // ── Admin Dashboard ──────────────────────────────────────────
+
 Route::middleware(['auth', 'verified'])
-    ->prefix('admin')
-    ->group(function () {
+->prefix('admin')
+->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('users', UserController::class);
+    Route::resource('roles', RoleController::class)->except('show');
+    Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions.index');
 
-        Route::resource('users', UserController::class);
-        Route::resource('roles', RoleController::class)->except('show');
-        Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions.index');
-
-        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-
-    });
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+});
