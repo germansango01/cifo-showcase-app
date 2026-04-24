@@ -8,7 +8,6 @@ use Illuminate\Database\Seeder;
 
 class ProjectMediaSeeder extends Seeder
 {
-   
     public function run(): void
     {
         Project::all()->each(function ($project) {

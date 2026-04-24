@@ -1,92 +1,78 @@
 /**
- * Modal module — quick-view for project cards.
- * Opens a modal with full project info and image carousel.
- * Implements: focus trap, scroll lock, keyboard close, backdrop close.
+ * resources/js/front/modal.js
+ * Project quick-view modal — reads project data from the card's data-project attribute.
  */
 
-import { projectsData } from './data.js';
 import { initCarousel, destroyCarousel } from './carousel.js';
 
 const modal = document.getElementById('project-modal');
-const backdrop = modal.querySelector('.modal-backdrop');
-const closeBtn = document.getElementById('modal-close-btn');
+if (!modal) throw new Error(); // guard: module only runs on pages with the modal
 
-const elBadges = document.getElementById('modal-badges');
-const elTitle = document.getElementById('modal-title');
-const elDescription = document.getElementById('modal-description');
-const elMeta = document.getElementById('modal-meta');
-const elTechnologies = document.getElementById('modal-technologies');
-const elTags = document.getElementById('modal-tags');
-const elDetailLink = document.getElementById('modal-detail-link');
+const backdrop  = modal.querySelector('.modal-backdrop');
+const closeBtn  = document.getElementById('modal-close-btn');
+const elBadges  = document.getElementById('modal-badges');
+const elTitle   = document.getElementById('modal-title');
+const elDesc    = document.getElementById('modal-description');
+const elMeta    = document.getElementById('modal-meta');
+const elTech    = document.getElementById('modal-technologies');
+const elTags    = document.getElementById('modal-tags');
+const elLink    = document.getElementById('modal-detail-link');
 
-let triggerElement = null;
+let triggerEl = null;
 
 // ── Populate ─────────────────────────────────────────
 
-const BADGE_CYCLE_MAP = {
-    DAW: 'daw',
-    DAM: 'dam',
-    ASIR: 'asir',
-    SMX: 'smx',
-};
-
 function populateModal(project) {
-    const cycleSlug = BADGE_CYCLE_MAP[project.courseCode] ?? 'daw';
+    const cycleSlug = (project.cycle ?? '').toLowerCase();
 
     elBadges.innerHTML = `
-    <span class="badge" data-cycle="${cycleSlug}">${project.courseCode}</span>
-    <span class="badge" data-type="year">${project.year}</span>
-  `;
+        <span class="badge" data-cycle="${cycleSlug}">${project.cycleName || project.cycle || ''}</span>
+        <span class="badge" data-type="year">${project.year || ''}</span>`;
 
-    elTitle.textContent = project.title;
-    elDescription.textContent = project.descriptionLong;
+    elTitle.textContent = project.title ?? '';
+    elDesc.textContent  = project.description ?? '';
 
     elMeta.innerHTML = `
-    <div class="modal-meta-item">
-      <span class="modal-meta-label">Alumno/a</span>
-      <span class="modal-meta-value">${project.student}</span>
-    </div>
-    <div class="modal-meta-item">
-      <span class="modal-meta-label">Profesor/a</span>
-      <span class="modal-meta-value">Prof. ${project.professor}</span>
-    </div>
-    <div class="modal-meta-item">
-      <span class="modal-meta-label">Año</span>
-      <span class="modal-meta-value">${project.year}</span>
-    </div>
-  `;
+        <div class="modal-meta-item">
+            <span class="modal-meta-label">Alumno/a</span>
+            <span class="modal-meta-value">${(project.students ?? []).join(', ') || '—'}</span>
+        </div>
+        <div class="modal-meta-item">
+            <span class="modal-meta-label">Ciclo</span>
+            <span class="modal-meta-value">${project.cycleName || project.cycle || '—'}</span>
+        </div>
+        <div class="modal-meta-item">
+            <span class="modal-meta-label">Año</span>
+            <span class="modal-meta-value">${project.year || '—'}</span>
+        </div>`;
 
-    elTechnologies.innerHTML = `
-    <span class="modal-tech-label">Tecnologías</span>
-    <div class="modal-tech-list">
-      ${project.technologies.map((t) => `<span class="tech-chip">${t}</span>`).join('')}
-    </div>
-  `;
+    elTech.innerHTML = '';
 
-    elTags.innerHTML = `
-    <div class="modal-tag-list">
-      ${project.tags.map((tag) => `<span class="modal-tag">#${tag}</span>`).join('')}
-    </div>
-  `;
+    elTags.innerHTML = (project.tags ?? []).length
+        ? `<div class="modal-tag-list">${project.tags.map((t) => `<span class="modal-tag">#${t}</span>`).join('')}</div>`
+        : '';
 
-    elDetailLink.href = `project-detail.html?id=${project.id}`;
-    elDetailLink.setAttribute('aria-label', `Ver proyecto completo: ${project.title}`);
+    elLink.href = project.detailUrl ?? '#';
+    elLink.setAttribute('aria-label', `Ver proyecto completo: ${project.title}`);
 }
 
 // ── Open / Close ─────────────────────────────────────
 
 function openModal(projectId) {
-    const project = projectsData.find((p) => p.id === projectId);
-    if (!project) return;
+    const btn     = document.querySelector(`[data-open-modal="${projectId}"]`);
+    const article = btn?.closest('[data-project]');
+    if (!article) return;
 
+    const project = JSON.parse(article.dataset.project);
     populateModal(project);
-    initCarousel(project.imagesGallery);
+
+    const images = project.thumbnail ? [project.thumbnail] : [];
+    initCarousel(images);
 
     modal.setAttribute('aria-hidden', 'false');
     modal.classList.add('is-open');
     document.body.style.overflow = 'hidden';
 
-    // Move focus to close button
     requestAnimationFrame(() => closeBtn.focus());
 }
 
@@ -97,16 +83,15 @@ function closeModal() {
 
     destroyCarousel();
 
-    // Restore focus to the element that opened the modal
-    if (triggerElement) {
-        triggerElement.focus();
-        triggerElement = null;
+    if (triggerEl) {
+        triggerEl.focus();
+        triggerEl = null;
     }
 }
 
 // ── Focus trap ───────────────────────────────────────
 
-function getFocusableElements() {
+function getFocusable() {
     return Array.from(
         modal.querySelectorAll(
             'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])'
@@ -117,34 +102,28 @@ function getFocusableElements() {
 function trapFocus(e) {
     if (!modal.classList.contains('is-open')) return;
 
-    const focusable = getFocusableElements();
+    const focusable = getFocusable();
     const first = focusable[0];
-    const last = focusable[focusable.length - 1];
+    const last  = focusable[focusable.length - 1];
 
     if (e.key === 'Tab') {
-        if (e.shiftKey) {
-            if (document.activeElement === first) {
-                e.preventDefault();
-                last.focus();
-            }
-        } else {
-            if (document.activeElement === last) {
-                e.preventDefault();
-                first.focus();
-            }
+        if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
         }
     }
 
-    if (e.key === 'Escape') {
-        closeModal();
-    }
+    if (e.key === 'Escape') closeModal();
 }
 
 // ── Event listeners ──────────────────────────────────
 
 document.querySelectorAll('[data-open-modal]').forEach((btn) => {
     btn.addEventListener('click', (e) => {
-        triggerElement = e.currentTarget;
+        triggerEl = e.currentTarget;
         openModal(btn.dataset.openModal);
     });
 });

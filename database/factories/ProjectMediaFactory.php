@@ -10,14 +10,13 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ProjectMediaFactory extends Factory
 {
-    
     public function definition(): array
     {
         $type = $this->faker->randomElement([
             'image',
             'video',
             'document',
-            'pdf'
+            'pdf',
         ]);
 
         return [

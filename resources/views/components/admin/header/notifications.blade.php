@@ -52,7 +52,7 @@
                         <p class="text-xs text-base-content/50 mt-0.5" x-text="notif.time"></p>
                     </div>
                     {{-- Indicador de no leída --}}
-                    <span x-show="!notif.read" class="mt-1.5 w-2 h-2 bg-primary rounded-full flex-shrink-0"
+                    <span x-show="!notif.read" class="mt-1.5 w-2 h-2 bg-primary rounded-full shrink-0"
                         aria-hidden="true"></span>
                 </li>
             </template>

@@ -26,16 +26,21 @@
                         <legend class="fieldset-legend">
                             Código de autenticación <span class="text-error">*</span>
                         </legend>
-                        <label class="input input-bordered w-full flex items-center gap-2
+                        <label
+                            class="input input-bordered w-full flex items-center gap-2
                                       @error('code') input-error @enderror">
                             <i class="icofont-mobile-phone opacity-60"></i>
-                            <input type="text" name="code" id="code" inputmode="numeric" autocomplete="one-time-code" placeholder="000000" maxlength="6" required class="grow tracking-widest font-mono text-center" aria-invalid="{{ $errors->has('code') ? 'true' : 'false' }}" aria-describedby="code-help" autofocus />
+                            <input type="text" name="code" id="code" inputmode="numeric"
+                                autocomplete="one-time-code" placeholder="000000" maxlength="6" required
+                                class="grow tracking-widest font-mono text-center"
+                                aria-invalid="{{ $errors->has('code') ? 'true' : 'false' }}"
+                                aria-describedby="code-help" autofocus />
                         </label>
                         <p id="code-help" class="fieldset-label">
                             @error('code')
-                            <span class="text-error flex items-center gap-1">
-                                <i class="icofont-warning-alt"></i> {{ $message }}
-                            </span>
+                                <span class="text-error flex items-center gap-1">
+                                    <i class="icofont-warning-alt"></i> {{ $message }}
+                                </span>
                             @enderror
                         </p>
                     </fieldset>
@@ -61,16 +66,20 @@
                         <legend class="fieldset-legend">
                             Código de recuperación <span class="text-error">*</span>
                         </legend>
-                        <label class="input input-bordered w-full flex items-center gap-2
+                        <label
+                            class="input input-bordered w-full flex items-center gap-2
                                       @error('recovery_code') input-error @enderror">
                             <i class="icofont-key opacity-60"></i>
-                            <input type="text" name="recovery_code" id="recovery_code" autocomplete="one-time-code" placeholder="xxxx-xxxx-xxxx" required class="grow font-mono" aria-invalid="{{ $errors->has('recovery_code') ? 'true' : 'false' }}" aria-describedby="recovery_code-help" />
+                            <input type="text" name="recovery_code" id="recovery_code" autocomplete="one-time-code"
+                                placeholder="xxxx-xxxx-xxxx" required class="grow font-mono"
+                                aria-invalid="{{ $errors->has('recovery_code') ? 'true' : 'false' }}"
+                                aria-describedby="recovery_code-help" />
                         </label>
                         <p id="recovery_code-help" class="fieldset-label">
                             @error('recovery_code')
-                            <span class="text-error flex items-center gap-1">
-                                <i class="icofont-warning-alt"></i> {{ $message }}
-                            </span>
+                                <span class="text-error flex items-center gap-1">
+                                    <i class="icofont-warning-alt"></i> {{ $message }}
+                                </span>
                             @enderror
                         </p>
                     </fieldset>
@@ -84,9 +93,11 @@
 
         {{-- Toggle --}}
         <div class="text-center mt-4">
-            <button type="button" class="text-sm text-primary hover:underline inline-flex items-center gap-1" @click="useRecovery = ! useRecovery">
+            <button type="button" class="text-sm text-primary hover:underline inline-flex items-center gap-1"
+                @click="useRecovery = ! useRecovery">
                 <i class="icofont-exchange" x-cloak></i>
-                <span x-text="useRecovery
+                <span
+                    x-text="useRecovery
                     ? 'Usar código de autenticación'
                     : 'Usar código de recuperación'">
                 </span>

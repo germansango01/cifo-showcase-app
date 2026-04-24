@@ -2,54 +2,36 @@
 
 namespace Database\Factories;
 
-<<<<<<< HEAD
-=======
 use App\Models\Course;
->>>>>>> main
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory<Project>
  */
 class ProjectFactory extends Factory
 {
-<<<<<<< HEAD
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
-    {
-        return [
-            //
-=======
     protected $model = Project::class;
 
     public function definition(): array
     {
-        $title = $this->faker->sentence(3);
+        $title = $this->faker->unique()->words(4, true);
 
         return [
             'course_id' => Course::inRandomOrder()->first()?->id ?? Course::factory(),
+            'slug' => Str::slug($title),
             'project_date' => $this->faker->dateTimeBetween('-2 years', 'now'),
-            'title_ca' => $title . ' (CA)',
-            'title_es' => $title . ' (ES)',
+            'title_ca' => ucfirst($title) . ' (CA)',
+            'title_es' => ucfirst($title) . ' (ES)',
             'description_ca' => $this->faker->paragraph(),
             'description_es' => $this->faker->paragraph(),
             'thumbnail' => $this->faker->imageUrl(640, 480, 'tech'),
             'repo_url' => $this->faker->optional()->url(),
             'live_url' => $this->faker->optional()->url(),
-            'status' => $this->faker->randomElement([
-                'draft',
-                'pending',
-                'published',
-                'rejected'
-            ]),
+            'status' => 'published',
             'featured' => $this->faker->boolean(20),
-            'published_at' => $this->faker->optional()->dateTimeBetween('-1 year', 'now'),
->>>>>>> main
+            'published_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }

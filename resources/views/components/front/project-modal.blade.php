@@ -19,21 +19,25 @@
         </button>
 
         {{-- Image carousel --}}
-        <div class="carousel modal-carousel" id="modal-carousel" role="region" aria-label="{{ __('Galería de imágenes del proyecto') }}">
+        <div class="carousel modal-carousel" id="modal-carousel" role="region"
+            aria-label="{{ __('Galería de imágenes del proyecto') }}">
             <div class="carousel-track" id="carousel-track"></div>
 
-            <button class="carousel-btn" data-direction="prev" aria-label="{{ __('Imagen anterior') }}">
+            <button id="carousel-prev" class="carousel-btn" data-direction="prev"
+                aria-label="{{ __('Imagen anterior') }}">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                     <path d="M12 4L6 10l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                 </svg>
             </button>
-            <button class="carousel-btn" data-direction="next" aria-label="{{ __('Imagen siguiente') }}">
+            <button id="carousel-next" class="carousel-btn" data-direction="next"
+                aria-label="{{ __('Imagen siguiente') }}">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                     <path d="M8 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                 </svg>
             </button>
 
-            <div class="carousel-dots" id="carousel-dots" role="tablist" aria-label="{{ __('Seleccionar imagen') }}"></div>
+            <div class="carousel-dots" id="carousel-dots" role="tablist" aria-label="{{ __('Seleccionar imagen') }}">
+            </div>
         </div>
 
         {{-- Project info — populated by JS --}}

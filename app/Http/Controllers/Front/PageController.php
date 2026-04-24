@@ -4,34 +4,32 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Student;
+use App\Models\Teacher;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class PageController extends Controller
 {
-    /**
-     * Show the home page with featured projects and stats.
-     */
     public function index(): View
     {
-        $featured = Project::with(['student', 'professor'])
-            ->where('featured', true)
-            ->latest('year')
+        $featured = Project::where('featured', true)
+            ->where('status', 'published')
+            ->with(['students', 'tags', 'course.category'])
+            ->latest('project_date')
             ->take(6)
             ->get();
 
         $stats = [
-            'graduates' => 350,
-            'projects' => Project::count(),
-            'years' => 18,
-            'teachers' => 24,
+            'graduates' => Student::count(),
+            'projects' => Project::where('status', 'published')->count(),
+            'years' => Project::distinct()->count(DB::raw('YEAR(project_date)')),
+            'teachers' => Teacher::count(),
         ];
 
         return view('front.home', compact('featured', 'stats'));
     }
 
-    /**
-     * Show the about page.
-     */
     public function about(): View
     {
         return view('front.about');

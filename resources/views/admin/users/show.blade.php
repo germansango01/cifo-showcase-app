@@ -1,7 +1,7 @@
 <x-layouts.admin :title="$user->name">
     <x-admin.ui.breadcrumb :items="[
-        ['label' => 'Dashboard', 'href' => route('dashboard')],
-        ['label' => 'Usuarios', 'href' => route('users.index')],
+        ['label' => __('admin.nav.dashboard'), 'href' => route('dashboard')],
+        ['label' => __('admin.users.title'), 'href' => route('users.index')],
         ['label' => $user->name],
     ]" />
 
@@ -14,20 +14,20 @@
                 <p class="text-sm opacity-60 flex items-center gap-1">
                     <i class="icofont-email"></i> {{ $user->email }}
                     @if ($user->email_verified_at)
-                        <span class="badge badge-success badge-xs">Verificado</span>
+                        <span class="badge badge-success badge-xs">{{ __('admin.common.verified') }}</span>
                     @else
-                        <span class="badge badge-warning badge-xs">No verificado</span>
+                        <span class="badge badge-warning badge-xs">{{ __('admin.common.not_verified') }}</span>
                     @endif
                 </p>
             </div>
         </div>
         <div class="flex gap-2 flex-wrap">
             <x-admin.ui.button :href="route('users.index')" variant="ghost" icon="icofont-arrow-left">
-                Volver
+                {{ __('admin.common.back') }}
             </x-admin.ui.button>
             @can('users.update')
                 <x-admin.ui.button :href="route('users.edit', $user)" icon="icofont-edit">
-                    Editar
+                    {{ __('admin.common.edit') }}
                 </x-admin.ui.button>
             @endcan
         </div>
@@ -41,23 +41,23 @@
             {{-- Datos del usuario --}}
             <x-admin.ui.card>
                 <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                    <i class="icofont-ui-user text-primary"></i> Información general
+                    <i class="icofont-ui-user text-primary"></i> {{ __('admin.users.general_info') }}
                 </h2>
                 <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 text-sm">
                     <div>
-                        <dt class="opacity-50 mb-0.5">ID</dt>
+                        <dt class="opacity-50 mb-0.5">{{ __('admin.common.id') }}</dt>
                         <dd class="font-medium">#{{ $user->id }}</dd>
                     </div>
                     <div>
-                        <dt class="opacity-50 mb-0.5">Nombre</dt>
+                        <dt class="opacity-50 mb-0.5">{{ __('admin.common.name') }}</dt>
                         <dd class="font-medium">{{ $user->name }}</dd>
                     </div>
                     <div>
-                        <dt class="opacity-50 mb-0.5">Correo electrónico</dt>
+                        <dt class="opacity-50 mb-0.5">{{ __('admin.common.email') }}</dt>
                         <dd class="font-medium break-all">{{ $user->email }}</dd>
                     </div>
                     <div>
-                        <dt class="opacity-50 mb-0.5">Verificación de email</dt>
+                        <dt class="opacity-50 mb-0.5">{{ __('admin.common.email_verified') }}</dt>
                         <dd>
                             @if ($user->email_verified_at)
                                 <span class="text-success flex items-center gap-1">
@@ -66,20 +66,20 @@
                                 </span>
                             @else
                                 <span class="text-warning flex items-center gap-1">
-                                    <i class="icofont-warning-alt"></i> Pendiente
+                                    <i class="icofont-warning-alt"></i> {{ __('admin.common.pending') }}
                                 </span>
                             @endif
                         </dd>
                     </div>
                     <div>
-                        <dt class="opacity-50 mb-0.5">Fecha de registro</dt>
+                        <dt class="opacity-50 mb-0.5">{{ __('admin.common.created_at') }}</dt>
                         <dd class="font-medium">
                             {{ $user->created_at->format('d/m/Y H:i') }}
                             <span class="opacity-50 text-xs">({{ $user->created_at->diffForHumans() }})</span>
                         </dd>
                     </div>
                     <div>
-                        <dt class="opacity-50 mb-0.5">Última actualización</dt>
+                        <dt class="opacity-50 mb-0.5">{{ __('admin.common.updated_at') }}</dt>
                         <dd class="font-medium">
                             {{ $user->updated_at->format('d/m/Y H:i') }}
                         </dd>
@@ -90,14 +90,14 @@
             {{-- Permisos heredados --}}
             <x-admin.ui.card>
                 <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                    <i class="icofont-key text-primary"></i> Permisos heredados
+                    <i class="icofont-key text-primary"></i> {{ __('admin.users.inherited_permissions') }}
                     <span class="badge badge-ghost badge-sm ml-auto">{{ $user->getAllPermissions()->count() }}</span>
                 </h2>
 
                 @if ($user->getAllPermissions()->isEmpty())
                     <p class="text-sm opacity-50 flex items-center gap-2 py-4">
                         <i class="icofont-info-circle"></i>
-                        Este usuario no tiene permisos asignados a través de sus roles.
+                        {{ __('admin.users.no_permissions') }}
                     </p>
                 @else
                     @php $permsByGroup = $user->getAllPermissions()->groupBy(fn($p) => explode('.', $p->name)[0]); @endphp
@@ -128,13 +128,13 @@
             {{-- Roles --}}
             <x-admin.ui.card>
                 <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                    <i class="icofont-shield text-primary"></i> Roles
+                    <i class="icofont-shield text-primary"></i> {{ __('admin.nav.roles') }}
                     <span class="badge badge-ghost badge-sm ml-auto">{{ $user->roles->count() }}</span>
                 </h2>
 
                 @if ($user->roles->isEmpty())
                     <p class="text-sm opacity-50 flex items-center gap-2">
-                        <i class="icofont-info-circle"></i> Sin roles asignados.
+                        <i class="icofont-info-circle"></i> {{ __('admin.users.no_roles_assigned') }}
                     </p>
                 @else
                     <div class="flex flex-col gap-2">
@@ -158,14 +158,14 @@
             @canany(['users.update', 'users.delete'])
                 <x-admin.ui.card>
                     <h2 class="text-lg font-semibold mb-4 flex items-center gap-2 text-error">
-                        <i class="icofont-warning-alt"></i> Zona de peligro
+                        <i class="icofont-warning-alt"></i> {{ __('admin.users.danger_zone') }}
                     </h2>
 
                     <div class="flex flex-col gap-2">
                         @can('users.update')
                             <x-admin.ui.button :href="route('users.edit', $user)" variant="warning" icon="icofont-edit" :block="true"
                                 :outline="true">
-                                Editar usuario
+                                {{ __('admin.users.edit_btn') }}
                             </x-admin.ui.button>
                         @endcan
 
@@ -173,8 +173,8 @@
                             @if (auth()->id() !== $user->id)
                                 <button type="button" class="btn btn-error btn-outline btn-block"
                                     onclick="confirm-delete-show.showModal()"
-                                    aria-label="Eliminar usuario {{ $user->name }}">
-                                    <i class="icofont-ui-delete"></i> Eliminar usuario
+                                    aria-label="{{ __('admin.users.delete_btn') }} {{ $user->name }}">
+                                    <i class="icofont-ui-delete"></i> {{ __('admin.users.delete_btn') }}
                                 </button>
                             @endif
                         @endcan
@@ -187,11 +187,11 @@
     {{-- Modal confirmación delete --}}
     @can('users.delete')
         @if (auth()->id() !== $user->id)
-            <x-admin.ui.modal id="confirm-delete-show" title="Eliminar usuario" size="sm">
+            <x-admin.ui.modal id="confirm-delete-show" :title="__('admin.users.delete_modal_title')" size="sm">
                 <p class="text-sm opacity-80 mb-1">
-                    ¿Seguro que quieres eliminar a <strong>{{ $user->name }}</strong>?
+                    {{ __('admin.users.delete_confirm_short') }} <strong>{{ $user->name }}</strong>?
                 </p>
-                <p class="text-xs text-error">Esta acción no se puede deshacer.</p>
+                <p class="text-xs text-error">{{ __('admin.common.irreversible') }}</p>
 
                 <x-slot name="actions">
                     <form method="POST" action="{{ route('users.destroy', $user) }}">
@@ -199,9 +199,9 @@
                         @method('DELETE')
                         <div class="flex gap-2 justify-end">
                             <button type="button" class="btn btn-ghost btn-sm"
-                                onclick="confirm-delete-show.close()">Cancelar</button>
+                                onclick="confirm-delete-show.close()">{{ __('admin.common.cancel') }}</button>
                             <x-admin.ui.button type="submit" variant="error" size="sm"
-                                icon="icofont-ui-delete">Eliminar</x-admin.ui.button>
+                                icon="icofont-ui-delete">{{ __('admin.common.delete') }}</x-admin.ui.button>
                         </div>
                     </form>
                 </x-slot>

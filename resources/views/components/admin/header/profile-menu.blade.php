@@ -4,7 +4,7 @@
 
     {{-- Trigger: avatar con nombre --}}
     <div tabindex="0" role="button" class="btn btn-ghost btn-sm flex items-center gap-2 px-2 h-10 rounded-lg"
-        aria-label="Menú de usuario" aria-haspopup="true">
+        aria-label="{{ __('admin.nav.profile') }}" aria-haspopup="true">
         {{-- Avatar con inicial --}}
         <div class="avatar avatar-placeholder">
             <div class="bg-primary text-primary-content rounded-full w-7 h-7 flex items-center justify-center">
@@ -49,19 +49,20 @@
         <li role="none">
             <a href="{{ route('profile.edit') }}" class="flex items-center gap-2 rounded-lg" role="menuitem">
                 <i class="icofont-ui-user text-base" aria-hidden="true"></i>
-                Mi perfil
+                {{ __('admin.nav.profile') }}
             </a>
         </li>
         <li role="none">
             <a href="{{ route('profile.edit') }}#password" class="flex items-center gap-2 rounded-lg" role="menuitem">
                 <i class="icofont-lock text-base" aria-hidden="true"></i>
-                Cambiar contraseña
+                {{ __('admin.profile.password') }}
             </a>
         </li>
         <li role="none">
-            <a href="{{ route('profile.edit') }}#two-factor" class="flex items-center gap-2 rounded-lg" role="menuitem">
+            <a href="{{ route('profile.edit') }}#two-factor" class="flex items-center gap-2 rounded-lg"
+                role="menuitem">
                 <i class="icofont-shield text-base" aria-hidden="true"></i>
-                Autenticación 2FA
+                {{ __('admin.profile.two_factor') }}
             </a>
         </li>
 
@@ -72,7 +73,7 @@
                     class="flex items-center gap-2 w-full cursor-pointer rounded-lg text-error hover:bg-error/10"
                     role="menuitem">
                     <i class="icofont-logout text-base" aria-hidden="true"></i>
-                    Cerrar sesión
+                    {{ __('admin.nav.logout') }}
                 </button>
             </form>
         </li>
