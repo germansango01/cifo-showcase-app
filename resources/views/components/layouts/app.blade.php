@@ -47,9 +47,8 @@
 
     {{-- ── Back to top ─────────────────────────────────── --}}
     <button id="back-to-top" class="back-to-top" aria-label="Volver al inicio de la página">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M10 4l-6 6h12l-6-6z" fill="currentColor" />
-        </svg>
+
+        <i class="icofont-arrow-up"></i>
     </button>
 
     {{-- Front Scripts --}}

@@ -3,6 +3,8 @@
  * Stack: vanilla CSS moderno (custom properties, cascade layers)
  * NO Tailwind, NO DaisyUI en el front público.
  * ============================================================= */
+/* ── Iconos ───────────────────────────────────────────────── */
+@import "./icofont.css";
 
 /* ── Base ─────────────────────────────────────────────────── */
 @import "./front/base/reset.css";
