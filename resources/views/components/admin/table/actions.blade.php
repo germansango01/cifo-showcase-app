@@ -4,8 +4,8 @@
 
     {{-- Show --}}
     @if ($showHref)
-        <div class="tooltip tooltip-left" data-tip="Ver detalle">
-            <a href="{{ $showHref }}" class="btn btn-ghost btn-xs btn-square" aria-label="Ver detalle">
+        <div class="tooltip tooltip-left" data-tip="{{ __('admin.common.view') }}">
+            <a href="{{ $showHref }}" class="btn btn-ghost btn-xs btn-square" aria-label="{{ __('admin.common.view') }}">
                 <i class="icofont-eye text-base text-info"></i>
             </a>
         </div>
@@ -13,8 +13,8 @@
 
     {{-- Edit --}}
     @if ($editHref)
-        <div class="tooltip tooltip-left" data-tip="Editar">
-            <a href="{{ $editHref }}" class="btn btn-ghost btn-xs btn-square" aria-label="Editar">
+        <div class="tooltip tooltip-left" data-tip="{{ __('admin.common.edit') }}">
+            <a href="{{ $editHref }}" class="btn btn-ghost btn-xs btn-square" aria-label="{{ __('admin.common.edit') }}">
                 <i class="icofont-edit text-base text-warning"></i>
             </a>
         </div>
@@ -24,8 +24,8 @@
     @if ($deleteAction)
         @php $mid = $modalId(); @endphp
 
-        <div class="tooltip tooltip-left" data-tip="Eliminar">
-            <button type="button" class="btn btn-ghost btn-xs btn-square" aria-label="Eliminar"
+        <div class="tooltip tooltip-left" data-tip="{{ __('admin.common.delete') }}">
+            <button type="button" class="btn btn-ghost btn-xs btn-square" aria-label="{{ __('admin.common.delete') }}"
                 onclick="{{ $mid }}.showModal()">
                 <i class="icofont-ui-delete text-base text-error"></i>
             </button>
@@ -36,17 +36,16 @@
             <div class="modal-box">
                 <h3 class="font-bold text-lg flex items-center gap-2">
                     <i class="icofont-warning-alt text-warning text-2xl"></i>
-                    Confirmar eliminación
+                    {{ __('admin.common.confirm_delete') }}
                 </h3>
                 <p class="py-4 text-base-content/70">
-                    Esta acción <strong>no se puede deshacer</strong>.
-                    ¿Estás seguro de que quieres eliminar este registro?
+                    {!! __('admin.common.confirm_delete_msg') !!}
                 </p>
 
                 <div class="modal-action gap-2">
                     {{-- Cancel --}}
                     <form method="dialog">
-                        <button class="btn btn-ghost">Cancelar</button>
+                        <button class="btn btn-ghost">{{ __('admin.common.cancel') }}</button>
                     </form>
 
                     {{-- Confirm DELETE --}}
@@ -55,7 +54,7 @@
                         @method('DELETE')
                         <button type="submit" class="btn btn-error gap-2">
                             <i class="icofont-ui-delete"></i>
-                            Eliminar
+                            {{ __('admin.common.delete') }}
                         </button>
                     </form>
                 </div>
@@ -63,7 +62,7 @@
 
             {{-- Backdrop closes dialog --}}
             <form method="dialog" class="modal-backdrop">
-                <button>Cerrar</button>
+                <button>{{ __('admin.common.close') }}</button>
             </form>
         </dialog>
     @endif

@@ -21,7 +21,7 @@
                     'hover:bg-neutral-content/10' => !request()->routeIs('dashboard'),
                 ])>
                     <i class="icofont-dashboard-web text-lg w-5 text-center" aria-hidden="true"></i>
-                    <span>Dashboard</span>
+                    <span>{{ __('admin.nav.dashboard') }}</span>
                 </a>
             </li>
 
@@ -29,7 +29,7 @@
             @canany(['users.view', 'roles.view', 'permissions.view'])
                 <li
                     class="menu-title mt-4 mb-1 px-3 text-xs font-semibold uppercase tracking-widest text-neutral-content/50">
-                    Administración
+                    {{ __('admin.nav.admin_section') }}
                 </li>
 
                 {{-- Usuarios --}}
@@ -42,7 +42,7 @@
                                 'hover:bg-neutral-content/10' => !request()->routeIs('users.*'),
                             ])>
                                 <i class="icofont-users text-lg w-5 text-center" aria-hidden="true"></i>
-                                <span class="flex-1">Usuarios</span>
+                                <span class="flex-1">{{ __('admin.nav.users') }}</span>
                                 <i class="icofont-caret-down text-sm opacity-60" aria-hidden="true"></i>
                             </summary>
                             <ul class="pl-9 mt-0.5 space-y-0.5">
@@ -53,7 +53,7 @@
                                             'users.index'),
                                         'hover:bg-neutral-content/10' => !request()->routeIs('users.index'),
                                     ])>
-                                        Listado
+                                        {{ __('admin.nav.users_list') }}
                                     </a>
                                 </li>
                                 @can('users.create')
@@ -64,7 +64,7 @@
                                                 'users.create'),
                                             'hover:bg-neutral-content/10' => !request()->routeIs('users.create'),
                                         ])>
-                                            Crear nuevo
+                                            {{ __('admin.nav.users_create') }}
                                         </a>
                                     </li>
                                 @endcan
@@ -87,7 +87,7 @@
                                     'permissions.*'),
                             ])>
                                 <i class="icofont-shield text-lg w-5 text-center" aria-hidden="true"></i>
-                                <span class="flex-1">Accesos</span>
+                                <span class="flex-1">{{ __('admin.nav.access') }}</span>
                                 <i class="icofont-caret-down text-sm opacity-60" aria-hidden="true"></i>
                             </summary>
                             <ul class="pl-9 mt-0.5 space-y-0.5">
@@ -98,7 +98,7 @@
                                             'bg-primary/10 text-primary font-medium' => request()->routeIs('roles.*'),
                                             'hover:bg-neutral-content/10' => !request()->routeIs('roles.*'),
                                         ])>
-                                            Roles
+                                            {{ __('admin.nav.roles') }}
                                         </a>
                                     </li>
                                 @endcan
@@ -110,7 +110,7 @@
                                                 'permissions.*'),
                                             'hover:bg-neutral-content/10' => !request()->routeIs('permissions.*'),
                                         ])>
-                                            Permisos
+                                            {{ __('admin.nav.permissions') }}
                                         </a>
                                     </li>
                                 @endcan
@@ -123,7 +123,7 @@
             {{-- Sección Cuenta --}}
             <li
                 class="menu-title mt-4 mb-1 px-3 text-xs font-semibold uppercase tracking-widest text-neutral-content/50">
-                Cuenta
+                {{ __('admin.nav.account_section') }}
             </li>
 
             <li>
@@ -134,7 +134,7 @@
                     'hover:bg-neutral-content/10' => !request()->routeIs('profile.*'),
                 ])>
                     <i class="icofont-settings text-lg w-5 text-center" aria-hidden="true"></i>
-                    <span>Mi perfil</span>
+                    <span>{{ __('admin.nav.profile') }}</span>
                 </a>
             </li>
 
@@ -158,7 +158,7 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="btn btn-ghost btn-xs btn-circle opacity-60 hover:opacity-100"
-                        aria-label="Cerrar sesión" title="Cerrar sesión">
+                        aria-label="{{ __('admin.nav.logout') }}" title="{{ __('admin.nav.logout') }}">
                         <i class="icofont-logout text-base" aria-hidden="true"></i>
                     </button>
                 </form>

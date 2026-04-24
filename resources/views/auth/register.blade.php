@@ -1,11 +1,11 @@
-<x-layouts.guest title="Crear cuenta">
+<x-layouts.guest :title="__('admin.auth.register_title')">
     <div class="flex items-center gap-3 mb-6">
         <div class="bg-primary/10 text-primary rounded-xl p-3">
             <i class="icofont-ui-user text-2xl"></i>
         </div>
         <div>
-            <h1 class="text-xl font-bold leading-tight">Crear cuenta</h1>
-            <p class="text-sm opacity-60">Únete a CIFO La Violeta</p>
+            <h1 class="text-xl font-bold leading-tight">{{ __('admin.auth.register_title') }}</h1>
+            <p class="text-sm opacity-60">{{ __('admin.auth.register_sub') }}</p>
         </div>
     </div>
 
@@ -17,7 +17,7 @@
                 {{-- Name --}}
                 <fieldset class="fieldset w-full">
                     <legend class="fieldset-legend">
-                        Nombre completo <span class="text-error">*</span>
+                        {{ __('admin.auth.name') }} <span class="text-error">*</span>
                     </legend>
                     <label class="input input-bordered w-full flex items-center gap-2" :class="form.invalid('name') && 'input-error'">
                         <i class="icofont-ui-user opacity-60"></i>
@@ -34,7 +34,7 @@
                 {{-- Email --}}
                 <fieldset class="fieldset w-full">
                     <legend class="fieldset-legend">
-                        Correo electrónico <span class="text-error">*</span>
+                        {{ __('admin.auth.email') }} <span class="text-error">*</span>
                     </legend>
                     <label class="input input-bordered w-full flex items-center gap-2" :class="form.invalid('email') && 'input-error'">
                         <i class="icofont-email opacity-60"></i>
@@ -51,7 +51,7 @@
                 {{-- Password --}}
                 <fieldset class="fieldset w-full">
                     <legend class="fieldset-legend">
-                        Contraseña <span class="text-error">*</span>
+                        {{ __('admin.auth.password') }} <span class="text-error">*</span>
                     </legend>
                     <label class="input input-bordered w-full flex items-center gap-2" :class="form.invalid('password') && 'input-error'">
                         <i class="icofont-lock opacity-60"></i>
@@ -68,7 +68,7 @@
                 {{-- Password confirmation --}}
                 <fieldset class="fieldset w-full">
                     <legend class="fieldset-legend">
-                        Confirmar contraseña <span class="text-error">*</span>
+                        {{ __('admin.auth.password_confirm') }} <span class="text-error">*</span>
                     </legend>
                     <label class="input input-bordered w-full flex items-center gap-2" :class="form.invalid('password_confirmation') && 'input-error'">
                         <i class="icofont-lock opacity-60"></i>
@@ -85,7 +85,7 @@
                 {{-- Submit --}}
                 <button type="submit" class="btn btn-primary btn-block" :disabled="form.processing">
                     <span x-show="!form.processing" class="flex items-center gap-2">
-                        <i class="icofont-check-circled"></i> Crear cuenta
+                        <i class="icofont-check-circled"></i> {{ __('admin.auth.register_btn') }}
                     </span>
                     <span x-show="form.processing" class="loading loading-spinner loading-sm"></span>
                 </button>
@@ -93,8 +93,8 @@
         </form>
     </div>
 
-    <div class="divider text-xs opacity-50 mt-4">¿Ya tienes cuenta?</div>
+    <div class="divider text-xs opacity-50 mt-4">{{ __('admin.auth.has_account') }}</div>
     <a href="{{ route('login') }}" class="btn btn-outline btn-block">
-        <i class="icofont-login"></i> Iniciar sesión
+        <i class="icofont-login"></i> {{ __('admin.auth.login_btn') }}
     </a>
 </x-layouts.guest>

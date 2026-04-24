@@ -1,11 +1,11 @@
-<x-layouts.guest title="Recuperar contraseña">
+<x-layouts.guest :title="__('admin.auth.forgot_title')">
     <div class="flex items-center gap-3 mb-6">
         <div class="bg-primary/10 text-primary rounded-xl p-3">
             <i class="icofont-key text-2xl"></i>
         </div>
         <div>
-            <h1 class="text-xl font-bold leading-tight">Recuperar contraseña</h1>
-            <p class="text-sm opacity-60">Te enviaremos un enlace de restablecimiento</p>
+            <h1 class="text-xl font-bold leading-tight">{{ __('admin.auth.forgot_title') }}</h1>
+            <p class="text-sm opacity-60">{{ __('admin.auth.forgot_sub') }}</p>
         </div>
     </div>
 
@@ -30,7 +30,7 @@
             <div class="flex flex-col gap-4">
                 <fieldset class="fieldset w-full">
                     <legend class="fieldset-legend">
-                        Correo electrónico <span class="text-error">*</span>
+                        {{ __('admin.auth.email') }} <span class="text-error">*</span>
                     </legend>
                     <label class="input input-bordered w-full flex items-center gap-2" :class="form.invalid('email') && 'input-error'">
                         <i class="icofont-email opacity-60"></i>
@@ -46,7 +46,7 @@
 
                 <button type="submit" class="btn btn-primary btn-block" :disabled="form.processing">
                     <span x-show="!form.processing" class="flex items-center gap-2">
-                        <i class="icofont-email"></i> Enviar enlace de recuperación
+                        <i class="icofont-email"></i> {{ __('admin.auth.forgot_btn') }}
                     </span>
                     <span x-show="form.processing" class="loading loading-spinner loading-sm"></span>
                 </button>
@@ -56,7 +56,7 @@
 
     <div class="text-center mt-4">
         <a href="{{ route('login') }}" class="text-sm text-primary hover:underline inline-flex items-center gap-1">
-            <i class="icofont-arrow-left"></i> Volver al inicio de sesión
+            <i class="icofont-arrow-left"></i> {{ __('admin.auth.back_to_login') }}
         </a>
     </div>
 </x-layouts.guest>

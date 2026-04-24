@@ -1,13 +1,13 @@
-<x-layouts.admin :title="'Nuevo rol'">
+<x-layouts.admin :title="__('admin.roles.create')">
     <x-admin.ui.breadcrumb :items="[
-        ['label' => 'Dashboard', 'href' => route('dashboard')],
-        ['label' => 'Roles', 'href' => route('roles.index')],
-        ['label' => 'Nuevo rol'],
+        ['label' => __('admin.nav.dashboard'), 'href' => route('dashboard')],
+        ['label' => __('admin.roles.title'), 'href' => route('roles.index')],
+        ['label' => __('admin.roles.create')],
     ]" />
 
     <div class="mb-6">
-        <h1 class="text-2xl font-bold">Nuevo rol</h1>
-        <p class="text-sm opacity-70">Define un nombre y selecciona los permisos que tendrá este rol.</p>
+        <h1 class="text-2xl font-bold">{{ __('admin.roles.create') }}</h1>
+        <p class="text-sm opacity-70">{{ __('admin.roles.create_sub') }}</p>
     </div>
 
     <x-admin.ui.card>
@@ -35,15 +35,15 @@
 
             {{-- Nombre del rol --}}
             <div class="max-w-sm mb-8">
-                <x-admin.ui.input name="name" label="Nombre del rol" icon="icofont-shield"
+                <x-admin.ui.input name="name" :label="__('admin.roles.name')" icon="icofont-shield"
                     placeholder="Ej: Editor de contenidos" required />
             </div>
 
             {{-- Contador en vivo --}}
             <div class="flex items-center justify-between mb-4">
-                <h2 class="text-lg font-semibold">Permisos</h2>
+                <h2 class="text-lg font-semibold">{{ __('admin.roles.permissions') }}</h2>
                 <x-admin.ui.badge color="primary">
-                    <span x-text="selectedCount"></span> de {{ $permissions->flatten()->count() }} seleccionados
+                    <span x-text="selectedCount"></span> {{ __('admin.roles.selected_count', ['selected' => '', 'total' => $permissions->flatten()->count()]) }}
                 </x-admin.ui.badge>
             </div>
 
@@ -63,14 +63,14 @@
                                     {{ $module }}
                                 </h3>
                                 <label class="cursor-pointer flex items-center gap-1 text-xs opacity-70"
-                                    :title="isModuleChecked({{ $permNamesJs }}) ? 'Desmarcar todos' : 'Seleccionar todos'">
+                                    :title="isModuleChecked({{ $permNamesJs }}) ? '{{ __('admin.common.deselect_all') }}' : '{{ __('admin.common.select_all') }}'">
                                     <input type="checkbox" class="checkbox checkbox-primary checkbox-sm"
                                         :checked="isModuleChecked({{ $permNamesJs }})"
                                         :indeterminate="isModuleIndeterminate({{ $permNamesJs }})"
                                         @change="toggleModule({{ $permNamesJs }})"
-                                        aria-label="Seleccionar todos los permisos de {{ $module }}" />
+                                        aria-label="{{ __('admin.common.select_all') }} {{ $module }}" />
                                     <span
-                                        x-text="isModuleChecked({{ $permNamesJs }}) ? 'Todos' : 'Selec. todos'"></span>
+                                        x-text="isModuleChecked({{ $permNamesJs }}) ? '{{ __('admin.common.deselect_all') }}' : '{{ __('admin.common.select_all') }}'"></span>
                                 </label>
                             </div>
 
@@ -95,10 +95,10 @@
             {{-- Acciones --}}
             <div class="flex justify-end gap-2">
                 <x-admin.ui.button :ghost="true" :href="route('roles.index')">
-                    Cancelar
+                    {{ __('admin.common.cancel') }}
                 </x-admin.ui.button>
                 <x-admin.ui.button type="submit" icon="icofont-check-circled">
-                    Crear rol
+                    {{ __('admin.roles.create_btn') }}
                 </x-admin.ui.button>
             </div>
         </form>

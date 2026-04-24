@@ -2,7 +2,7 @@
 
     {{-- Toggle sidebar (solo móvil) --}}
     <div class="flex-none lg:hidden">
-        <label for="sidebar-toggle" class="btn btn-ghost btn-sm btn-square" aria-label="Abrir menú lateral">
+        <label for="sidebar-toggle" class="btn btn-ghost btn-sm btn-square" aria-label="{{ __('admin.nav.open_sidebar') }}">
             <i class="icofont-navigation-menu text-xl" aria-hidden="true"></i>
         </label>
     </div>

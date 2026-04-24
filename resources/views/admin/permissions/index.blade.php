@@ -1,13 +1,16 @@
-<x-layouts.admin :title="'Permisos'">
-    <x-admin.ui.breadcrumb :items="[['label' => 'Dashboard', 'href' => route('dashboard')], ['label' => 'Permisos']]" />
+<x-layouts.admin :title="__('admin.permissions.title')">
+    <x-admin.ui.breadcrumb :items="[
+        ['label' => __('admin.nav.dashboard'), 'href' => route('dashboard')],
+        ['label' => __('admin.nav.permissions')],
+    ]" />
 
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
         <div>
-            <h1 class="text-2xl font-bold">Permisos del sistema</h1>
-            <p class="text-sm opacity-70">Vista de sólo lectura. Los permisos se crean en código (seeder).</p>
+            <h1 class="text-2xl font-bold">{{ __('admin.permissions.title') }}</h1>
+            <p class="text-sm opacity-70">{{ __('admin.permissions.subtitle') }}</p>
         </div>
         <x-admin.ui.badge color="neutral">
-            {{ $permissions->flatten()->count() }} permisos · {{ $totalRoles }} roles
+            {{ $permissions->flatten()->count() }} {{ __('admin.nav.permissions') }} · {{ $totalRoles }} {{ __('admin.nav.roles') }}
         </x-admin.ui.badge>
     </div>
 
@@ -25,7 +28,7 @@
                     <i class="icofont-key text-primary text-lg"></i>
                     {{ $module }}
                     <x-admin.ui.badge color="neutral" class="ml-auto mr-6">
-                        {{ $modulePerms->count() }} permiso{{ $modulePerms->count() !== 1 ? 's' : '' }}
+                        {{ trans_choice('admin.permissions.perm_count', $modulePerms->count(), ['count' => $modulePerms->count()]) }}
                     </x-admin.ui.badge>
                 </summary>
 
@@ -34,9 +37,9 @@
                         <table class="table table-sm">
                             <thead>
                                 <tr class="text-xs uppercase opacity-60">
-                                    <th>Permiso</th>
-                                    <th>Acción</th>
-                                    <th>Roles que lo incluyen</th>
+                                    <th>{{ __('admin.permissions.col_perm') }}</th>
+                                    <th>{{ __('admin.permissions.col_action') }}</th>
+                                    <th>{{ __('admin.permissions.col_roles') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -65,7 +68,7 @@
                                                     <x-admin.ui.badge
                                                         color="primary">{{ $role->name }}</x-admin.ui.badge>
                                                 @empty
-                                                    <span class="text-sm opacity-40 italic">Sin asignar</span>
+                                                    <span class="text-sm opacity-40 italic">{{ __('admin.permissions.unassigned') }}</span>
                                                 @endforelse
                                             </div>
                                         </td>

@@ -1,21 +1,21 @@
-<x-layouts.admin :title="'Dashboard'">
+<x-layouts.admin :title="__('admin.nav.dashboard')">
 
     {{-- ── Breadcrumb ────────────────────────────────────────────────────── --}}
-    <x-admin.ui.breadcrumb :items="[['label' => 'Dashboard']]" />
+    <x-admin.ui.breadcrumb :items="[['label' => __('admin.nav.dashboard')]]" />
 
     {{-- ── Saludo dinámico ──────────────────────────────────────────────── --}}
     @php
         $hour = now()->hour;
         $greeting = match (true) {
-            $hour >= 6 && $hour < 14 => 'Buenos días',
-            $hour >= 14 && $hour < 21 => 'Buenas tardes',
-            default => 'Buenas noches',
+            $hour >= 6 && $hour < 14 => __('admin.dashboard.greeting_morning'),
+            $hour >= 14 && $hour < 21 => __('admin.dashboard.greeting_afternoon'),
+            default => __('admin.dashboard.greeting_evening'),
         };
     @endphp
 
     <div class="mb-6">
         <h1 class="text-2xl font-bold">
-            {{ $greeting }}, German {{-- auth()->user()->name --}} 👋
+            {{ $greeting }}, {{ auth()->user()->name }} 👋
         </h1>
         <p class="text-sm opacity-60">
             {{ now()->translatedFormat('l, j \d\e F \d\e Y') }}
@@ -38,20 +38,20 @@
             <x-slot:header>
                 <span class="flex items-center gap-2 font-semibold">
                     <i class="icofont-history text-primary"></i>
-                    Actividad reciente
+                    {{ __('admin.dashboard.recent_activity') }}
                 </span>
             </x-slot:header>
 
             @if ($recentUsers->isEmpty())
-                <x-admin.table.empty-state message="No hay usuarios registrados aún." />
+                <x-admin.table.empty-state message="{{ __('admin.dashboard.no_users') }}" />
             @else
                 <div class="overflow-x-auto">
                     <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th>Usuario</th>
-                                <th>Rol</th>
-                                <th>Registrado</th>
+                                <th>{{ __('admin.dashboard.col_user') }}</th>
+                                <th>{{ __('admin.dashboard.col_role') }}</th>
+                                <th>{{ __('admin.dashboard.col_registered') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,7 +77,7 @@
                                                 {{ $role->name }}
                                             </x-admin.ui.badge>
                                         @empty
-                                            <x-admin.ui.badge color="neutral" size="sm">Sin rol</x-admin.ui.badge>
+                                            <x-admin.ui.badge color="neutral" size="sm">{{ __('admin.dashboard.no_role') }}</x-admin.ui.badge>
                                         @endforelse
                                     </td>
                                     <td class="text-xs opacity-60 whitespace-nowrap">
@@ -93,7 +93,7 @@
                     <div class="mt-3 text-right">
                         <x-admin.ui.button :href="route('users.index')" variant="ghost" size="sm"
                             icon-right="icofont-arrow-right">
-                            Ver todos
+                            {{ __('admin.dashboard.view_all') }}
                         </x-admin.ui.button>
                     </div>
                 @endcan
@@ -105,12 +105,12 @@
             <x-slot:header>
                 <span class="flex items-center gap-2 font-semibold">
                     <i class="icofont-shield text-secondary"></i>
-                    Distribución por rol
+                    {{ __('admin.dashboard.role_distribution') }}
                 </span>
             </x-slot:header>
 
             @if ($roleDistribution->isEmpty())
-                <x-admin.table.empty-state message="No hay roles configurados." />
+                <x-admin.table.empty-state message="{{ __('admin.dashboard.no_roles') }}" />
             @else
                 @php $total = $roleDistribution->sum(); @endphp
                 <ul class="space-y-3">
@@ -139,7 +139,7 @@
                     <div class="mt-4 text-right">
                         <x-admin.ui.button :href="route('roles.index')" variant="ghost" size="sm"
                             icon-right="icofont-arrow-right">
-                            Gestionar roles
+                            {{ __('admin.dashboard.manage_roles') }}
                         </x-admin.ui.button>
                     </div>
                 @endcan
@@ -151,7 +151,7 @@
     {{-- ── Quick actions ─────────────────────────────────────────────────── --}}
     @canany(['users.create', 'roles.create', 'permissions.view'])
         <div class="mb-2">
-            <h2 class="text-base font-semibold opacity-70">Accesos rápidos</h2>
+            <h2 class="text-base font-semibold opacity-70">{{ __('admin.dashboard.quick_actions') }}</h2>
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -163,7 +163,7 @@
                             class="w-12 h-12 rounded-xl bg-primary/10 text-primary grid place-items-center group-hover:bg-primary group-hover:text-primary-content transition-colors">
                             <i class="icofont-plus text-2xl"></i>
                         </span>
-                        <span class="text-sm font-medium text-center">Crear usuario</span>
+                        <span class="text-sm font-medium text-center">{{ __('admin.dashboard.create_user') }}</span>
                     </a>
                 </x-admin.ui.card>
             @endcan
@@ -175,7 +175,7 @@
                             class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary grid place-items-center group-hover:bg-secondary group-hover:text-secondary-content transition-colors">
                             <i class="icofont-shield text-2xl"></i>
                         </span>
-                        <span class="text-sm font-medium text-center">Crear rol</span>
+                        <span class="text-sm font-medium text-center">{{ __('admin.dashboard.create_role') }}</span>
                     </a>
                 </x-admin.ui.card>
             @endcan
@@ -187,7 +187,7 @@
                             class="w-12 h-12 rounded-xl bg-accent/10 text-accent grid place-items-center group-hover:bg-accent group-hover:text-accent-content transition-colors">
                             <i class="icofont-key text-2xl"></i>
                         </span>
-                        <span class="text-sm font-medium text-center">Ver permisos</span>
+                        <span class="text-sm font-medium text-center">{{ __('admin.dashboard.view_permissions') }}</span>
                     </a>
                 </x-admin.ui.card>
             @endcan
@@ -199,7 +199,7 @@
                         class="w-12 h-12 rounded-xl bg-neutral/10 text-neutral dark:text-neutral-content grid place-items-center group-hover:bg-neutral group-hover:text-neutral-content transition-colors">
                         <i class="icofont-settings text-2xl"></i>
                     </span>
-                    <span class="text-sm font-medium text-center">Mi perfil</span>
+                    <span class="text-sm font-medium text-center">{{ __('admin.nav.profile') }}</span>
                 </a>
             </x-admin.ui.card>
 
@@ -213,7 +213,7 @@
                         class="w-12 h-12 rounded-xl bg-neutral/10 text-neutral dark:text-neutral-content grid place-items-center group-hover:bg-neutral group-hover:text-neutral-content transition-colors">
                         <i class="icofont-settings text-2xl"></i>
                     </span>
-                    <span class="text-sm font-medium text-center">Mi perfil</span>
+                    <span class="text-sm font-medium text-center">{{ __('admin.nav.profile') }}</span>
                 </a>
             </x-admin.ui.card>
         </div>
