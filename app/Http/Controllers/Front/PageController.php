@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\Student;
 use App\Models\Teacher;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class PageController extends Controller
@@ -22,7 +23,7 @@ class PageController extends Controller
         $stats = [
             'graduates' => Student::count(),
             'projects' => Project::where('status', 'published')->count(),
-            'years' => Project::distinct()->count(\DB::raw('YEAR(project_date)')),
+            'years' => Project::distinct()->count(DB::raw('YEAR(project_date)')),
             'teachers' => Teacher::count(),
         ];
 

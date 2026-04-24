@@ -25,7 +25,7 @@ Route::get('/projects', [ProjectController::class, 'index'])->name('projects');
 Route::get('/projects/{project:slug}', [ProjectController::class, 'show']) ->name('projects.show');
 Route::get('/about', [PageController::class, 'about'])->name('about');
 
-// ── Admin (authenticated + verified) ─────────────────────────
+// ── Admin Dashboard ──────────────────────────────────────────
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [ProfileController::class,   'edit']) ->name('profile.edit');
