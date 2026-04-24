@@ -10,21 +10,20 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('project_media', function (Blueprint $table) {
+        Schema::create('project_image', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('project_id')
                 ->constrained('projects')
                 ->onDelete('cascade');
 
-            $table->string('type', 100);
-            $table->string('url', 512);
+            $table->string('path', 512);
             $table->string('alt_text')->nullable();
             $table->unsignedInteger('sort_order')->default(0);
+            $table->boolean('featured')->default(false);
 
             $table->index('project_id');
             $table->index('sort_order');
-            $table->index('type');
 
             $table->timestamps();
 
@@ -37,6 +36,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('project_media');
+        Schema::dropIfExists('project_image');
     }
 };

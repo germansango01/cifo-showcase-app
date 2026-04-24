@@ -3,16 +3,16 @@
 namespace Database\Seeders;
 
 use App\Models\Project;
-use App\Models\ProjectMedia;
+use App\Models\ProjectImage;
 use Illuminate\Database\Seeder;
 
-class ProjectMediaSeeder extends Seeder
+class ProjectImageSeeder extends Seeder
 {
     public function run(): void
     {
         Project::all()->each(function ($project) {
-            ProjectMedia::factory()
-                ->count(rand(0, 2))
+            ProjectImage::factory()
+                ->count(rand(1, 3))
                 ->create([
                     'project_id' => $project->id,
                 ]);

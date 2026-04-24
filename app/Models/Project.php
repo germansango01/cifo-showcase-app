@@ -61,4 +61,14 @@ class Project extends Model
     {
         return $this->hasMany(ProjectMedia::class)->orderBy('sort_order');
     }
+
+    public function images()
+    {
+        return $this->hasMany(ProjectImage::class)->orderBy('sort_order');
+    }
+
+    public function featuredImage()
+    {
+        return $this->hasOne(ProjectImage::class)->where('featured', true);
+    }
 }

@@ -6,23 +6,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ProjectMedia extends Model
+class ProjectImage extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'project_media';
+    protected $table = 'project_images';
 
     protected $fillable = [
         'project_id',
-        'type',
-        'url',
+        'path',
         'alt_text',
         'sort_order',
+        'featured',
     ];
 
     protected $casts = [
         'sort_order' => 'integer',
+        'featured' => 'boolean',
     ];
 
     public function project()

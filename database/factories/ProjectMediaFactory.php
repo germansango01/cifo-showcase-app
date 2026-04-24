@@ -13,7 +13,6 @@ class ProjectMediaFactory extends Factory
     public function definition(): array
     {
         $type = $this->faker->randomElement([
-            'image',
             'video',
             'document',
             'pdf',
@@ -21,8 +20,7 @@ class ProjectMediaFactory extends Factory
 
         return [
             'type' => $type,
-            'path' => match ($type) {
-                'image' => $this->faker->imageUrl(800, 600, 'tech'),
+            'url' => match ($type) {
                 'video' => $this->faker->url(),
                 'document' => $this->faker->url(),
                 'pdf' => $this->faker->url(),
