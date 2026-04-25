@@ -1,40 +1,27 @@
-@props(['action', 'searchPlaceholder'])
+@props(['action', 'searchPlaceholder' => 'Buscar...'])
 
 <form method="GET" action="{{ $action }}"
     {{ $attributes->merge(['class' => 'flex flex-col sm:flex-row gap-3 mb-4']) }}>
 
-    {{-- Preserve current query params (sort, direction, per_page, etc.) --}}
-    @foreach ($preserved() as $key => $value)
+    {{-- Mantiene el 'sort' y 'direction' cuando haces una búsqueda --}}
+    @foreach (collect(request()->query())->except(['search', 'page']) as $key => $value)
         <input type="hidden" name="{{ $key }}" value="{{ $value }}">
     @endforeach
 
-    {{-- Search input --}}
+    {{-- Buscador automático --}}
     <label class="input input-bordered flex items-center gap-2 flex-1">
         <i class="icofont-search-1 opacity-50"></i>
         <input type="search" name="search" value="{{ request('search') }}" placeholder="{{ $searchPlaceholder }}"
-            class="grow" autocomplete="off" />
+            class="grow" />
     </label>
 
-    {{-- Additional filters slot --}}
+    {{-- Aquí aparecerá el select de roles que pongas en la vista --}}
     @if ($slot->isNotEmpty())
-        <div class="flex flex-wrap gap-2 items-center">
-            {{ $slot }}
-        </div>
+        {{ $slot }}
     @endif
 
-    {{-- Actions --}}
-    <div class="flex gap-2 shrink-0">
-        <button type="submit" class="btn btn-primary btn-md gap-2">
-            <i class="icofont-filter"></i>
-            Filtrar
-        </button>
-
-        @if (request()->hasAny(['search', 'sort', 'direction']) || ($slot->isNotEmpty() && request()->query()))
-            <a href="{{ $action }}" class="btn btn-ghost btn-md gap-2" aria-label="Limpiar filtros">
-                <i class="icofont-close-circled"></i>
-                Limpiar
-            </a>
-        @endif
+    <div class="flex gap-2">
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+        <a href="{{ $action }}" class="btn btn-ghost">Limpiar</a>
     </div>
-
 </form>
