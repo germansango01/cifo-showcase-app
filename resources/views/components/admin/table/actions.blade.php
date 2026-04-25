@@ -1,5 +1,3 @@
-@props(['editHref', 'showHref', 'deleteAction', 'deleteId'])
-
 <div {{ $attributes->merge(['class' => 'flex items-center gap-1 justify-end']) }}>
 
     {{-- Show --}}

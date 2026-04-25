@@ -1,5 +1,3 @@
-@props(['label', 'value', 'icon', 'trend', 'trendValue', 'color'])
-
 <div {{ $attributes->merge(['class' => 'stat bg-base-100 rounded-box shadow-md']) }}>
     @if ($icon)
         <div class="stat-figure {{ $colorClass() }}">

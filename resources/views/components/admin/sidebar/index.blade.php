@@ -38,18 +38,17 @@
                         <details @class(['open' => request()->routeIs('users.*')])>
                             <summary @class([
                                 'flex items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors list-none',
-                                'bg-primary/10 text-primary font-medium' => request()->routeIs('users.*'),
+                                'bg-primary text-primary-content font-semibold' => request()->routeIs('users.*'),
                                 'hover:bg-neutral-content/10' => !request()->routeIs('users.*'),
                             ])>
                                 <i class="icofont-users text-lg w-5 text-center" aria-hidden="true"></i>
                                 <span class="flex-1">{{ __('admin.nav.users') }}</span>
-                                <i class="icofont-caret-down text-sm opacity-60" aria-hidden="true"></i>
                             </summary>
-                            <ul class="pl-9 mt-0.5 space-y-0.5">
+                            <ul class="mt-0.5 space-y-0.5">
                                 <li>
                                     <a href="{{ route('users.index') }}" @class([
-                                        'block px-3 py-2 rounded-lg text-sm transition-colors',
-                                        'bg-primary/10 text-primary font-medium' => request()->routeIs(
+                                        'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
+                                        'bg-white text-primary font-semibold' => request()->routeIs(
                                             'users.index'),
                                         'hover:bg-neutral-content/10' => !request()->routeIs('users.index'),
                                     ])>
@@ -59,8 +58,8 @@
                                 @can('users.create')
                                     <li>
                                         <a href="{{ route('users.create') }}" @class([
-                                            'block px-3 py-2 rounded-lg text-sm transition-colors',
-                                            'bg-primary/10 text-primary font-medium' => request()->routeIs(
+                                            'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
+                                            'bg-white text-primary font-semibold' => request()->routeIs(
                                                 'users.create'),
                                             'hover:bg-neutral-content/10' => !request()->routeIs('users.create'),
                                         ])>
@@ -79,7 +78,7 @@
                         <details @class(['open' => request()->routeIs('roles.*', 'permissions.*')])>
                             <summary @class([
                                 'flex items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors list-none',
-                                'bg-primary/10 text-primary font-medium' => request()->routeIs(
+                                'bg-primary text-primary-content font-semibold' => request()->routeIs(
                                     'roles.*',
                                     'permissions.*'),
                                 'hover:bg-neutral-content/10' => !request()->routeIs(
@@ -88,14 +87,13 @@
                             ])>
                                 <i class="icofont-shield text-lg w-5 text-center" aria-hidden="true"></i>
                                 <span class="flex-1">{{ __('admin.nav.access') }}</span>
-                                <i class="icofont-caret-down text-sm opacity-60" aria-hidden="true"></i>
                             </summary>
-                            <ul class="pl-9 mt-0.5 space-y-0.5">
+                            <ul class="mt-0.5 space-y-0.5">
                                 @can('roles.view')
                                     <li>
                                         <a href="{{ route('roles.index') }}" @class([
-                                            'block px-3 py-2 rounded-lg text-sm transition-colors',
-                                            'bg-primary/10 text-primary font-medium' => request()->routeIs('roles.*'),
+                                            'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
+                                            'bg-white text-primary font-semibold' => request()->routeIs('roles.*'),
                                             'hover:bg-neutral-content/10' => !request()->routeIs('roles.*'),
                                         ])>
                                             {{ __('admin.nav.roles') }}
@@ -105,8 +103,8 @@
                                 @can('permissions.view')
                                     <li>
                                         <a href="{{ route('permissions.index') }}" @class([
-                                            'block px-3 py-2 rounded-lg text-sm transition-colors',
-                                            'bg-primary/10 text-primary font-medium' => request()->routeIs(
+                                            'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
+                                            'bg-white text-primary font-semibold' => request()->routeIs(
                                                 'permissions.*'),
                                             'hover:bg-neutral-content/10' => !request()->routeIs('permissions.*'),
                                         ])>

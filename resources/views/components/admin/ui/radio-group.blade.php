@@ -1,4 +1,3 @@
-@props(['name', 'label', 'options', 'selected', 'inline'])
 @php
     $hasError = $errors->has($name);
     $currentValue = old($name, $selected);

@@ -4,6 +4,11 @@
         ['label' => __('admin.users.title')],
     ]" />
 
+    <div
+        x-data="{ deleteId: null, deleteName: '' }"
+        x-init="$watch('deleteId', v => { if (v) { const m = document.getElementById('confirm-delete-user'); if (m) m.showModal(); } })"
+        @keydown.escape.window="const m = document.getElementById('confirm-delete-user'); if (m) m.close()">
+
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
         <div>
             <h1 class="text-2xl font-bold">{{ __('admin.users.title') }}</h1>
@@ -125,40 +130,36 @@
 
     {{-- Modal eliminar --}}
     @can('users.delete')
-        <div x-data="{ deleteId: null, deleteName: '' }" x-init="$watch('deleteId', value => {
-            if (value) document.getElementById('confirm-delete-user').showModal();
-        })"
-            @keydown.escape.window="document.getElementById('confirm-delete-user').close()">
+        <x-admin.ui.modal id="confirm-delete-user" :title="__('admin.users.delete_modal_title')" size="sm">
+            <p class="text-sm opacity-80 mb-2">
+                {{ __('admin.users.delete_confirm_prefix') }}
+                <strong x-text="deleteName"></strong>?
+            </p>
 
-            <x-admin.ui.modal id="confirm-delete-user" :title="__('admin.users.delete_modal_title')" size="sm">
-                <p class="text-sm opacity-80 mb-2">
-                    {{ __('admin.users.delete_confirm_prefix') }}
-                    <strong x-text="deleteName"></strong>?
-                </p>
+            <p class="text-xs text-error opacity-80">
+                {{ __('admin.common.irreversible') }}
+            </p>
 
-                <p class="text-xs text-error opacity-80">
-                    {{ __('admin.common.irreversible') }}
-                </p>
+            <x-slot name="actions">
+                <form method="POST" :action="`{{ url('admin/users') }}/${deleteId}`">
+                    @csrf
+                    @method('DELETE')
 
-                <x-slot name="actions">
-                    <form method="POST" :action="`{{ url('admin/users') }}/${deleteId}`">
-                        @csrf
-                        @method('DELETE')
+                    <div class="flex gap-2 justify-end">
+                        <button type="button" class="btn btn-ghost btn-sm"
+                            onclick="document.getElementById('confirm-delete-user').close()">
+                            {{ __('admin.common.cancel') }}
+                        </button>
 
-                        <div class="flex gap-2 justify-end">
-                            <button type="button" class="btn btn-ghost btn-sm"
-                                onclick="document.getElementById('confirm-delete-user').close()">
-                                {{ __('admin.common.cancel') }}
-                            </button>
-
-                            <x-admin.ui.button type="submit" variant="error" size="sm" icon="icofont-ui-delete">
-                                {{ __('admin.common.delete') }}
-                            </x-admin.ui.button>
-                        </div>
-                    </form>
-                </x-slot>
-            </x-admin.ui.modal>
-        </div>
+                        <x-admin.ui.button type="submit" variant="error" size="sm" icon="icofont-ui-delete">
+                            {{ __('admin.common.delete') }}
+                        </x-admin.ui.button>
+                    </div>
+                </form>
+            </x-slot>
+        </x-admin.ui.modal>
     @endcan
+
+    </div>{{-- /x-data --}}
 
 </x-layouts.admin>

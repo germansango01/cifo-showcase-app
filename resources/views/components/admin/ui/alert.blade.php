@@ -1,4 +1,3 @@
-@props(['type' => 'info', 'dismissible' => false, 'icon' => null])
 @php
     $map = [
         'success' => ['cls' => 'alert-success', 'ic' => 'icofont-check-circled'],

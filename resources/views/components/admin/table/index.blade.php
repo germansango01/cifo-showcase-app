@@ -1,5 +1,3 @@
-@props(['items', 'columns'])
-
 <div {{ $attributes }}>
     {{-- Scroll wrapper --}}
     <div class="overflow-x-auto w-full">

@@ -1,4 +1,3 @@
-@props(['id', 'title' => null, 'size' => 'md'])
 @php
     $sizes = [
         'sm' => 'max-w-sm',

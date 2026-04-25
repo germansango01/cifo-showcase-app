@@ -1,5 +1,3 @@
-@props(['name', 'src', 'size', 'ring'])
-
 <div {{ $attributes->merge(['class' => 'avatar' . ($src ? '' : ' avatar-placeholder')]) }}>
     <div
         class="{{ $sizeClass() }} rounded-full

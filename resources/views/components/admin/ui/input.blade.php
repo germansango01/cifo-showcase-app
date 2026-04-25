@@ -1,4 +1,3 @@
-@props(['name', 'label', 'type', 'placeholder', 'value', 'help', 'icon', 'required', 'disabled'])
 @php $hasError = $errors->has($name); @endphp
 
 <fieldset class="fieldset w-full">

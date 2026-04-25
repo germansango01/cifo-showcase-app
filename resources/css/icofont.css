@@ -7,6 +7,7 @@
 */
 
 @font-face {
+
     font-family: "IcoFont";
     font-weight: normal;
     font-style: "Regular";
@@ -2457,6 +2458,246 @@
 
 .icofont-sun-alt:before {
     content: "\ee7e";
+}
+
+.icofont-duotone.icofont-add-users:before {
+    content: "\13ab7";
+}
+
+.icofont-duotone.icofont-add-users:after {
+    content: "\13ab6";
+}
+
+.icofont-duotone.icofont-users:before {
+    content: "\13bda";
+}
+
+.icofont-duotone.icofont-users:after {
+    content: "\13bd9";
+}
+
+.icofont-users:before {
+    content: "\ed0d";
+}
+
+.icofont-user:before {
+    content: "\ed05";
+}
+
+.icofont-duotone.icofont-manage-user:before {
+    content: "\13b5e";
+}
+
+.icofont-duotone.icofont-manage-user:after {
+    content: "\13b5d";
+}
+
+.icofont-duotone.icofont-user-notes:before {
+    content: "\13bd8";
+}
+
+.icofont-duotone.icofont-user-notes:after {
+    content: "\13bd7";
+}
+
+.icofont-duotone.icofont-book:before {
+    content: "\13acd";
+}
+
+.icofont-duotone.icofont-book:after {
+    content: "\13acc";
+}
+
+.icofont-duotone.icofont-bookmark:before {
+    content: "\13acf";
+}
+
+.icofont-duotone.icofont-bookmark:after {
+    content: "\13ace";
+}
+
+.icofont-macbook:before {
+    content: "\ea43";
+}
+
+.icofont-book-alt:before {
+    content: "\ead1";
+}
+
+.icofont-book:before {
+    content: "\ead2";
+}
+
+.icofont-duotone.icofont-purge:before {
+    content: "\13b95";
+}
+
+.icofont-duotone.icofont-purge:after {
+    content: "\13b94";
+}
+
+.icofont-file-pdf:before {
+    content: "\eb1e";
+}
+
+.icofont-file-document:before {
+    content: "\eb0e";
+}
+
+.icofont-doctor:before {
+    content: "\ec19";
+}
+
+.icofont-search-document:before {
+    content: "\ed13";
+}
+
+.icofont-search:before {
+    content: "\ed1b";
+}
+
+.icofont-chart-arrows-axis:before {
+    content: "\e978";
+}
+
+.icofont-chart-bar-graph:before {
+    content: "\e979";
+}
+
+.icofont-chart-flow-1:before {
+    content: "\e97a";
+}
+
+.icofont-chart-flow-2:before {
+    content: "\e97b";
+}
+
+.icofont-chart-flow:before {
+    content: "\e97c";
+}
+
+.icofont-chart-growth:before {
+    content: "\e97d";
+}
+
+.icofont-chart-histogram-alt:before {
+    content: "\e97e";
+}
+
+.icofont-chart-histogram:before {
+    content: "\e97f";
+}
+
+.icofont-chart-line-alt:before {
+    content: "\e980";
+}
+
+.icofont-chart-line:before {
+    content: "\e981";
+}
+
+.icofont-chart-pie-alt:before {
+    content: "\e982";
+}
+
+.icofont-chart-pie:before {
+    content: "\e983";
+}
+
+.icofont-chart-radar-graph:before {
+    content: "\e984";
+}
+
+.icofont-bank-alt:before {
+    content: "\e961";
+}
+
+.icofont-bank:before {
+    content: "\e962";
+}
+
+.icofont-barcode:before {
+    content: "\e963";
+}
+
+.icofont-bill-alt:before {
+    content: "\e964";
+}
+
+.icofont-billboard:before {
+    content: "\e965";
+}
+
+.icofont-briefcase-1:before {
+    content: "\e966";
+}
+
+.icofont-briefcase-2:before {
+    content: "\e967";
+}
+
+.icofont-businessman:before {
+    content: "\e968";
+}
+
+.icofont-businesswoman:before {
+    content: "\e969";
+}
+
+.icofont-chair:before {
+    content: "\e96a";
+}
+
+.icofont-coins:before {
+    content: "\e96b";
+}
+
+.icofont-company:before {
+    content: "\e96c";
+}
+
+.icofont-contact-add:before {
+    content: "\e96d";
+}
+
+.icofont-files-stack:before {
+    content: "\e96e";
+}
+
+.icofont-handshake-deal:before {
+    content: "\e96f";
+}
+
+.icofont-id-card:before {
+    content: "\e970";
+}
+
+.icofont-meeting-add:before {
+    content: "\e971";
+}
+
+.icofont-money-bag:before {
+    content: "\e972";
+}
+
+.icofont-pie-chart:before {
+    content: "\e973";
+}
+
+.icofont-presentation-alt:before {
+    content: "\e974";
+}
+
+.icofont-presentation:before {
+    content: "\e975";
+}
+
+.icofont-stamp:before {
+    content: "\e976";
+}
+
+.icofont-stock-mobile:before {
+    content: "\e977";
 }
 
 [class^="icofont-"].icofont-duotone,

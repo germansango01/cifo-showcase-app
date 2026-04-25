@@ -1,5 +1,3 @@
-@props(['variant', 'size', 'icon', 'iconRight', 'type', 'outline', 'ghost', 'loading', 'block', 'href'])
-
 @if ($href)
     <a href="{{ $href }}" {{ $attributes->merge(['class' => $classes()]) }}>
         @if ($icon)

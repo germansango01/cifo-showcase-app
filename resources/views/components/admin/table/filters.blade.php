@@ -1,5 +1,3 @@
-@props(['action', 'searchPlaceholder' => 'Buscar...'])
-
 <form method="GET" action="{{ $action }}"
     {{ $attributes->merge(['class' => 'flex flex-col sm:flex-row gap-3 mb-4']) }}>
 
