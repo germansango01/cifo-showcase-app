@@ -5,70 +5,94 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
+use App\Models\Category;
 use App\Models\Course;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class CourseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(): View
+    public function index(Request $request): View
     {
+        Gate::authorize('courses.view');
 
-        $courses = Course::orderBy('name', 'asc')
-                        ->where("category_id", 3)->get();
+        $search     = $request->query('search');
+        $categoryId = $request->query('category');
 
-        // dd($courses);
+        $courses = Course::query()
+            ->with('category')
+            ->withCount('projects')
+            ->when($search, fn ($q) => $q->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('course_code', 'like', "%{$search}%");
+            }))
+            ->when($categoryId, fn ($q) => $q->where('category_id', $categoryId))
+            ->orderBy('course_code')
+            ->paginate(15)
+            ->withQueryString();
 
-        return view('admin.courses.index', compact('courses'));
+        $categories = Category::orderBy('name_es')->get();
+
+        return view('admin.courses.index', compact('courses', 'categories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(): View
     {
-        //
+        Gate::authorize('courses.create');
+
+        $categoryOptions = Category::orderBy('name_es')->pluck('name_es', 'id')->toArray();
+
+        return view('admin.courses.create', compact('categoryOptions'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCourseRequest $request)
+    public function store(StoreCourseRequest $request): RedirectResponse|Response
     {
-        //
+        Gate::authorize('courses.create');
+
+        Course::create($request->validated());
+
+        session()->flash('success', __('admin.courses.created'));
+
+        if ($request->wantsJson()) {
+            return response()->noContent();
+        }
+
+        return redirect()->route('courses.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Course $course)
+    public function edit(Course $course): View
     {
-        //
+        Gate::authorize('courses.update');
+
+        $categoryOptions = Category::orderBy('name_es')->pluck('name_es', 'id')->toArray();
+
+        return view('admin.courses.edit', compact('course', 'categoryOptions'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Course $course)
+    public function update(UpdateCourseRequest $request, Course $course): RedirectResponse|Response
     {
-        //
+        Gate::authorize('courses.update');
+
+        $course->update($request->validated());
+
+        session()->flash('success', __('admin.courses.updated'));
+
+        if ($request->wantsJson()) {
+            return response()->noContent();
+        }
+
+        return redirect()->route('courses.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCourseRequest $request, Course $course)
+    public function destroy(Course $course): RedirectResponse
     {
-        //
-    }
+        Gate::authorize('courses.delete');
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Course $course)
-    {
-        //
+        $course->delete();
+
+        return redirect()->route('courses.index')->with('success', __('admin.courses.deleted'));
     }
 }

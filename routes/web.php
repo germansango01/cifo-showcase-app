@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\CourseController;
+use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Front\PageController;
 use App\Http\Controllers\Front\ProjectController;
@@ -34,6 +36,8 @@ Route::middleware(['auth', 'verified'])
 
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class)->except('show');
+    Route::resource('courses', CourseController::class)->except('show');
+    Route::resource('tags', TagController::class)->except('show');
     Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions.index');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
