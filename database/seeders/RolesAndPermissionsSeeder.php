@@ -20,7 +20,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         $permissions = [
             'roles.view', 'roles.create', 'roles.update', 'roles.delete',
-            'permissions.view',
+            'permissions.view', 'permissions.create', 'permissions.update', 'permissions.delete',
             'dashboard.view',
             'users.assign-roles',
         ];
@@ -36,6 +36,9 @@ class RolesAndPermissionsSeeder extends Seeder
         }
 
         // Definir Roles
+
+        // SUPER ADMIN: bypass via Gate::before — no explicit permissions needed
+        Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
 
         // ADMIN: Tiene todos los permisos explícitos
         $admin = Role::firstOrCreate(['name' => 'Admin', 'guard_name' => 'web']);

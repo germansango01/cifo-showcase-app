@@ -118,6 +118,90 @@
                 @endcanany
             @endcanany
 
+            {{-- Sección Contenido --}}
+            @canany(['courses.view', 'tags.view'])
+                <li
+                    class="menu-title mt-4 mb-1 px-3 text-xs font-semibold uppercase tracking-widest text-neutral-content/50">
+                    {{ __('admin.nav.content_section') }}
+                </li>
+
+                {{-- Cursos --}}
+                @can('courses.view')
+                    <li>
+                        <details @class(['open' => request()->routeIs('courses.*')])>
+                            <summary @class([
+                                'flex items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors list-none',
+                                'bg-primary text-primary-content font-semibold' => request()->routeIs('courses.*'),
+                                'hover:bg-neutral-content/10' => !request()->routeIs('courses.*'),
+                            ])>
+                                <i class="icofont-book-alt text-lg w-5 text-center" aria-hidden="true"></i>
+                                <span class="flex-1">{{ __('admin.nav.courses') }}</span>
+                            </summary>
+                            <ul class="mt-0.5 space-y-0.5">
+                                <li>
+                                    <a href="{{ route('courses.index') }}" @class([
+                                        'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
+                                        'bg-white text-primary font-semibold' => request()->routeIs('courses.index'),
+                                        'hover:bg-neutral-content/10' => !request()->routeIs('courses.index'),
+                                    ])>
+                                        {{ __('admin.nav.courses_list') }}
+                                    </a>
+                                </li>
+                                @can('courses.create')
+                                    <li>
+                                        <a href="{{ route('courses.create') }}" @class([
+                                            'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
+                                            'bg-white text-primary font-semibold' => request()->routeIs('courses.create'),
+                                            'hover:bg-neutral-content/10' => !request()->routeIs('courses.create'),
+                                        ])>
+                                            {{ __('admin.nav.courses_create') }}
+                                        </a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </details>
+                    </li>
+                @endcan
+
+                @can('tags.view')
+                <li>
+                    <details @class(['open' => request()->routeIs('tags.*')])>
+                        <summary @class([
+                            'flex items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors list-none',
+                            'bg-primary text-primary-content font-semibold' => request()->routeIs('tags.*'),
+                            'hover:bg-neutral-content/10' => !request()->routeIs('tags.*'),
+                        ])>
+                            <i class="icofont-price text-lg w-5 text-center" aria-hidden="true"></i>
+                            <span class="flex-1">{{ __('admin.nav.tags') }}</span>
+                        </summary>
+                        <ul class="mt-0.5 space-y-0.5">
+                            <li>
+                                <a href="{{ route('tags.index') }}" @class([
+                                    'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
+                                    'bg-white text-primary font-semibold' => request()->routeIs('tags.index'),
+                                    'hover:bg-neutral-content/10' => !request()->routeIs('tags.index'),
+                                ])>
+                                    {{ __('admin.nav.tags_list') }}
+                                </a>
+                            </li>
+                            @can('tags.create')
+                                <li>
+                                    <a href="{{ route('tags.create') }}" @class([
+                                        'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
+                                        'bg-white text-primary font-semibold' => request()->routeIs('tags.create'),
+                                        'hover:bg-neutral-content/10' => !request()->routeIs('tags.create'),
+                                    ])>
+                                        {{ __('admin.nav.tags_create') }}
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </details>
+                </li>
+                @endcan
+
+            @endcanany
+
             {{-- Sección Cuenta --}}
             <li
                 class="menu-title mt-4 mb-1 px-3 text-xs font-semibold uppercase tracking-widest text-neutral-content/50">

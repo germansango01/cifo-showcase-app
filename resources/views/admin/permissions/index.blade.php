@@ -9,19 +9,21 @@
             <h1 class="text-2xl font-bold">{{ __('admin.permissions.title') }}</h1>
             <p class="text-sm opacity-70">{{ __('admin.permissions.subtitle') }}</p>
         </div>
-        <x-admin.ui.badge color="neutral">
-            {{ $permissions->flatten()->count() }} {{ __('admin.nav.permissions') }} · {{ $totalRoles }}
-            {{ __('admin.nav.roles') }}
-        </x-admin.ui.badge>
+        <div class="flex items-center gap-3">
+            <x-admin.ui.badge color="neutral">
+                {{ $permissions->flatten()->count() }} {{ __('admin.nav.permissions') }} · {{ $totalRoles }}
+                {{ __('admin.nav.roles') }}
+            </x-admin.ui.badge>
+            @can('permissions.create')
+                <x-admin.ui.button :href="route('permissions.create')" icon="icofont-plus">
+                    {{ __('admin.permissions.create') }}
+                </x-admin.ui.button>
+            @endcan
+        </div>
     </div>
 
-    <x-admin.ui.alert type="info" class="mb-6">
-        {{ __('admin.permissions.seeder_notice') }}
-        <code class="font-mono text-xs bg-base-300 px-1 py-0.5 rounded">{{ __('admin.permissions.seeder_cmd') }}</code>.
-    </x-admin.ui.alert>
-
     <div class="space-y-3">
-        @foreach ($permissions as $module => $modulePerms)
+        @forelse ($permissions as $module => $modulePerms)
             <details class="collapse collapse-arrow bg-base-100 border border-base-300 rounded-xl" open>
                 <summary
                     class="collapse-title text-base font-semibold capitalize flex items-center gap-2 cursor-pointer select-none">
@@ -40,6 +42,7 @@
                                     <th>{{ __('admin.permissions.col_perm') }}</th>
                                     <th>{{ __('admin.permissions.col_action') }}</th>
                                     <th>{{ __('admin.permissions.col_roles') }}</th>
+                                    <th class="text-right">{{ __('admin.common.actions') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -65,12 +68,57 @@
                                         <td>
                                             <div class="flex flex-wrap gap-1">
                                                 @forelse($permission->roles as $role)
-                                                    <x-admin.ui.badge
-                                                        color="primary">{{ $role->name }}</x-admin.ui.badge>
+                                                    <x-admin.ui.badge color="primary">{{ $role->name }}</x-admin.ui.badge>
                                                 @empty
-                                                    <span
-                                                        class="text-sm opacity-40 italic">{{ __('admin.permissions.unassigned') }}</span>
+                                                    <span class="text-sm opacity-40 italic">{{ __('admin.permissions.unassigned') }}</span>
                                                 @endforelse
+                                            </div>
+                                        </td>
+                                        <td class="text-right">
+                                            <div class="flex items-center gap-1 justify-end">
+                                                @can('permissions.update')
+                                                    <div class="tooltip tooltip-left" data-tip="{{ __('admin.common.edit') }}">
+                                                        <a href="{{ route('permissions.edit', $permission) }}"
+                                                            class="btn btn-ghost btn-xs btn-square">
+                                                            <i class="icofont-edit text-base text-warning"></i>
+                                                        </a>
+                                                    </div>
+                                                @endcan
+                                                @can('permissions.delete')
+                                                    <div class="tooltip tooltip-left" data-tip="{{ __('admin.common.delete') }}">
+                                                        <button type="button" class="btn btn-ghost btn-xs btn-square"
+                                                            onclick="document.getElementById('del-perm-{{ $permission->id }}').showModal()">
+                                                            <i class="icofont-ui-delete text-base text-error"></i>
+                                                        </button>
+                                                    </div>
+                                                    <dialog id="del-perm-{{ $permission->id }}" class="modal modal-bottom sm:modal-middle">
+                                                        <div class="modal-box">
+                                                            <h3 class="font-bold text-lg flex items-center gap-2">
+                                                                <i class="icofont-warning-alt text-warning text-2xl"></i>
+                                                                {{ __('admin.common.confirm_delete') }}
+                                                            </h3>
+                                                            <p class="py-4 text-base-content/70">
+                                                                {{ __('admin.permissions.delete_confirm', ['name' => $permission->name]) }}
+                                                            </p>
+                                                            <div class="modal-action gap-2">
+                                                                <form method="dialog">
+                                                                    <button class="btn btn-ghost">{{ __('admin.common.cancel') }}</button>
+                                                                </form>
+                                                                <form method="POST" action="{{ route('permissions.destroy', $permission) }}">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="btn btn-error gap-2">
+                                                                        <i class="icofont-ui-delete"></i>
+                                                                        {{ __('admin.common.delete') }}
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                        <form method="dialog" class="modal-backdrop">
+                                                            <button>{{ __('admin.common.close') }}</button>
+                                                        </form>
+                                                    </dialog>
+                                                @endcan
                                             </div>
                                         </td>
                                     </tr>
@@ -80,6 +128,8 @@
                     </div>
                 </div>
             </details>
-        @endforeach
+        @empty
+            <x-admin.ui.empty-state icon="icofont-key" :message="__('admin.permissions.empty')" />
+        @endforelse
     </div>
 </x-layouts.admin>

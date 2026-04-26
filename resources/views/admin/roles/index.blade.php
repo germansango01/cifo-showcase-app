@@ -19,7 +19,7 @@
     <x-admin.ui.card>
         <x-admin.table.index :items="$roles" :columns="[__('admin.roles.col_role'), __('admin.roles.col_perms'), __('admin.roles.col_users'), '']">
             @forelse($roles as $role)
-                <tr>
+                <tr class="hover">
                     <td>
                         <div class="flex items-center gap-2">
                             <i class="icofont-shield text-primary text-lg"></i>
@@ -41,8 +41,50 @@
                     </td>
                     <td class="text-right">
                         @if ($role->name !== 'Super Admin')
-                            <x-admin.table.actions :edit-url="route('roles.edit', $role)" :delete-url="route('roles.destroy', $role)" :delete-confirm="__('admin.roles.delete_confirm', ['name' => $role->name])"
-                                edit-permission="roles.update" delete-permission="roles.delete" />
+                            <div class="flex items-center gap-1 justify-end">
+                                @can('roles.update')
+                                    <div class="tooltip tooltip-left" data-tip="{{ __('admin.common.edit') }}">
+                                        <a href="{{ route('roles.edit', $role) }}" class="btn btn-ghost btn-xs btn-square">
+                                            <i class="icofont-edit text-base text-warning"></i>
+                                        </a>
+                                    </div>
+                                @endcan
+                                @can('roles.delete')
+                                    <div class="tooltip tooltip-left" data-tip="{{ __('admin.common.delete') }}">
+                                        <button type="button" class="btn btn-ghost btn-xs btn-square"
+                                            onclick="document.getElementById('del-role-{{ $role->id }}').showModal()">
+                                            <i class="icofont-ui-delete text-base text-error"></i>
+                                        </button>
+                                    </div>
+                                    <dialog id="del-role-{{ $role->id }}" class="modal modal-bottom sm:modal-middle">
+                                        <div class="modal-box">
+                                            <h3 class="font-bold text-lg flex items-center gap-2">
+                                                <i class="icofont-warning-alt text-warning text-2xl"></i>
+                                                {{ __('admin.common.confirm_delete') }}
+                                            </h3>
+                                            <p class="py-4 text-base-content/70">
+                                                {{ __('admin.roles.delete_confirm', ['name' => $role->name]) }}
+                                            </p>
+                                            <div class="modal-action gap-2">
+                                                <form method="dialog">
+                                                    <button class="btn btn-ghost">{{ __('admin.common.cancel') }}</button>
+                                                </form>
+                                                <form method="POST" action="{{ route('roles.destroy', $role) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-error gap-2">
+                                                        <i class="icofont-ui-delete"></i>
+                                                        {{ __('admin.common.delete') }}
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <form method="dialog" class="modal-backdrop">
+                                            <button>{{ __('admin.common.close') }}</button>
+                                        </form>
+                                    </dialog>
+                                @endcan
+                            </div>
                         @else
                             <span class="text-sm opacity-40 italic">{{ __('admin.common.protected') }}</span>
                         @endif
