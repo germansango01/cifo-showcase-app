@@ -20,7 +20,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         $permissions = [
             'roles.view', 'roles.create', 'roles.update', 'roles.delete',
-            'permissions.view',
+            'permissions.view', 'permissions.create', 'permissions.update', 'permissions.delete',
             'dashboard.view',
             'users.assign-roles',
         ];

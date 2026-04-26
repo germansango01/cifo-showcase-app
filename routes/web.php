@@ -38,7 +38,7 @@ Route::middleware(['auth', 'verified'])
     Route::resource('roles', RoleController::class)->except('show');
     Route::resource('courses', CourseController::class)->except('show');
     Route::resource('tags', TagController::class)->except('show');
-    Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions.index');
+    Route::resource('permissions', PermissionController::class)->except('show');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 });
