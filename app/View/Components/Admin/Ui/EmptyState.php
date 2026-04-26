@@ -6,11 +6,8 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Pagination extends Component
+class EmptyState extends Component
 {
-    /**
-     * Create a new component instance.
-     */
     public function __construct(
         public string $icon,
         public string $title,
@@ -20,11 +17,8 @@ class Pagination extends Component
     ) {
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     */
     public function render(): View|Closure|string
     {
-        return view('components.admin.ui.pagination');
+        return view('components.admin.ui.empty-state');
     }
 }

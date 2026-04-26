@@ -68,9 +68,6 @@
     {{-- Toast de notificaciones global --}}
     {{-- <x-admin.ui.toast /> --}}
 
-    {{-- Admin Scripts --}}
-    @vite('resources/js/admin.js')
-
 </body>
 
 </html>

@@ -1,5 +1,3 @@
-@props(['items'])
-
 <div {{ $attributes->merge(['class' => 'breadcrumbs text-sm mb-4']) }}>
     <ul>
         {{-- Home --}}

@@ -1,4 +1,3 @@
-@props(['name', 'label', 'type', 'placeholder', 'value', 'help', 'icon', 'required', 'disabled'])
 @php $hasError = $errors->has($name); @endphp
 
 <fieldset class="fieldset w-full">
@@ -9,7 +8,8 @@
             @endif
         </legend>
     @endif
-    <label class="input input-bordered w-full flex items-center gap-2 @error($name) input-error @enderror">
+    <label class="input input-bordered w-full flex items-center gap-2 @error($name) input-error @enderror"
+        :class="{ 'input-error': $data.form?.invalid('{{ $name }}') }">
         @if ($icon)
             <i class="{{ $icon }} opacity-60"></i>
         @endif
@@ -24,8 +24,12 @@
                 <i class="icofont-warning-alt"></i> {{ $message }}
             </span>
         @else
+            <span x-cloak
+                  x-show="$data.form?.invalid('{{ $name }}')"
+                  x-text="$data.form?.errors?.{{ $name }} ?? ''"
+                  class="text-error flex items-center gap-1"></span>
             @if ($help)
-                {{ $help }}
+                <span x-show="!($data.form?.invalid('{{ $name }}') ?? false)">{{ $help }}</span>
             @endif
         @enderror
     </p>

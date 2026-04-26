@@ -11,7 +11,7 @@
     </div>
 
     <x-admin.ui.card class="max-w-2xl">
-        <form method="POST" action="{{ route('users.store') }}" x-data="{
+        <form method="POST" action="{{ route('users.store') }}" novalidate x-data="{
             form: $form('post', '{{ route('users.store') }}', {
                 name: '',
                 email: '',
@@ -19,7 +19,7 @@
                 password_confirmation: '',
                 roles: []
             })
-        }" @submit.prevent="form.submit()">
+        }" @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('users.index') }}' })">
             @csrf
 
             {{-- Datos personales --}}

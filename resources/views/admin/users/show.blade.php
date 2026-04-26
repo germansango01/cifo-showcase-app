@@ -154,11 +154,11 @@
                 @endif
             </x-admin.ui.card>
 
-            {{-- Acciones peligrosas --}}
+            {{-- Acciones del usuario --}}
             @canany(['users.update', 'users.delete'])
                 <x-admin.ui.card>
-                    <h2 class="text-lg font-semibold mb-4 flex items-center gap-2 text-error">
-                        <i class="icofont-warning-alt"></i> {{ __('admin.users.danger_zone') }}
+                    <h2 class="text-lg font-semibold mb-4 flex items-center gap-2 text-base-content/70">
+                        <i class="icofont-options"></i> {{ __('admin.users.account_actions') }}
                     </h2>
 
                     <div class="flex flex-col gap-2">

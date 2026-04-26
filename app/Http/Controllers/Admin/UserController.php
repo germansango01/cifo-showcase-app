@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
@@ -19,10 +20,35 @@ class UserController extends Controller
     {
         Gate::authorize('users.view');
 
+        // Validamos para que nadie rompa la consulta desde la URL
+        $request->validate([
+            'sort' => 'in:id,name,email,created_at',
+            'direction' => 'in:asc,desc',
+        ]);
+
+        // Capturamos los filtros
+        $search = $request->query('search');
+        $roleName = $request->query('role');
+        $sort = $request->query('sort', 'id');
+        $direction = $request->query('direction', 'asc');
+
         $users = User::query()
             ->with('roles')
-            ->when($request->search, fn ($q) => $q->where('name', 'like', "%{$request->search}%"))
-            ->paginate(15);
+            // Filtro de búsqueda: Buscamos en nombre O email
+            ->when($search, function ($q) use ($search) {
+                $q->where(function ($query) use ($search) {
+                    $query->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
+                });
+            })
+            // Filtro por Rol: Relación con la tabla roles
+            ->when($roleName, function ($q) use ($roleName) {
+                $q->whereHas('roles', fn ($qr) => $qr->where('name', $roleName));
+            })
+            // Ordenamiento y Paginación
+            ->orderBy($sort, $direction)
+            ->paginate(5)
+            ->withQueryString();
 
         $roles = Role::all();
 
@@ -41,7 +67,7 @@ class UserController extends Controller
         return view('admin.users.create', compact('roles'));
     }
 
-    public function store(StoreUserRequest $request): RedirectResponse
+    public function store(StoreUserRequest $request): RedirectResponse|Response
     {
         Gate::authorize('users.create');
 
@@ -56,7 +82,13 @@ class UserController extends Controller
             $user->assignRole($request->roles);
         }
 
-        return redirect()->route('users.index')->with('success', 'Usuario creado correctamente.');
+        session()->flash('success', 'Usuario creado correctamente.');
+
+        if ($request->wantsJson()) {
+            return response()->noContent();
+        }
+
+        return redirect()->route('users.index');
     }
 
     /**
@@ -84,7 +116,7 @@ class UserController extends Controller
         return view('admin.users.edit', compact('user', 'roles', 'userRoleNames'));
     }
 
-    public function update(UpdateUserRequest $request, User $user): RedirectResponse
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse|Response
     {
         Gate::authorize('users.update');
 
@@ -99,7 +131,13 @@ class UserController extends Controller
             $user->syncRoles($request->roles);
         }
 
-        return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente.');
+        session()->flash('success', 'Usuario actualizado correctamente.');
+
+        if ($request->wantsJson()) {
+            return response()->noContent();
+        }
+
+        return redirect()->route('users.index');
     }
 
     public function destroy(User $user): RedirectResponse

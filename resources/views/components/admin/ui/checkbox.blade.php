@@ -1,4 +1,3 @@
-@props(['name', 'label', 'checked', 'value', 'disabled', 'help', 'inline'])
 @php $hasError = $errors->has($name); @endphp
 
 <div class="{{ $inline ? 'inline-flex items-center gap-2' : 'fieldset w-full' }}">

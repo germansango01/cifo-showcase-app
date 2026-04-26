@@ -1,5 +1,3 @@
-@props(['padding', 'shadow'])
-
 <div
     {{ $attributes->merge([
         'class' => collect(['card', 'bg-base-100'])->when($shadow, fn($c) => $c->push('shadow-md'))->implode(' '),

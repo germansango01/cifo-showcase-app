@@ -13,7 +13,7 @@
     display: inline-block;
     padding: var(--space-2) var(--space-4);
 
-    background: var(--color-primary);
+    background: var(--color-primary-500);
     color: #fff;
     font-size: var(--text-sm);
     font-weight: 600;

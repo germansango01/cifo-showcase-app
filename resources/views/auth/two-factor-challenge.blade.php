@@ -1,12 +1,12 @@
-<x-layouts.guest title="Autenticación en dos pasos">
+<x-layouts.guest :title="__('admin.auth.two_factor_title')">
     {{-- Header --}}
     <div class="flex items-center gap-3 mb-6">
         <div class="bg-primary/10 text-primary rounded-xl p-3">
             <i class="icofont-mobile-phone text-2xl"></i>
         </div>
         <div>
-            <h1 class="text-xl font-bold leading-tight">Verificación en dos pasos</h1>
-            <p class="text-sm opacity-60">Introduce el código de tu aplicación de autenticación</p>
+            <h1 class="text-xl font-bold leading-tight">{{ __('admin.auth.two_factor_title') }}</h1>
+            <p class="text-sm opacity-60">{{ __('admin.auth.two_factor_sub') }}</p>
         </div>
     </div>
 
@@ -15,7 +15,7 @@
         {{-- Code mode --}}
         <div x-show="! useRecovery">
             <p class="text-sm text-base-content/70 mb-4">
-                Introduce el código de 6 dígitos generado por tu aplicación de autenticación.
+                {{ __('admin.auth.two_factor_body') }}
             </p>
 
             <form method="POST" action="/two-factor-challenge">
@@ -24,7 +24,7 @@
                 <div class="flex flex-col gap-4">
                     <fieldset class="fieldset w-full">
                         <legend class="fieldset-legend">
-                            Código de autenticación <span class="text-error">*</span>
+                            {{ __('admin.auth.auth_code') }} <span class="text-error">*</span>
                         </legend>
                         <label
                             class="input input-bordered w-full flex items-center gap-2
@@ -46,7 +46,7 @@
                     </fieldset>
 
                     <x-admin.ui.button type="submit" icon="icofont-check-circled" block>
-                        Verificar código
+                        {{ __('admin.auth.verify_code_btn') }}
                     </x-admin.ui.button>
                 </div>
             </form>
@@ -55,7 +55,7 @@
         {{-- Recovery mode --}}
         <div x-show="useRecovery" x-cloak>
             <p class="text-sm text-base-content/70 mb-4">
-                Introduce uno de tus códigos de recuperación de emergencia.
+                {{ __('admin.auth.recovery_body') }}
             </p>
 
             <form method="POST" action="/two-factor-challenge">
@@ -64,7 +64,7 @@
                 <div class="flex flex-col gap-4">
                     <fieldset class="fieldset w-full">
                         <legend class="fieldset-legend">
-                            Código de recuperación <span class="text-error">*</span>
+                            {{ __('admin.auth.recovery_code') }} <span class="text-error">*</span>
                         </legend>
                         <label
                             class="input input-bordered w-full flex items-center gap-2
@@ -85,7 +85,7 @@
                     </fieldset>
 
                     <x-admin.ui.button type="submit" icon="icofont-check-circled" block>
-                        Verificar código de recuperación
+                        {{ __('admin.auth.verify_recovery_btn') }}
                     </x-admin.ui.button>
                 </div>
             </form>
@@ -98,8 +98,8 @@
                 <i class="icofont-exchange" x-cloak></i>
                 <span
                     x-text="useRecovery
-                    ? 'Usar código de autenticación'
-                    : 'Usar código de recuperación'">
+                    ? '{{ __('admin.auth.use_auth_code') }}'
+                    : '{{ __('admin.auth.use_recovery_code') }}'">
                 </span>
             </button>
         </div>

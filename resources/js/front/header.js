@@ -4,13 +4,14 @@
  */
 
 const header = document.querySelector('.site-header');
-if (!header) return;
 
-const SCROLL_THRESHOLD = 60;
+if (header) {
+    const SCROLL_THRESHOLD = 60;
 
-function onScroll() {
-    header.classList.toggle('scrolled', window.scrollY > SCROLL_THRESHOLD);
+    function onScroll() {
+        header.classList.toggle('scrolled', window.scrollY > SCROLL_THRESHOLD);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 }
-
-window.addEventListener('scroll', onScroll, { passive: true });
-onScroll();
