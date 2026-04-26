@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
@@ -46,8 +47,8 @@ class UserController extends Controller
             })
             // Ordenamiento y Paginación
             ->orderBy($sort, $direction)
-            ->paginate(15)
-            ->withQueryString(); // MANTIENE los filtros al cambiar de página
+            ->paginate(5)
+            ->withQueryString();
 
         $roles = Role::all();
 
@@ -66,7 +67,7 @@ class UserController extends Controller
         return view('admin.users.create', compact('roles'));
     }
 
-    public function store(StoreUserRequest $request): RedirectResponse
+    public function store(StoreUserRequest $request): RedirectResponse|Response
     {
         Gate::authorize('users.create');
 
@@ -81,7 +82,13 @@ class UserController extends Controller
             $user->assignRole($request->roles);
         }
 
-        return redirect()->route('users.index')->with('success', 'Usuario creado correctamente.');
+        session()->flash('success', 'Usuario creado correctamente.');
+
+        if ($request->wantsJson()) {
+            return response()->noContent();
+        }
+
+        return redirect()->route('users.index');
     }
 
     /**
@@ -109,7 +116,7 @@ class UserController extends Controller
         return view('admin.users.edit', compact('user', 'roles', 'userRoleNames'));
     }
 
-    public function update(UpdateUserRequest $request, User $user): RedirectResponse
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse|Response
     {
         Gate::authorize('users.update');
 
@@ -124,7 +131,13 @@ class UserController extends Controller
             $user->syncRoles($request->roles);
         }
 
-        return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente.');
+        session()->flash('success', 'Usuario actualizado correctamente.');
+
+        if ($request->wantsJson()) {
+            return response()->noContent();
+        }
+
+        return redirect()->route('users.index');
     }
 
     public function destroy(User $user): RedirectResponse

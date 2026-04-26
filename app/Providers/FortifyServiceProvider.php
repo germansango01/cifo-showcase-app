@@ -32,13 +32,12 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
         Fortify::redirectUserForTwoFactorAuthenticationUsing(RedirectIfTwoFactorAuthenticatable::class);
 
-        // Login Request personalizado
+        // Login Request
         $this->app->bind(FortifyLoginRequest::class, LoginRequest::class);
 
         // Rate Limiters
         RateLimiter::for('login', function (Request $request) {
-            // Las peticiones precognitivas (validación en vivo) no consumen el límite.
-            // No autentican, solo validan formato → sin riesgo de brute-force.
+
             if ($request->isPrecognitive()) {
                 return Limit::none();
             }
@@ -54,7 +53,7 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
 
-        // Vistas
+        // Views
         Fortify::loginView(fn () => view('auth.login'));
         Fortify::registerView(fn () => view('auth.register'));
         Fortify::requestPasswordResetLinkView(fn () => view('auth.forgot-password'));

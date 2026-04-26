@@ -2,7 +2,7 @@
     <x-admin.ui.breadcrumb :items="[
         ['label' => __('admin.nav.dashboard'), 'href' => route('dashboard')],
         ['label' => __('admin.users.title'), 'href' => route('users.index')],
-        ['label' => $user->name, 'href' => route('users.show', $user)],
+        ['label' => $user->name, 'href' => route('users.index')],
         ['label' => __('admin.common.edit')],
     ]" />
 
@@ -12,7 +12,7 @@
     </div>
 
     <x-admin.ui.card class="max-w-2xl">
-        <form method="POST" action="{{ route('users.update', $user) }}" x-data="{
+        <form method="POST" action="{{ route('users.update', $user) }}" novalidate x-data="{
             form: $form('patch', '{{ route('users.update', $user) }}', {
                 name: '{{ addslashes($user->name) }}',
                 email: '{{ $user->email }}',
@@ -21,7 +21,7 @@
                 roles: {{ Js::from($user->roles->pluck('name')) }}
             })
         }"
-            @submit.prevent="form.submit().then(r => window.location = r.request.responseURL)">
+            @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('users.index') }}' })">
             @csrf
             @method('PATCH')
 
@@ -104,7 +104,7 @@
 
             {{-- Acciones --}}
             <div class="flex justify-end gap-2 mt-6 pt-4 border-t border-base-300">
-                <x-admin.ui.button variant="ghost" :href="route('users.show', $user)">
+                <x-admin.ui.button variant="ghost" :href="route('users.index')">
                     {{ __('admin.common.cancel') }}
                 </x-admin.ui.button>
                 <x-admin.ui.button type="submit" icon="icofont-check-circled" x-bind:loading="form.processing">

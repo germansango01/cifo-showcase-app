@@ -6,7 +6,6 @@
 
     <div
         x-data="{ deleteId: null, deleteName: '' }"
-        x-init="$watch('deleteId', v => { if (v) { const m = document.getElementById('confirm-delete-user'); if (m) m.showModal(); } })"
         @keydown.escape.window="const m = document.getElementById('confirm-delete-user'); if (m) m.close()">
 
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
@@ -106,10 +105,7 @@
                             @can('users.delete')
                                 @if (auth()->id() !== $user->id)
                                     <button type="button" class="btn btn-ghost btn-xs btn-square"
-                                        @click="
-                                            deleteId = {{ $user->id }};
-                                            deleteName = @js($user->name);
-                                        ">
+                                        @click="deleteId = {{ $user->id }}; deleteName = @js($user->name); $nextTick(() => document.getElementById('confirm-delete-user').showModal())">
                                         <i class="icofont-ui-delete text-error text-base"></i>
                                     </button>
                                 @endif

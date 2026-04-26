@@ -150,16 +150,17 @@
                     {{ __('admin.profile.two_factor_disabled') }}
                 </x-admin.ui.alert>
             @endif
-
+            {{--  
             @if ($user->two_factor_secret)
-                {{-- ---- 2FA HABILITADO ----------------------------------- --}}
+                <!-- 2FA HABILITADO -->
                 <div x-data="{ showCodes: {{ session('status') === 'two-factor-authentication-enabled' ? 'true' : 'false' }} }">
 
                     <div class="badge badge-success gap-1 mb-6">
                         <i class="icofont-check-circled"></i> {{ __('admin.profile.two_factor_active') }}
                     </div>
 
-                    {{-- QR Code --}}
+                    
+                    <!-- QR Code -->
                     <div class="mb-6">
                         <p class="text-sm font-medium mb-3">
                             {{ __('admin.profile.two_factor_rescan') }}
@@ -175,7 +176,8 @@
                         </p>
                     </div>
 
-                    {{-- Recovery codes --}}
+                   
+                    <!-- Recovery codes -->
                     <div class="mb-6">
                         <button type="button" class="btn btn-ghost btn-sm gap-1" @click="showCodes = !showCodes"
                             :aria-expanded="showCodes.toString()" aria-controls="recovery-codes">
@@ -199,7 +201,7 @@
                                 @endforeach
                             </div>
 
-                            {{-- Regenerar códigos --}}
+                            <!-- Regenerar códigos -->
                             <form method="POST" action="{{ route('two-factor.recovery-codes') }}" class="mt-3">
                                 @csrf
                                 <x-admin.ui.button type="submit" variant="warning" size="sm"
@@ -210,7 +212,7 @@
                         </div>
                     </div>
 
-                    {{-- Desactivar 2FA --}}
+                    <!-- Desactivar 2FA -->
                     <form method="POST" action="{{ route('two-factor.disable') }}" x-data
                         @submit.prevent="
                               if (confirm('{{ __('admin.profile.disable_2fa_confirm') }}')) $el.submit()
@@ -223,7 +225,7 @@
                     </form>
                 </div>
             @else
-                {{-- ---- 2FA DESHABILITADO -------------------------------- --}}
+                <!-- 2FA DESHABILITADO -->
                 <div class="badge badge-error gap-1 mb-6">
                     <i class="icofont-close-circled"></i> {{ __('admin.profile.two_factor_inactive') }}
                 </div>
@@ -232,20 +234,20 @@
                     {{ __('admin.profile.two_factor_desc') }}
                 </p>
 
+                
                 <form method="POST" action="{{ route('two-factor.enable') }}">
                     @csrf
                     <x-admin.ui.button type="submit" icon="icofont-shield">
                         {{ __('admin.profile.enable_2fa') }}
                     </x-admin.ui.button>
-                </form>
+                </form> 
             @endif
-
+            --}}
         </div>
 
         {{-- ---- Tab: Sesiones ------------------------------------------- --}}
-        <input type="radio" name="profile_tabs" class="tab"
-            aria-label="{{ __('admin.profile.tab_sessions') }}" id="tab-sessions"
-            {{ session('tab') === 'sessions' ? 'checked' : '' }} />
+        <input type="radio" name="profile_tabs" class="tab" aria-label="{{ __('admin.profile.tab_sessions') }}"
+            id="tab-sessions" {{ session('tab') === 'sessions' ? 'checked' : '' }} />
 
         <div class="tab-content bg-base-100 border-base-300 rounded-box p-6">
 
@@ -307,7 +309,7 @@
                 </x-admin.ui.alert>
             @endif
 
-            {{-- Logout otras sesiones --}}
+            {{-- Logout otras sesiones 
             <form method="POST" action="{{ route('other-browser-sessions.destroy') }}" x-data
                 @submit.prevent="
                       if (confirm('{{ __('admin.profile.close_sessions_confirm') }}')) $el.submit()
@@ -320,6 +322,7 @@
                     {{ __('admin.profile.close_other_sessions') }}
                 </x-admin.ui.button>
             </form>
+            --}}
 
         </div>
 

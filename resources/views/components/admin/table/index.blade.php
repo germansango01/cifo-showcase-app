@@ -82,7 +82,7 @@
 
                 @for ($p = $start; $p <= $end; $p++)
                     <a href="{{ $items->url($p) }}"
-                        class="join-item btn btn-sm {{ $p === $current ? 'btn-primary' : '' }}"
+                        class="join-item btn btn-sm {{ $p === $current ? 'btn-primary border-2 border-primary-content/30' : '' }}"
                         aria-current="{{ $p === $current ? 'page' : 'false' }}">
                         {{ $p }}
                     </a>

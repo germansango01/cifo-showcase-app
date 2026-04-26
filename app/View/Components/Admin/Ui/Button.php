@@ -31,7 +31,7 @@ class Button extends Component
             'primary' => 'btn-primary', 'secondary' => 'btn-secondary',
             'accent' => 'btn-accent', 'success' => 'btn-success',
             'warning' => 'btn-warning', 'error' => 'btn-error', 'info' => 'btn-info',
-            'neutral' => 'btn-neutral',
+            'neutral' => 'btn-neutral', 'ghost' => 'btn-ghost', 'link' => 'btn-link',
         ];
         $sizes = ['xs' => 'btn-xs', 'sm' => 'btn-sm', 'md' => '', 'lg' => 'btn-lg'];
 
