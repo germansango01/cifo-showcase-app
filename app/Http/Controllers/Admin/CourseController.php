@@ -19,7 +19,7 @@ class CourseController extends Controller
     {
         Gate::authorize('courses.view');
 
-        $search     = $request->query('search');
+        $search = $request->query('search');
         $categoryId = $request->query('category');
 
         $courses = Course::query()

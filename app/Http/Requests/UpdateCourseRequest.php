@@ -20,8 +20,8 @@ class UpdateCourseRequest extends FormRequest
     {
         return [
             'category_id' => ['required', 'integer', 'exists:categories,id'],
-            'course_code'  => ['required', 'string', 'max:50', Rule::unique('courses', 'course_code')->ignore($this->course)],
-            'name'         => ['required', 'string', 'max:150'],
+            'course_code' => ['required', 'string', 'max:50', Rule::unique('courses', 'course_code')->ignore($this->course)],
+            'name' => ['required', 'string', 'max:150'],
         ];
     }
 }

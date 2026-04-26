@@ -37,6 +37,9 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // Definir Roles
 
+        // SUPER ADMIN: bypass via Gate::before — no explicit permissions needed
+        Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
+
         // ADMIN: Tiene todos los permisos explícitos
         $admin = Role::firstOrCreate(['name' => 'Admin', 'guard_name' => 'web']);
         $admin->syncPermissions(Permission::all());

@@ -19,8 +19,8 @@ class StoreCourseRequest extends FormRequest
     {
         return [
             'category_id' => ['required', 'integer', 'exists:categories,id'],
-            'course_code'  => ['required', 'string', 'max:50', 'unique:courses,course_code'],
-            'name'         => ['required', 'string', 'max:150'],
+            'course_code' => ['required', 'string', 'max:50', 'unique:courses,course_code'],
+            'name' => ['required', 'string', 'max:150'],
         ];
     }
 }
