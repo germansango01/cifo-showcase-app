@@ -21,7 +21,7 @@
                 roles: {{ Js::from($user->roles->pluck('name')) }}
             })
         }"
-            @submit.prevent="form.submit()">
+            @submit.prevent="form.submit().then(r => window.location = r.request.responseURL)">
             @csrf
             @method('PATCH')
 

@@ -19,7 +19,7 @@
                 password_confirmation: '',
                 roles: []
             })
-        }" @submit.prevent="form.submit()">
+        }" @submit.prevent="form.submit().then(r => window.location = r.request.responseURL)">
             @csrf
 
             {{-- Datos personales --}}
