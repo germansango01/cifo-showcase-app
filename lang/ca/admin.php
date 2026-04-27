@@ -64,7 +64,7 @@ return [
         'delete_modal_title'      => 'Eliminar usuari',
         'delete_confirm_prefix'   => 'Segur que vols eliminar l\'usuari',
         'delete_confirm_short'    => 'Segur que vols eliminar',
-        'super_admin_protected'   => 'No pots treure\'t el rol <strong>Super Admin</strong> a tu mateix.',
+        'admin_protected'         => 'No pots treure\'t el rol <strong>Admin</strong> a tu mateix.',
         'password_change_optional'=> 'Canvi de contrasenya (opcional)',
         'col_user'                => 'Usuari',
         'col_email'               => 'Email',

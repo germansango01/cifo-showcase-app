@@ -24,7 +24,7 @@
                         <div class="flex items-center gap-2">
                             <i class="icofont-shield text-primary text-lg"></i>
                             <span class="font-medium">{{ $role->name }}</span>
-                            @if ($role->name === 'Super Admin')
+                            @if ($role->name === 'Admin')
                                 <x-admin.ui.badge color="warning">{{ __('admin.common.system') }}</x-admin.ui.badge>
                             @endif
                         </div>
@@ -40,7 +40,7 @@
                         </x-admin.ui.badge>
                     </td>
                     <td class="text-right">
-                        @if ($role->name !== 'Super Admin')
+                        @if ($role->name !== 'Admin')
                             <div class="flex items-center gap-1 justify-end">
                                 @can('roles.update')
                                     <div class="tooltip tooltip-left" data-tip="{{ __('admin.common.edit') }}">

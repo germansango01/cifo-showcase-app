@@ -8,8 +8,9 @@ use App\Http\Requests\UpdatePermissionRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use App\Models\Permission;
+use App\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class PermissionController extends Controller
 {
@@ -40,6 +41,9 @@ class PermissionController extends Controller
 
         $permission = Permission::create(['name' => $request->name, 'guard_name' => 'web']);
 
+        // Admin role automatically receives every new permission
+        Role::findByName('Admin', 'web')->givePermissionTo($permission);
+
         return redirect()->route('permissions.index')
             ->with('success', __('admin.permissions.created', ['name' => $permission->name]));
     }
@@ -56,6 +60,8 @@ class PermissionController extends Controller
         Gate::authorize('permissions.update');
 
         $permission->update(['name' => $request->name]);
+
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         return redirect()->route('permissions.index')
             ->with('success', __('admin.permissions.updated', ['name' => $permission->name]));

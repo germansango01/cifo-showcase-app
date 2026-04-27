@@ -10,14 +10,14 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Super Admin — bypasses all gates via Gate::before
-        $superAdmin = User::factory()->create([
-            'name' => 'Super Admin',
+        // Admin — full explicit permissions via Admin role
+        $adminLocal = User::factory()->create([
+            'name' => 'Admin',
             'email' => 'admin@cifo.local',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
         ]);
-        $superAdmin->assignRole('Super Admin');
+        $adminLocal->assignRole('Admin');
 
         // Crear usuario como Administrador
         $adminUser = User::factory()->create([

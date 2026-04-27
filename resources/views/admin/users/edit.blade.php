@@ -53,18 +53,18 @@
                 <div class="mt-6">
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend">{{ __('admin.users.assigned_roles') }}</legend>
-                        @if (auth()->user()->hasRole('Super Admin') && $user->hasRole('Super Admin') && auth()->id() === $user->id)
+                        @if (auth()->user()->hasRole('Admin') && $user->hasRole('Admin') && auth()->id() === $user->id)
                             <x-admin.ui.alert type="warning" class="mt-2 mb-3">
-                                {!! __('admin.users.super_admin_protected') !!}
+                                {!! __('admin.users.admin_protected') !!}
                             </x-admin.ui.alert>
                         @endif
                         <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-2">
                             @foreach ($roles as $role)
                                 @php
                                     $isProtected =
-                                        $role->name === 'Super Admin' &&
+                                        $role->name === 'Admin' &&
                                         auth()->id() === $user->id &&
-                                        auth()->user()->hasRole('Super Admin');
+                                        auth()->user()->hasRole('Admin');
                                 @endphp
                                 <label
                                     class="flex items-center gap-2 cursor-pointer select-none group {{ $isProtected ? 'opacity-60 pointer-events-none' : '' }}">
