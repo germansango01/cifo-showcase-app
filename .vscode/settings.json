@@ -19,19 +19,23 @@
         "titleBar.inactiveForeground": "#e7e7e799"
     },
     "peacock.color": "#832561",
+    /* Configuración de PHP (XAMPP + PHP 8.3) */
+    "php.validate.executablePath": "C:\\xampp\\php\\php.exe",
+    "php.executablePath": "C:\\xampp\\php\\php.exe",
+    /* Formateador php-cs-fixer */
     "[php]": {
         "editor.defaultFormatter": "junstyle.php-cs-fixer",
         "editor.formatOnSave": true
     },
-    // Ruta absoluta al ejecutable de tu proyecto
-    "php-cs-fixer.executablePath": "${workspaceFolder}/vendor/bin/php-cs-fixer",
-    // IMPORTANTE: Asegúrate que el archivo en tu raíz se llame EXACTAMENTE así
+    "php-cs-fixer.executablePath": "${workspaceFolder}/vendor/bin/php-cs-fixer.bat",
     "php-cs-fixer.config": ".php-cs-fixer.php",
-    // Desactivamos los disparadores internos de la extensión para usar los de VS Code
     "php-cs-fixer.onsave": false,
-    "php-cs-fixer.autoFixByBracket": false,
-    "php-cs-fixer.autoFixBySemicolon": false,
     "php-cs-fixer.allowRisky": true,
-    "php-cs-fixer.pathMode": "intersection",
-    "php-cs-fixer.documentFormattingProvider": true
+    "php-cs-fixer.documentFormattingProvider": true,
+    /* Intelephense: Laravel Compatibility */
+    "intelephense.diagnostics.undefinedMethods": false,
+    "intelephense.diagnostics.undefinedTypes": false,
+    "intelephense.diagnostics.argumentCount": false,
+    "intelephense.environment.phpVersion": "8.3.0",
+    "intelephense.completion.fullyQualifyImport": true,
 }

@@ -15,6 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             HandlePrecognitiveRequests::class,
         ]);
+
+        $middleware->alias([
+                    'locale' => \App\Http\Middleware\SetLocale::class,
+                    'admin.locale' => \App\Http\Middleware\SetAdminLocale::class,
+                ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
