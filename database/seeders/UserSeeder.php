@@ -15,6 +15,7 @@ class UserSeeder extends Seeder
             'name' => "Administrador",
             'email' => "admin@cifo.com",
             'password' => Hash::make('admin123'),
+            'locale' => 'es',
             'email_verified_at' => now(),
         ]);
         $adminUser->assignRole('Admin');
@@ -24,6 +25,7 @@ class UserSeeder extends Seeder
             'name' => "Editor",
             'email' => "editor@cifo.com",
             'password' => Hash::make('editor123'),
+            'locale' => 'ca',
         ]);
         $editUser->assignRole('Editor');
 
