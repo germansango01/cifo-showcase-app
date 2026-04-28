@@ -39,9 +39,8 @@ class TagFactory extends Factory
         ]);
 
         return [
-            'name' => $name,
-            //'slug' => Str::slug($name) . '-' . $this->faker->unique()->numberBetween(1, 9999),
-            'slug' => Str::slug($name),
+            'name' => ['es' => $name, 'ca' => $name],
+            'slug' => ['es' => Str::slug($name), 'ca' => Str::slug($name)],
         ];
     }
 }

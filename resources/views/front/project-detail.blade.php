@@ -6,11 +6,10 @@
  --}}
 
 @php
-    $locale = app()->getLocale();
-    $title = $locale === 'ca' ? $project->title_ca : $project->title_es;
-    $desc = $locale === 'ca' ? $project->description_ca : $project->description_es;
+    $title = $project->title;
+    $desc = $project->description;
     $cycleCode = $project->course?->course_code ?? '';
-    $cycleName = $project->course?->category?->{'name_' . $locale} ?? $cycleCode;
+    $cycleName = $project->course?->category?->name ?? $cycleCode;
     $year = $project->project_date?->year;
 @endphp
 

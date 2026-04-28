@@ -6,12 +6,16 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Translatable\HasTranslations;
 
-#[Fillable(['slug', 'name_ca', 'name_es', 'icon'])]
+#[Fillable(['slug', 'name', 'icon'])]
 class Category extends Model
 {
     use HasFactory;
+    use HasTranslations;
     use SoftDeletes;
+
+    public array $translatable = ['name', 'slug'];
 
     public function courses()
     {

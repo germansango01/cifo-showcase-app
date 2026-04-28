@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Faker\Factory as FakerFactory;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Translatable\Facades\Translatable;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,5 +17,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        Translatable::fallback(
+            fallbackLocale: 'es',
+            fallbackAny: true,
+        );
     }
 }

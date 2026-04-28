@@ -34,7 +34,7 @@ class CourseController extends Controller
             ->paginate(15)
             ->withQueryString();
 
-        $categories = Category::orderBy('name_es')->get();
+        $categories = Category::orderByRaw("JSON_EXTRACT(name, '$.es')")->get();
 
         return view('admin.courses.index', compact('courses', 'categories'));
     }
@@ -43,7 +43,7 @@ class CourseController extends Controller
     {
         Gate::authorize('courses.create');
 
-        $categoryOptions = Category::orderBy('name_es')->pluck('name_es', 'id')->toArray();
+        $categoryOptions = Category::orderByRaw("JSON_EXTRACT(name, '$.es')")->get()->pluck('name', 'id')->toArray();
 
         return view('admin.courses.create', compact('categoryOptions'));
     }
@@ -67,7 +67,7 @@ class CourseController extends Controller
     {
         Gate::authorize('courses.update');
 
-        $categoryOptions = Category::orderBy('name_es')->pluck('name_es', 'id')->toArray();
+        $categoryOptions = Category::orderByRaw("JSON_EXTRACT(name, '$.es')")->get()->pluck('name', 'id')->toArray();
 
         return view('admin.courses.edit', compact('course', 'categoryOptions'));
     }

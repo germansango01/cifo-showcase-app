@@ -26,9 +26,8 @@ class CategoryFactory extends Factory
         ]);
 
         return [
-            'slug' => Str::slug($name) . '-' . $this->faker->unique()->numberBetween(1, 999),
-            'name_ca' => $name . ' (CA)',
-            'name_es' => $name . ' (ES)',
+            'slug' => ['es' => Str::slug($name) . '-es', 'ca' => Str::slug($name) . '-ca'],
+            'name' => ['es' => $name . ' (ES)', 'ca' => $name . ' (CA)'],
             'icon' => 'icon-' . $this->faker->url(),
         ];
     }

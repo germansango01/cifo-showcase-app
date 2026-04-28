@@ -6,15 +6,14 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Translatable\HasTranslations;
 
 #[Fillable([
     'course_id',
     'slug',
     'project_date',
-    'title_ca',
-    'title_es',
-    'description_ca',
-    'description_es',
+    'title',
+    'description',
     'thumbnail',
     'repo_url',
     'live_url',
@@ -26,7 +25,10 @@ class Project extends Model
 {
     /** @use HasFactory<\Database\Factories\ProjectFactory> */
     use HasFactory;
+    use HasTranslations;
     use SoftDeletes;
+
+    public array $translatable = ['title', 'description', 'slug'];
 
     public function getRouteKeyName(): string
     {
