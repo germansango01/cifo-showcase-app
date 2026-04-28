@@ -10,15 +10,6 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Admin — full explicit permissions via Admin role
-        $adminLocal = User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@cifo.local',
-            'password' => Hash::make('password'),
-            'email_verified_at' => now(),
-        ]);
-        $adminLocal->assignRole('Admin');
-
         // Crear usuario como Administrador
         $adminUser = User::factory()->create([
             'name' => "Administrador",

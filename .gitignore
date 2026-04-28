@@ -5,7 +5,7 @@
 # --- Dependencias ---
 /vendor/
 /node_modules/
-composer.json.lock
+composer.lock
 package-lock.json
 
 # --- Variables de entorno ---
