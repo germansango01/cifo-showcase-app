@@ -64,7 +64,7 @@ return [
         'delete_modal_title'      => 'Eliminar usuario',
         'delete_confirm_prefix'   => '¿Seguro que quieres eliminar al usuario',
         'delete_confirm_short'    => '¿Seguro que quieres eliminar a',
-        'super_admin_protected'   => 'No puedes quitarte el rol <strong>Super Admin</strong> a ti mismo.',
+        'admin_protected'         => 'No puedes quitarte el rol <strong>Admin</strong> a ti mismo.',
         'password_change_optional'=> 'Cambio de contraseña (opcional)',
         'col_user'                => 'Usuario',
         'col_email'               => 'Email',

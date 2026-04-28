@@ -143,7 +143,6 @@
                                 <span class="text-sm font-medium">{{ $role->name }}</span>
                                 <x-admin.ui.badge :label="$role->name"
                                     color="{{ match ($role->name) {
-                                        'Super Admin' => 'error',
                                         'Admin' => 'warning',
                                         'Editor' => 'info',
                                         default => 'neutral',
