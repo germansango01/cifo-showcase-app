@@ -11,21 +11,22 @@ use App\Http\Controllers\Front\PageController;
 use App\Http\Controllers\Front\ProjectController;
 use Illuminate\Support\Facades\Route;
 
-// ── Language switcher ────────────────────────────────────────
-Route::get('/language/{locale}', function (string $locale) {
-    if (in_array($locale, ['es', 'ca'])) {
-        session(['locale' => $locale]);
-        app()->setLocale($locale);
-    }
+// ── Redirect root to default locale ──────────────────────────
+Route::get('/', fn () => redirect('/es'));
 
-    return redirect()->back();
-})->name('language');
 
 // ── Front public ─────────────────────────────────────────────
-Route::get('/', [PageController::class, 'index'])->name('home');
-Route::get('/projects', [ProjectController::class, 'index'])->name('projects');
-Route::get('/projects/{project:slug}', [ProjectController::class, 'show']) ->name('projects.show');
-Route::get('/about', [PageController::class, 'about'])->name('about');
+
+Route::prefix('{locale}')
+    ->where(['locale' => 'es|ca'])
+    ->middleware('locale')
+    ->group(function () {
+        Route::get('/', [PageController::class, 'index'])->name('home');
+        Route::get('/projects', [ProjectController::class, 'index'])->name('projects');
+        Route::get('/projects/{project:slug}', [ProjectController::class, 'show'])->name('projects.show');
+        Route::get('/about', [PageController::class, 'about'])->name('about');
+    });
+
 
 // ── Admin Dashboard ──────────────────────────────────────────
 
@@ -42,3 +43,14 @@ Route::middleware(['auth', 'verified'])
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 });
+
+/*
+
+// Admin
+Route::middleware(['auth', 'verified', 'admin.locale'])  // ← antes 'setAdminLocale'
+    ->prefix('admin')
+    ->group(function () {
+        // ...
+    });
+
+*/
