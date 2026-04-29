@@ -31,7 +31,7 @@
                     <option value="">{{ __('admin.courses.category_placeholder') }}</option>
                     @foreach ($categories as $cat)
                         <option value="{{ $cat->id }}" @selected(request('category') == $cat->id)>
-                            {{ $cat->{'name_' . app()->getLocale()} ?? $cat->name_es }}
+                            {{ $cat->name }}
                         </option>
                     @endforeach
                 </select>
@@ -59,7 +59,7 @@
                         <td>
                             @if ($course->category)
                                 <x-admin.ui.badge color="primary">
-                                    {{ $course->category->{'name_' . app()->getLocale()} ?? $course->category->name_es }}
+                                    {{ $course->category->name }}
                                 </x-admin.ui.badge>
                             @else
                                 <span class="text-xs opacity-40">—</span>

@@ -5,63 +5,104 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Models\Course;
 use App\Models\Project;
+use App\Models\Tag;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class ProjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request): View
     {
-        //
+        Gate::authorize('projects.view');
+
+        $search = $request->query('search');
+        $statusFilter = $request->query('status');
+        $courseFilter = $request->query('course');
+
+        $projects = Project::query()
+            ->with(['course', 'tags'])
+            ->when($search, fn ($q) => $q->whereRaw("JSON_EXTRACT(title, '$.es') LIKE ?", ["%{$search}%"]))
+            ->when($statusFilter, fn ($q) => $q->where('status', $statusFilter))
+            ->when($courseFilter, fn ($q) => $q->where('course_id', $courseFilter))
+            ->orderBy('project_date', 'desc')
+            ->paginate(15)
+            ->withQueryString();
+
+        $courses = Course::orderByRaw("JSON_EXTRACT(name, '$.es')")->get();
+
+        return view('admin.projects.index', compact('projects', 'courses'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(): View
     {
-        //
+        Gate::authorize('projects.create');
+
+        $courseOptions = Course::orderByRaw("JSON_EXTRACT(name, '$.es')")->get()->pluck('name', 'id');
+        $tags = Tag::orderByRaw("JSON_EXTRACT(name, '$.es')")->get();
+
+        return view('admin.projects.create', compact('courseOptions', 'tags'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreProjectRequest $request)
+    public function store(StoreProjectRequest $request): RedirectResponse
     {
-        //
+        Gate::authorize('projects.create');
+
+        $validated = $request->validated();
+        $tags = $validated['tags'] ?? [];
+        $validated['featured'] = $request->boolean('featured');
+        $validated['thumbnail'] = $request->file('thumbnail')->store('projects/thumbnails', 'public');
+        unset($validated['tags']);
+
+        $project = Project::create($validated);
+        $project->tags()->sync($tags);
+
+        return redirect()->route('projects.index')->with('success', __('admin.projects.created'));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Project $project)
+    public function edit(Project $project): View
     {
-        //
+        Gate::authorize('projects.update');
+
+        $courseOptions = Course::orderByRaw("JSON_EXTRACT(name, '$.es')")->get()->pluck('name', 'id');
+        $tags = Tag::orderByRaw("JSON_EXTRACT(name, '$.es')")->get();
+        $selectedTags = $project->tags->pluck('id')->toArray();
+
+        return view('admin.projects.edit', compact('project', 'courseOptions', 'tags', 'selectedTags'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Project $project)
+    public function update(UpdateProjectRequest $request, Project $project): RedirectResponse
     {
-        //
+        Gate::authorize('projects.update');
+
+        $validated = $request->validated();
+        $tags = $validated['tags'] ?? [];
+        $validated['featured'] = $request->boolean('featured');
+        unset($validated['tags']);
+
+        if ($request->hasFile('thumbnail')) {
+            Storage::disk('public')->delete($project->thumbnail);
+            $validated['thumbnail'] = $request->file('thumbnail')->store('projects/thumbnails', 'public');
+        } else {
+            unset($validated['thumbnail']);
+        }
+
+        $project->update($validated);
+        $project->tags()->sync($tags);
+
+        return redirect()->route('projects.index')->with('success', __('admin.projects.updated'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateProjectRequest $request, Project $project)
+    public function destroy(Project $project): RedirectResponse
     {
-        //
-    }
+        Gate::authorize('projects.delete');
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Project $project)
-    {
-        //
+        $project->delete();
+
+        return redirect()->route('projects.index')->with('success', __('admin.projects.deleted'));
     }
 }

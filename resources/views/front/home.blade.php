@@ -36,21 +36,15 @@
                     data-variant="ghost">{{ __('front.home.featured_view_all') }}</a>
             </header>
 
-            {{-- Row 1: first 3 featured --}}
-            <div class="featured-grid">
-                @foreach ($featured->take(3) as $index => $project)
-                    <x-front.project-card :project="$project" :class="$index === 0 ? 'featured-card-main' : ''" />
-                @endforeach
-            </div>
-
-            {{-- Row 2: next 3 featured (inverted layout) --}}
-            @if ($featured->count() > 3)
-                <div class="featured-grid featured-grid--inverted">
-                    @foreach ($featured->skip(3)->take(3) as $project)
-                        <x-front.project-card :project="$project" />
+            @foreach ($featured->chunk(3) as $chunk)
+                @php $inverted = $loop->index % 2 !== 0; @endphp
+                <div class="featured-grid {{ $inverted ? 'featured-grid--inverted' : '' }}">
+                    @foreach ($chunk->values() as $project)
+                        @php $isMain = $inverted ? $loop->last : $loop->first; @endphp
+                        <x-front.project-card :project="$project" :class="$isMain ? 'featured-card-main' : ''" />
                     @endforeach
                 </div>
-            @endif
+            @endforeach
 
         </div>
     </section>

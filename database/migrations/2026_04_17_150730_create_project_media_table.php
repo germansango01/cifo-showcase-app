@@ -19,7 +19,7 @@ return new class () extends Migration {
 
             $table->enum('type', ['image','video','document','pdf'])->default('image');
             $table->string('path', 512);
-            $table->string('alt_text')->nullable();
+            $table->json('alt_text')->nullable();
             $table->unsignedInteger('sort_order')->default(0);
 
             $table->index('project_id');

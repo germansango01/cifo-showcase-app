@@ -18,7 +18,7 @@ return new class () extends Migration {
                 ->onDelete('cascade');
 
             $table->string('course_code', 50);
-            $table->string('name', 150);
+            $table->json('name');
 
             $table->timestamps();
 

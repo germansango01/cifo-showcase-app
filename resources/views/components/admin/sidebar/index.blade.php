@@ -119,7 +119,7 @@
             @endcanany
 
             {{-- Sección Contenido --}}
-            @canany(['courses.view', 'tags.view'])
+            @canany(['courses.view', 'tags.view', 'projects.view'])
                 <li
                     class="menu-title mt-4 mb-1 px-3 text-xs font-semibold uppercase tracking-widest text-neutral-content/50">
                     {{ __('admin.nav.content_section') }}
@@ -192,6 +192,44 @@
                                         'hover:bg-neutral-content/10' => !request()->routeIs('tags.create'),
                                     ])>
                                         {{ __('admin.nav.tags_create') }}
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </details>
+                </li>
+                @endcan
+
+                {{-- Proyectos --}}
+                @can('projects.view')
+                <li>
+                    <details @class(['open' => request()->routeIs('projects.*')])>
+                        <summary @class([
+                            'flex items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors list-none',
+                            'bg-primary text-primary-content font-semibold' => request()->routeIs('projects.*'),
+                            'hover:bg-neutral-content/10' => !request()->routeIs('projects.*'),
+                        ])>
+                            <i class="icofont-image text-lg w-5 text-center" aria-hidden="true"></i>
+                            <span class="flex-1">{{ __('admin.nav.projects') }}</span>
+                        </summary>
+                        <ul class="mt-0.5 space-y-0.5">
+                            <li>
+                                <a href="{{ route('projects.index') }}" @class([
+                                    'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
+                                    'bg-white text-primary font-semibold' => request()->routeIs('projects.index'),
+                                    'hover:bg-neutral-content/10' => !request()->routeIs('projects.index'),
+                                ])>
+                                    {{ __('admin.nav.projects_list') }}
+                                </a>
+                            </li>
+                            @can('projects.create')
+                                <li>
+                                    <a href="{{ route('projects.create') }}" @class([
+                                        'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
+                                        'bg-white text-primary font-semibold' => request()->routeIs('projects.create'),
+                                        'hover:bg-neutral-content/10' => !request()->routeIs('projects.create'),
+                                    ])>
+                                        {{ __('admin.nav.projects_create') }}
                                     </a>
                                 </li>
                             @endcan

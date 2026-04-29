@@ -11,25 +11,25 @@ use Illuminate\Support\Str;
  */
 class CategoryFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = Category::class;
+
     public function definition(): array
     {
-        $name = $this->faker->randomElement([
-            'Programació y desenvolupament',
-            'Ciberseguretat',
-            'Industrias y tecnologías emergentes',
-            'Competencias digitales',
-        ]);
+        $pairs = [
+            ['es' => 'Programación y desarrollo', 'ca' => 'Programació i desenvolupament'],
+            ['es' => 'Ciberseguridad',             'ca' => 'Ciberseguretat'],
+            ['es' => 'Tecnologías emergentes',     'ca' => 'Tecnologies emergents'],
+            ['es' => 'Competencias digitales',     'ca' => 'Competències digitals'],
+        ];
+
+        $icons = ['icofont-code', 'icofont-shield', 'icofont-circuit', 'icofont-laptop'];
+
+        $pair = $this->faker->randomElement($pairs);
 
         return [
-            'slug' => Str::slug($name) . '-' . $this->faker->unique()->numberBetween(1, 999),
-            'name_ca' => $name . ' (CA)',
-            'name_es' => $name . ' (ES)',
-            'icon' => 'icon-' . $this->faker->url(),
+            'name' => ['es' => $pair['es'], 'ca' => $pair['ca']],
+            'slug' => ['es' => Str::slug($pair['es']), 'ca' => Str::slug($pair['ca'])],
+            'icon' => $this->faker->randomElement($icons),
         ];
     }
 }

@@ -20,12 +20,10 @@ class ProjectFactory extends Factory
 
         return [
             'course_id' => Course::inRandomOrder()->first()?->id ?? Course::factory(),
-            'slug' => Str::slug($title),
+            'slug' => ['es' => Str::slug($title) . '-es', 'ca' => Str::slug($title) . '-ca'],
             'project_date' => $this->faker->dateTimeBetween('-2 years', 'now'),
-            'title_ca' => ucfirst($title) . ' (CA)',
-            'title_es' => ucfirst($title) . ' (ES)',
-            'description_ca' => $this->faker->paragraph(),
-            'description_es' => $this->faker->paragraph(),
+            'title' => ['es' => ucfirst($title) . ' (ES)', 'ca' => ucfirst($title) . ' (CA)'],
+            'description' => ['es' => $this->faker->paragraph(), 'ca' => $this->faker->paragraph()],
             'thumbnail' => $this->faker->imageUrl(640, 480, 'tech'),
             'repo_url' => $this->faker->optional()->url(),
             'live_url' => $this->faker->optional()->url(),

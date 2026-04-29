@@ -27,7 +27,9 @@ class ProjectMediaFactory extends Factory
                 'document' => $this->faker->url(),
                 'pdf' => $this->faker->url(),
             },
-            'alt_text' => $this->faker->optional()->sentence(),
+            'alt_text' => $this->faker->boolean(80)
+                ? ['es' => $this->faker->sentence(), 'ca' => $this->faker->sentence()]
+                : null,
             'sort_order' => $this->faker->numberBetween(0, 10),
         ];
     }

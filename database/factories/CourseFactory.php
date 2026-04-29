@@ -17,18 +17,13 @@ class CourseFactory extends Factory
     {
 
         return [
-            'category_id' => Category::factory(),
+            'category_id' => Category::inRandomOrder()->first()?->id ?? Category::factory(),
             'course_code' => strtoupper($this->faker->unique()->bothify('CRS-###-???')),
-            'name' => 'Curso de ' . $this->faker->randomElement([
-                'Laravel',
-                'Vue',
-                'React',
-                'PHP',
-                'Node.js',
-                'UX/UI',
-                'DevOps',
-                'Python',
-            ]),
+            'name' => (function () {
+                $tech = $this->faker->randomElement(['Laravel', 'Vue', 'React', 'PHP', 'Node.js', 'UX/UI', 'DevOps', 'Python']);
+
+                return ['es' => "Curso de {$tech}", 'ca' => "Curs de {$tech}"];
+            })(),
         ];
     }
 }

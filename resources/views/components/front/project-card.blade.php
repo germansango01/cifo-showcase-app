@@ -9,12 +9,11 @@
 @props(['project'])
 
 @php
-    $locale = app()->getLocale();
-    $title = $locale === 'ca' ? $project->title_ca : $project->title_es;
-    $desc = $locale === 'ca' ? $project->description_ca : $project->description_es;
+    $title = $project->title;
+    $desc = $project->description;
     $year = $project->project_date?->year;
     $cycleCode = $project->course?->course_code ?? '';
-    $cycleName = $project->course?->category?->{'name_' . $locale} ?? $cycleCode;
+    $cycleName = $project->course?->category?->name ?? $cycleCode;
     $students = $project->relationLoaded('students') ? $project->students->pluck('name')->join(', ') : '';
     $projectJson = json_encode([
         'title' => $title,
@@ -29,7 +28,7 @@
     ]);
 @endphp
 
-<article class="card" data-project-id="{{ $project->id }}" data-course="{{ $cycleCode }}"
+<article {{ $attributes->merge(['class' => 'card']) }} data-project-id="{{ $project->id }}" data-course="{{ $cycleCode }}"
     data-year="{{ $year }}" data-project="{{ $projectJson }}">
     <div class="card-surface">
 

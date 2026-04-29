@@ -18,10 +18,9 @@ return new class () extends Migration {
                 ->onDelete('cascade');
 
             $table->date('project_date');
-            $table->string('title_ca');
-            $table->string('title_es');
-            $table->text('description_ca')->nullable();
-            $table->text('description_es')->nullable();
+            $table->json('slug');
+            $table->json('title');
+            $table->json('description')->nullable();
             $table->string('thumbnail');
             $table->string('repo_url', 512)->nullable();
             $table->string('live_url', 512)->nullable();
