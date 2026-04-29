@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LocaleController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
@@ -41,6 +42,7 @@ Route::middleware(['auth', 'verified', 'admin.locale'])
         Route::resource('roles', RoleController::class)->except('show');
         Route::resource('courses', CourseController::class)->except('show');
         Route::resource('tags', TagController::class)->except('show');
+        Route::resource('projects', AdminProjectController::class)->except('show');
         Route::resource('permissions', PermissionController::class)->except('show');
 
         Route::post('/locale', [LocaleController::class, 'update'])

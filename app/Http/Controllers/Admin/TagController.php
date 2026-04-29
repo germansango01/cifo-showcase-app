@@ -10,7 +10,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class TagController extends Controller
@@ -23,8 +22,8 @@ class TagController extends Controller
 
         $tags = Tag::query()
             ->withCount('projects')
-            ->when($search, fn ($q) => $q->where('name', 'like', "%{$search}%"))
-            ->orderBy('name')
+            ->when($search, fn ($q) => $q->whereRaw("JSON_EXTRACT(name, '$.es') LIKE ?", ["%{$search}%"]))
+            ->orderByRaw("JSON_EXTRACT(name, '$.es')")
             ->paginate(15)
             ->withQueryString();
 
@@ -42,10 +41,7 @@ class TagController extends Controller
     {
         Gate::authorize('tags.create');
 
-        Tag::create([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
-        ]);
+        Tag::create($request->validated());
 
         session()->flash('success', __('admin.tags.created'));
 
@@ -67,10 +63,7 @@ class TagController extends Controller
     {
         Gate::authorize('tags.update');
 
-        $tag->update([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
-        ]);
+        $tag->update($request->validated());
 
         session()->flash('success', __('admin.tags.updated'));
 

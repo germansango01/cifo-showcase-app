@@ -8,22 +8,30 @@ use Illuminate\Support\Str;
 
 class TagSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //Tag::factory()->count(15)->create();
         $tags = [
-        'Laravel','PHP','Vue','React','Node.js','Tailwind',
-        'MySQL','PostgreSQL','Docker','API REST','DevOps',
-        'UX/UI','Testing','CI/CD','JavaScript',
-    ];
+            ['es' => 'Laravel',    'ca' => 'Laravel'],
+            ['es' => 'PHP',        'ca' => 'PHP'],
+            ['es' => 'Vue',        'ca' => 'Vue'],
+            ['es' => 'React',      'ca' => 'React'],
+            ['es' => 'Node.js',    'ca' => 'Node.js'],
+            ['es' => 'Tailwind',   'ca' => 'Tailwind'],
+            ['es' => 'MySQL',      'ca' => 'MySQL'],
+            ['es' => 'PostgreSQL', 'ca' => 'PostgreSQL'],
+            ['es' => 'Docker',     'ca' => 'Docker'],
+            ['es' => 'API REST',   'ca' => 'API REST'],
+            ['es' => 'DevOps',     'ca' => 'DevOps'],
+            ['es' => 'UX/UI',      'ca' => 'UX/UI'],
+            ['es' => 'Testing',    'ca' => 'Testing'],
+            ['es' => 'CI/CD',      'ca' => 'CI/CD'],
+            ['es' => 'JavaScript', 'ca' => 'JavaScript'],
+        ];
 
-        foreach ($tags as $tag) {
+        foreach ($tags as $t) {
             Tag::create([
-                'name' => $tag,
-                'slug' => Str::slug($tag),
+                'name' => ['es' => $t['es'], 'ca' => $t['ca']],
+                'slug' => ['es' => Str::slug($t['es']), 'ca' => Str::slug($t['ca'])],
             ]);
         }
     }

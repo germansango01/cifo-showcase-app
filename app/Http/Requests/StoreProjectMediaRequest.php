@@ -2,28 +2,26 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreProjectMediaRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            //
+            'project_id' => ['required', 'integer', 'exists:projects,id'],
+            'type' => ['required', 'string', Rule::in(['image', 'video', 'document', 'pdf'])],
+            'file' => ['required', 'file', 'max:10240'],
+            'alt_text' => ['nullable', 'array'],
+            'alt_text.es' => ['nullable', 'string', 'max:255'],
+            'alt_text.ca' => ['nullable', 'string', 'max:255'],
+            'sort_order' => ['nullable', 'integer', 'min:0'],
         ];
     }
 }

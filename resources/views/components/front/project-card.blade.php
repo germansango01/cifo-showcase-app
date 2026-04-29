@@ -28,7 +28,7 @@
     ]);
 @endphp
 
-<article class="card" data-project-id="{{ $project->id }}" data-course="{{ $cycleCode }}"
+<article {{ $attributes->merge(['class' => 'card']) }} data-project-id="{{ $project->id }}" data-course="{{ $cycleCode }}"
     data-year="{{ $year }}" data-project="{{ $projectJson }}">
     <div class="card-surface">
 

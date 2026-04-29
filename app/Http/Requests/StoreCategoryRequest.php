@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class StoreTagRequest extends FormRequest
+class StoreCategoryRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -16,8 +15,9 @@ class StoreTagRequest extends FormRequest
     {
         return [
             'name' => ['required', 'array'],
-            'name.es' => ['required', 'string', 'max:150', Rule::unique('tags', 'name->es')],
-            'name.ca' => ['required', 'string', 'max:150', Rule::unique('tags', 'name->ca')],
+            'name.es' => ['required', 'string', 'max:255'],
+            'name.ca' => ['required', 'string', 'max:255'],
+            'icon' => ['required', 'string', 'max:255'],
         ];
     }
 }

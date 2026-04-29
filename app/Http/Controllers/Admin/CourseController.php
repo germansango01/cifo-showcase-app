@@ -26,7 +26,7 @@ class CourseController extends Controller
             ->with('category')
             ->withCount('projects')
             ->when($search, fn ($q) => $q->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
+                $q->whereRaw("JSON_EXTRACT(name, '$.es') LIKE ?", ["%{$search}%"])
                   ->orWhere('course_code', 'like', "%{$search}%");
             }))
             ->when($categoryId, fn ($q) => $q->where('category_id', $categoryId))
