@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
+use Spatie\Sluggable\HasTranslatableSlug;
+use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
 
 #[Fillable([
@@ -26,28 +27,18 @@ class Project extends Model
 {
     /** @use HasFactory<\Database\Factories\ProjectFactory> */
     use HasFactory;
+    use HasTranslatableSlug;
     use HasTranslations;
     use SoftDeletes;
 
     public array $translatable = ['title', 'description', 'slug'];
 
-    protected static function booted(): void
+    public function getSlugOptions(): SlugOptions
     {
-        static::saving(function (Project $project): void {
-            $project->setTranslations('slug', [
-                'es' => Str::slug($project->getTranslation('title', 'es', false) ?? ''),
-                'ca' => Str::slug($project->getTranslation('title', 'ca', false) ?? ''),
-            ]);
-        });
-    }
-
-    public function resolveRouteBinding($value, $field = null): ?Model
-    {
-        if ($field === 'slug') {
-            return $this->where('slug->' . app()->getLocale(), $value)->firstOrFail();
-        }
-
-        return parent::resolveRouteBinding($value, $field);
+        return SlugOptions::createWithLocales(['es', 'ca'])
+            ->generateSlugsFrom('title')
+            ->saveSlugsTo('slug')
+            ->doNotGenerateSlugsOnUpdate();
     }
 
     protected function casts(): array

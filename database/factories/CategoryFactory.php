@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory<Category>
@@ -28,7 +27,6 @@ class CategoryFactory extends Factory
 
         return [
             'name' => ['es' => $pair['es'], 'ca' => $pair['ca']],
-            'slug' => ['es' => Str::slug($pair['es']), 'ca' => Str::slug($pair['ca'])],
             'icon' => $this->faker->randomElement($icons),
         ];
     }

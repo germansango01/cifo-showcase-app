@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\Course;
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory<Project>
@@ -20,7 +19,6 @@ class ProjectFactory extends Factory
 
         return [
             'course_id' => Course::inRandomOrder()->first()?->id ?? Course::factory(),
-            'slug' => ['es' => Str::slug($title) . '-es', 'ca' => Str::slug($title) . '-ca'],
             'project_date' => $this->faker->dateTimeBetween('-2 years', 'now'),
             'title' => ['es' => ucfirst($title) . ' (ES)', 'ca' => ucfirst($title) . ' (CA)'],
             'description' => ['es' => $this->faker->paragraph(), 'ca' => $this->faker->paragraph()],
