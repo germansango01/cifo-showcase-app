@@ -42,7 +42,7 @@ class ProjectController extends Controller
     {
         Gate::authorize('projects.create');
 
-        $courseOptions = Course::orderByRaw("JSON_EXTRACT(name, '$.es')")->get()->pluck('name', 'id');
+        $courseOptions = Course::orderByRaw("JSON_EXTRACT(name, '$.es')")->get()->pluck('name', 'id')->toArray();
         $tags = Tag::orderByRaw("JSON_EXTRACT(name, '$.es')")->get();
 
         return view('admin.projects.create', compact('courseOptions', 'tags'));
@@ -68,7 +68,7 @@ class ProjectController extends Controller
     {
         Gate::authorize('projects.update');
 
-        $courseOptions = Course::orderByRaw("JSON_EXTRACT(name, '$.es')")->get()->pluck('name', 'id');
+        $courseOptions = Course::orderByRaw("JSON_EXTRACT(name, '$.es')")->get()->pluck('name', 'id')->toArray();
         $tags = Tag::orderByRaw("JSON_EXTRACT(name, '$.es')")->get();
         $selectedTags = $project->tags->pluck('id')->toArray();
 
