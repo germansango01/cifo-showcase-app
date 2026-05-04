@@ -45,6 +45,12 @@ Route::middleware(['auth', 'verified', 'admin.locale'])
         Route::resource('projects', AdminProjectController::class)->except('show');
         Route::resource('permissions', PermissionController::class)->except('show');
 
+        // ── NUEVOS CONTROLLERS (FCS) ───────────────────────────────
+
+        Route::resource('categories', CategoryController::class)->except('show');
+        Route::resource('students', StudentController::class)->except('show');
+        Route::resource('teachers', TeacherController::class)->except('show');
+
         Route::post('/locale', [LocaleController::class, 'update'])
             ->name('admin.locale.update');
 
