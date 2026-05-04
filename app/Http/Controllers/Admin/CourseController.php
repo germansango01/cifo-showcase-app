@@ -19,8 +19,17 @@ class CourseController extends Controller
     {
         Gate::authorize('courses.view');
 
+        $request->validate([
+            'sort' => 'in:course_code,created_at',
+            'direction' => 'in:asc,desc',
+            'per_page' => 'in:5,10,25',
+        ]);
+
         $search = $request->query('search');
         $categoryId = $request->query('category');
+        $sort = $request->query('sort', 'course_code');
+        $direction = $request->query('direction', 'asc');
+        $perPage = (int) $request->query('per_page', 10);
 
         $courses = Course::query()
             ->with('category')
@@ -30,8 +39,8 @@ class CourseController extends Controller
                   ->orWhere('course_code', 'like', "%{$search}%");
             }))
             ->when($categoryId, fn ($q) => $q->where('category_id', $categoryId))
-            ->orderBy('course_code')
-            ->paginate(15)
+            ->orderBy($sort, $direction)
+            ->paginate($perPage)
             ->withQueryString();
 
         $categories = Category::orderByRaw("JSON_EXTRACT(name, '$.es')")->get();

@@ -20,34 +20,31 @@ class UserController extends Controller
     {
         Gate::authorize('users.view');
 
-        // Validamos para que nadie rompa la consulta desde la URL
         $request->validate([
             'sort' => 'in:id,name,email,created_at',
             'direction' => 'in:asc,desc',
+            'per_page' => 'in:5,10,25',
         ]);
 
-        // Capturamos los filtros
         $search = $request->query('search');
         $roleName = $request->query('role');
         $sort = $request->query('sort', 'id');
         $direction = $request->query('direction', 'asc');
+        $perPage = (int) $request->query('per_page', 10);
 
         $users = User::query()
             ->with('roles')
-            // Filtro de búsqueda: Buscamos en nombre O email
             ->when($search, function ($q) use ($search) {
                 $q->where(function ($query) use ($search) {
                     $query->where('name', 'like', "%{$search}%")
-                        ->orWhere('email', 'like', "%{$search}%");
+                          ->orWhere('email', 'like', "%{$search}%");
                 });
             })
-            // Filtro por Rol: Relación con la tabla roles
             ->when($roleName, function ($q) use ($roleName) {
                 $q->whereHas('roles', fn ($qr) => $qr->where('name', $roleName));
             })
-            // Ordenamiento y Paginación
             ->orderBy($sort, $direction)
-            ->paginate(5)
+            ->paginate($perPage)
             ->withQueryString();
 
         $roles = Role::all();

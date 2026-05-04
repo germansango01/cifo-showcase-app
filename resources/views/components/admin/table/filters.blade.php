@@ -19,7 +19,7 @@
     @endif
 
     <div class="flex gap-2">
-        <button type="submit" class="btn btn-primary">Filtrar</button>
-        <a href="{{ $action }}" class="btn btn-ghost">Limpiar</a>
+        <button type="submit" class="btn btn-primary">{{ __('admin.common.filter') }}</button>
+        <a href="{{ $action }}" class="btn btn-ghost">{{ __('admin.common.reset') }}</a>
     </div>
 </form>

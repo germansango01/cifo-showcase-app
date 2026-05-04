@@ -119,11 +119,49 @@
             @endcanany
 
             {{-- Sección Contenido --}}
-            @canany(['courses.view', 'tags.view', 'projects.view'])
+            @canany(['categories.view', 'courses.view', 'tags.view', 'projects.view'])
                 <li
                     class="menu-title mt-4 mb-1 px-3 text-xs font-semibold uppercase tracking-widest text-neutral-content/50">
                     {{ __('admin.nav.content_section') }}
                 </li>
+
+                {{-- Categorías --}}
+                @can('categories.view')
+                    <li>
+                        <details @class(['open' => request()->routeIs('categories.*')])>
+                            <summary @class([
+                                'flex items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors list-none',
+                                'bg-primary text-primary-content font-semibold' => request()->routeIs('categories.*'),
+                                'hover:bg-neutral-content/10' => !request()->routeIs('categories.*'),
+                            ])>
+                                <i class="icofont-listine-dots text-lg w-5 text-center" aria-hidden="true"></i>
+                                <span class="flex-1">{{ __('admin.nav.categories') }}</span>
+                            </summary>
+                            <ul class="mt-0.5 space-y-0.5">
+                                <li>
+                                    <a href="{{ route('categories.index') }}" @class([
+                                        'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
+                                        'bg-white text-primary font-semibold' => request()->routeIs('categories.index'),
+                                        'hover:bg-neutral-content/10' => !request()->routeIs('categories.index'),
+                                    ])>
+                                        {{ __('admin.nav.categories_list') }}
+                                    </a>
+                                </li>
+                                @can('categories.create')
+                                    <li>
+                                        <a href="{{ route('categories.create') }}" @class([
+                                            'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
+                                            'bg-white text-primary font-semibold' => request()->routeIs('categories.create'),
+                                            'hover:bg-neutral-content/10' => !request()->routeIs('categories.create'),
+                                        ])>
+                                            {{ __('admin.nav.categories_create') }}
+                                        </a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </details>
+                    </li>
+                @endcan
 
                 {{-- Cursos --}}
                 @can('courses.view')
@@ -236,6 +274,89 @@
                         </ul>
                     </details>
                 </li>
+                @endcan
+
+            @endcanany
+
+            {{-- Sección Personas --}}
+            @canany(['students.view', 'teachers.view'])
+                <li
+                    class="menu-title mt-4 mb-1 px-3 text-xs font-semibold uppercase tracking-widest text-neutral-content/50">
+                    {{ __('admin.nav.people_section') }}
+                </li>
+
+                @can('students.view')
+                    <li>
+                        <details @class(['open' => request()->routeIs('students.*')])>
+                            <summary @class([
+                                'flex items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors list-none',
+                                'bg-primary text-primary-content font-semibold' => request()->routeIs('students.*'),
+                                'hover:bg-neutral-content/10' => !request()->routeIs('students.*'),
+                            ])>
+                                <i class="icofont-student-alt text-lg w-5 text-center" aria-hidden="true"></i>
+                                <span class="flex-1">{{ __('admin.nav.students') }}</span>
+                            </summary>
+                            <ul class="mt-0.5 space-y-0.5">
+                                <li>
+                                    <a href="{{ route('students.index') }}" @class([
+                                        'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
+                                        'bg-white text-primary font-semibold' => request()->routeIs('students.index'),
+                                        'hover:bg-neutral-content/10' => !request()->routeIs('students.index'),
+                                    ])>
+                                        {{ __('admin.nav.students_list') }}
+                                    </a>
+                                </li>
+                                @can('students.create')
+                                    <li>
+                                        <a href="{{ route('students.create') }}" @class([
+                                            'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
+                                            'bg-white text-primary font-semibold' => request()->routeIs('students.create'),
+                                            'hover:bg-neutral-content/10' => !request()->routeIs('students.create'),
+                                        ])>
+                                            {{ __('admin.nav.students_create') }}
+                                        </a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </details>
+                    </li>
+                @endcan
+
+                @can('teachers.view')
+                    <li>
+                        <details @class(['open' => request()->routeIs('teachers.*')])>
+                            <summary @class([
+                                'flex items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors list-none',
+                                'bg-primary text-primary-content font-semibold' => request()->routeIs('teachers.*'),
+                                'hover:bg-neutral-content/10' => !request()->routeIs('teachers.*'),
+                            ])>
+                                <i class="icofont-teacher text-lg w-5 text-center" aria-hidden="true"></i>
+                                <span class="flex-1">{{ __('admin.nav.teachers') }}</span>
+                            </summary>
+                            <ul class="mt-0.5 space-y-0.5">
+                                <li>
+                                    <a href="{{ route('teachers.index') }}" @class([
+                                        'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
+                                        'bg-white text-primary font-semibold' => request()->routeIs('teachers.index'),
+                                        'hover:bg-neutral-content/10' => !request()->routeIs('teachers.index'),
+                                    ])>
+                                        {{ __('admin.nav.teachers_list') }}
+                                    </a>
+                                </li>
+                                @can('teachers.create')
+                                    <li>
+                                        <a href="{{ route('teachers.create') }}" @class([
+                                            'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
+                                            'bg-white text-primary font-semibold' => request()->routeIs('teachers.create'),
+                                            'hover:bg-neutral-content/10' => !request()->routeIs('teachers.create'),
+                                        ])>
+                                            {{ __('admin.nav.teachers_create') }}
+                                        </a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </details>
+                    </li>
                 @endcan
 
             @endcanany

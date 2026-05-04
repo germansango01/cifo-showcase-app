@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\View\View;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Models\Category;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
@@ -18,14 +18,24 @@ class CategoryController extends Controller
     {
         Gate::authorize('categories.view');
 
+        $request->validate([
+            'sort' => 'in:id,created_at',
+            'direction' => 'in:asc,desc',
+            'per_page' => 'in:5,10,25',
+        ]);
+
         $search = $request->query('search');
+        $sort = $request->query('sort', 'created_at');
+        $direction = $request->query('direction', 'desc');
+        $perPage = (int) $request->query('per_page', 10);
 
         $categories = Category::query()
+            ->withCount('courses')
             ->when($search, fn ($q) => $q->where(function ($q) use ($search) {
                 $q->whereRaw("JSON_EXTRACT(name, '$.es') LIKE ?", ["%{$search}%"]);
             }))
-            ->orderByRaw("JSON_EXTRACT(name, '$.es')")
-            ->paginate(15)
+            ->orderBy($sort, $direction)
+            ->paginate($perPage)
             ->withQueryString();
 
         return view('admin.categories.index', compact('categories'));

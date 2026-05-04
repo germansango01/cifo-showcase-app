@@ -4,9 +4,7 @@
         ['label' => __('admin.courses.title')],
     ]" />
 
-    <div
-        x-data="{ deleteId: null, deleteName: '' }"
-        @keydown.escape.window="const m = document.getElementById('confirm-delete-course'); if (m) m.close()">
+    <x-admin.ui.confirm-delete id="confirm-delete-course" :title-key="'admin.courses.delete_modal_title'">
 
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
             <div>
@@ -25,25 +23,22 @@
 
         <x-admin.ui.card>
 
-            {{-- Filtros --}}
             <x-admin.table.filters :action="route('courses.index')" :search-placeholder="__('admin.courses.search_placeholder')">
-                <select name="category" class="select select-bordered">
-                    <option value="">{{ __('admin.courses.category_placeholder') }}</option>
-                    @foreach ($categories as $cat)
-                        <option value="{{ $cat->id }}" @selected(request('category') == $cat->id)>
-                            {{ $cat->name }}
-                        </option>
-                    @endforeach
-                </select>
+                <x-admin.ui.select
+                    name="category"
+                    :options="$categories->pluck('name', 'id')->toArray()"
+                    :selected="request('category')"
+                    :placeholder="__('admin.courses.category_placeholder')"
+                    onchange="this.form.submit()" />
             </x-admin.table.filters>
 
-            {{-- Tabla --}}
             <x-admin.table.index :items="$courses" :columns="[
-                ['label' => __('admin.courses.col_code'),     'key' => null, 'sortable' => false],
-                ['label' => __('admin.courses.col_name'),     'key' => null, 'sortable' => false],
-                ['label' => __('admin.courses.col_category'), 'key' => null, 'sortable' => false],
-                ['label' => __('admin.courses.col_projects'), 'key' => null, 'sortable' => false],
-                ['label' => '',                               'key' => null, 'sortable' => false],
+                ['label' => __('admin.courses.col_code'),     'key' => 'course_code', 'sortable' => true],
+                ['label' => __('admin.courses.col_name'),     'key' => null,          'sortable' => false],
+                ['label' => __('admin.courses.col_category'), 'key' => null,          'sortable' => false],
+                ['label' => __('admin.courses.col_projects'), 'key' => null,          'sortable' => false],
+                ['label' => __('admin.common.created_at'),    'key' => 'created_at',  'sortable' => true],
+                ['label' => '',                               'key' => null,          'sortable' => false],
             ]">
 
                 @foreach ($courses as $course)
@@ -72,6 +67,10 @@
                             </x-admin.ui.badge>
                         </td>
 
+                        <td class="text-sm opacity-70">
+                            {{ $course->created_at->format('d/m/Y') }}
+                        </td>
+
                         <td class="text-right">
                             <div class="flex justify-end gap-1">
                                 @can('courses.update')
@@ -82,7 +81,7 @@
 
                                 @can('courses.delete')
                                     <button type="button" class="btn btn-ghost btn-xs btn-square"
-                                        @click="deleteId = {{ $course->id }}; deleteName = @js($course->course_code . ' – ' . $course->name); $nextTick(() => document.getElementById('confirm-delete-course').showModal())">
+                                        @click="deleteName = @js($course->course_code . ' – ' . $course->name); deleteUrl = '{{ route('courses.destroy', $course) }}'; $nextTick(() => document.getElementById('confirm-delete-course').showModal())">
                                         <i class="icofont-ui-delete text-error text-base"></i>
                                     </button>
                                 @endcan
@@ -95,42 +94,14 @@
                     <x-admin.table.empty icon="icofont-book-alt" :message="__('admin.courses.empty')" />
                 </x-slot>
 
+                <x-slot name="perPage">
+                    <x-admin.table.per-page :current="request('per_page', 10)" />
+                </x-slot>
+
             </x-admin.table.index>
 
         </x-admin.ui.card>
 
-        {{-- Modal eliminar --}}
-        @can('courses.delete')
-            <x-admin.ui.modal id="confirm-delete-course" :title="__('admin.courses.delete_modal_title')" size="sm">
-                <p class="text-sm opacity-80 mb-2">
-                    {{ __('admin.courses.delete_confirm') }}
-                    <strong x-text="deleteName"></strong>?
-                </p>
-
-                <p class="text-xs text-error opacity-80">
-                    {{ __('admin.common.irreversible') }}
-                </p>
-
-                <x-slot name="actions">
-                    <form method="POST" :action="`{{ url('admin/courses') }}/${deleteId}`">
-                        @csrf
-                        @method('DELETE')
-
-                        <div class="flex gap-2 justify-end">
-                            <button type="button" class="btn btn-ghost btn-sm"
-                                onclick="document.getElementById('confirm-delete-course').close()">
-                                {{ __('admin.common.cancel') }}
-                            </button>
-
-                            <x-admin.ui.button type="submit" variant="error" size="sm" icon="icofont-ui-delete">
-                                {{ __('admin.common.delete') }}
-                            </x-admin.ui.button>
-                        </div>
-                    </form>
-                </x-slot>
-            </x-admin.ui.modal>
-        @endcan
-
-    </div>{{-- /x-data --}}
+    </x-admin.ui.confirm-delete>
 
 </x-layouts.admin>

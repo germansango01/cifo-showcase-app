@@ -44,22 +44,28 @@
     {{-- Pagination --}}
     @if ($isPaginated() && $items->hasPages())
         <div class="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 py-3 border-t border-base-300">
-            <p class="text-sm text-base-content/60">
-                Mostrando
-                <span class="font-medium">{{ $items->firstItem() }}</span>–<span
-                    class="font-medium">{{ $items->lastItem() }}</span>
-                de <span class="font-medium">{{ $items->total() }}</span> resultados
-            </p>
+            <div class="flex items-center gap-4">
+                <p class="text-sm text-base-content/60">
+                    {{ __('admin.common.showing_x_of_y', [
+                        'from'  => $items->firstItem(),
+                        'to'    => $items->lastItem(),
+                        'total' => $items->total(),
+                    ]) }}
+                </p>
+                @isset($perPage)
+                    {{ $perPage }}
+                @endisset
+            </div>
 
             <div class="join">
                 {{-- Previous --}}
                 @if ($items->onFirstPage())
-                    <button class="join-item btn btn-sm btn-disabled" disabled aria-label="Página anterior">
+                    <button class="join-item btn btn-sm btn-disabled" disabled aria-label="{{ __('admin.common.prev_page') }}">
                         <i class="icofont-arrow-left"></i>
                     </button>
                 @else
                     <a href="{{ $items->previousPageUrl() }}" class="join-item btn btn-sm"
-                        aria-label="Página anterior">
+                        aria-label="{{ __('admin.common.prev_page') }}">
                         <i class="icofont-arrow-left"></i>
                     </a>
                 @endif
@@ -97,11 +103,11 @@
 
                 {{-- Next --}}
                 @if ($items->hasMorePages())
-                    <a href="{{ $items->nextPageUrl() }}" class="join-item btn btn-sm" aria-label="Página siguiente">
+                    <a href="{{ $items->nextPageUrl() }}" class="join-item btn btn-sm" aria-label="{{ __('admin.common.next_page') }}">
                         <i class="icofont-arrow-right"></i>
                     </a>
                 @else
-                    <button class="join-item btn btn-sm btn-disabled" disabled aria-label="Página siguiente">
+                    <button class="join-item btn btn-sm btn-disabled" disabled aria-label="{{ __('admin.common.next_page') }}">
                         <i class="icofont-arrow-right"></i>
                     </button>
                 @endif
