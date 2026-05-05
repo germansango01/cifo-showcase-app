@@ -11,7 +11,6 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::create('project_tag', function (Blueprint $table) {
-
             $table->foreignId('project_id')
                 ->constrained('projects')
                 ->onDelete('cascade');
@@ -21,7 +20,6 @@ return new class () extends Migration {
                 ->onDelete('cascade');
 
             $table->primary(['project_id', 'tag_id']);
-
         });
     }
 

@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Sluggable\HasTranslatableSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
@@ -23,13 +26,13 @@ use Spatie\Translatable\HasTranslations;
     'featured',
     'published_at',
 ])]
-class Project extends Model
+class Project extends Model implements HasMedia
 {
-    /** @use HasFactory<\Database\Factories\ProjectFactory> */
     use HasFactory;
     use HasTranslatableSlug;
     use HasTranslations;
     use SoftDeletes;
+    use InteractsWithMedia;
 
     public array $translatable = ['title', 'description', 'slug'];
 
@@ -39,6 +42,17 @@ class Project extends Model
             ->generateSlugsFrom('title')
             ->saveSlugsTo('slug')
             ->doNotGenerateSlugsOnUpdate();
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('project_images')
+            ->registerFullConversions(function (Media $media) {
+                $this->addMediaConversion('thumb')
+                    ->width(300)
+                    ->height(300)
+                    ->sharpen(10);
+            });
     }
 
     protected function casts(): array
@@ -65,8 +79,10 @@ class Project extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    /*
     public function media()
     {
         return $this->hasMany(ProjectMedia::class)->orderBy('sort_order');
     }
+    */
 }

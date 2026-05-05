@@ -17,7 +17,6 @@ return new class () extends Migration {
             $table->json('slug');
 
             $table->timestamps();
-
             $table->softDeletes();
         });
     }

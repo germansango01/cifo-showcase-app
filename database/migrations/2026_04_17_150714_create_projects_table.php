@@ -34,7 +34,6 @@ return new class () extends Migration {
             $table->index('project_date');
 
             $table->timestamps();
-
             $table->softDeletes();
         });
     }
