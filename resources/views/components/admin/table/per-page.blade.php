@@ -16,7 +16,7 @@
         @endif
     @endforeach
 
-    <label for="per_page_select" class="text-sm opacity-70">{{ __('admin.common.per_page') }}:</label>
+    <label for="per_page_select" class="text-sm opacity-70 whitespace-nowrap shrink-0">{{ __('admin.common.per_page') }}:</label>
     <select id="per_page_select" name="per_page"
             class="select select-sm select-bordered"
             onchange="this.form.submit()">

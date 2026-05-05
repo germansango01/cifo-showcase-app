@@ -2700,6 +2700,22 @@
     content: "\e977";
 }
 
+.icofont-group-students:before {
+    content: "\eadd";
+}
+
+.icofont-student-alt:before {
+    content: "\eaee";
+}
+
+.icofont-student:before {
+    content: "\eaef";
+}
+
+.icofont-teacher:before {
+    content: "\eaf0";
+}
+
 [class^="icofont-"].icofont-duotone,
 [class*=" icofont-"].icofont-duotone {
     position: relative;

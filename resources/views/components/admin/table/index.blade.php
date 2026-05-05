@@ -44,11 +44,11 @@
     {{-- Pagination --}}
     @if ($isPaginated() && $items->hasPages())
         <div class="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 py-3 border-t border-base-300">
-            <div class="flex items-center gap-4">
-                <p class="text-sm text-base-content/60">
+            <div class="flex flex-wrap justify-center items-center gap-x-4 gap-y-1">
+                <p class="text-center text-sm text-base-content/60">
                     {{ __('admin.common.showing_x_of_y', [
-                        'from'  => $items->firstItem(),
-                        'to'    => $items->lastItem(),
+                        'from' => $items->firstItem(),
+                        'to' => $items->lastItem(),
                         'total' => $items->total(),
                     ]) }}
                 </p>
@@ -60,7 +60,8 @@
             <div class="join">
                 {{-- Previous --}}
                 @if ($items->onFirstPage())
-                    <button class="join-item btn btn-sm btn-disabled" disabled aria-label="{{ __('admin.common.prev_page') }}">
+                    <button class="join-item btn btn-sm btn-disabled" disabled
+                        aria-label="{{ __('admin.common.prev_page') }}">
                         <i class="icofont-arrow-left"></i>
                     </button>
                 @else
@@ -103,11 +104,13 @@
 
                 {{-- Next --}}
                 @if ($items->hasMorePages())
-                    <a href="{{ $items->nextPageUrl() }}" class="join-item btn btn-sm" aria-label="{{ __('admin.common.next_page') }}">
+                    <a href="{{ $items->nextPageUrl() }}" class="join-item btn btn-sm"
+                        aria-label="{{ __('admin.common.next_page') }}">
                         <i class="icofont-arrow-right"></i>
                     </a>
                 @else
-                    <button class="join-item btn btn-sm btn-disabled" disabled aria-label="{{ __('admin.common.next_page') }}">
+                    <button class="join-item btn btn-sm btn-disabled" disabled
+                        aria-label="{{ __('admin.common.next_page') }}">
                         <i class="icofont-arrow-right"></i>
                     </button>
                 @endif

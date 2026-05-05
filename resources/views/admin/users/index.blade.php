@@ -29,7 +29,7 @@
                     :options="$roles->pluck('name', 'name')->toArray()"
                     :selected="request('role')"
                     :placeholder="__('admin.users.all_roles')"
-                    class="w-full sm:w-48"
+                    class="w-full"
                     onchange="this.form.submit()" />
             </x-admin.table.filters>
 
