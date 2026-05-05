@@ -44,7 +44,6 @@ coverage/
 # --- IDEs y editores ---
 .idea/
 .vscode/*
-!.vscode/settings.json
 !.vscode/extensions.json
 !.vscode/launch.json
 *.swp
