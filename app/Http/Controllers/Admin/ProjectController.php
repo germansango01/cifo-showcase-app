@@ -20,17 +20,26 @@ class ProjectController extends Controller
     {
         Gate::authorize('projects.view');
 
+        $request->validate([
+            'sort' => 'in:project_date,status,created_at',
+            'direction' => 'in:asc,desc',
+            'per_page' => 'in:5,10,25',
+        ]);
+
         $search = $request->query('search');
         $statusFilter = $request->query('status');
         $courseFilter = $request->query('course');
+        $sort = $request->query('sort', 'project_date');
+        $direction = $request->query('direction', 'desc');
+        $perPage = (int) $request->query('per_page', 10);
 
         $projects = Project::query()
             ->with(['course', 'tags'])
             ->when($search, fn ($q) => $q->whereRaw("JSON_EXTRACT(title, '$.es') LIKE ?", ["%{$search}%"]))
             ->when($statusFilter, fn ($q) => $q->where('status', $statusFilter))
             ->when($courseFilter, fn ($q) => $q->where('course_id', $courseFilter))
-            ->orderBy('project_date', 'desc')
-            ->paginate(15)
+            ->orderBy($sort, $direction)
+            ->paginate($perPage)
             ->withQueryString();
 
         $courses = Course::orderByRaw("JSON_EXTRACT(name, '$.es')")->get();

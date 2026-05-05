@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
 use App\Models\Teacher;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
@@ -18,18 +18,27 @@ class TeacherController extends Controller
     {
         Gate::authorize('teachers.view');
 
+        $request->validate([
+            'sort' => 'in:name,email,created_at',
+            'direction' => 'in:asc,desc',
+            'per_page' => 'in:5,10,25',
+        ]);
+
         $search = $request->query('search');
+        $sort = $request->query('sort', 'name');
+        $direction = $request->query('direction', 'asc');
+        $perPage = (int) $request->query('per_page', 10);
 
         $teachers = Teacher::query()
+            ->withCount('courses')
             ->when($search, function ($q) use ($search) {
                 $q->where(function ($q) use ($search) {
                     $q->where('name', 'like', "%{$search}%")
                       ->orWhere('email', 'like', "%{$search}%");
                 });
             })
-            ->withCount('courses')
-            ->orderBy('name')
-            ->paginate(15)
+            ->orderBy($sort, $direction)
+            ->paginate($perPage)
             ->withQueryString();
 
         return view('admin.teachers.index', compact('teachers'));

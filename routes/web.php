@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LocaleController;
@@ -7,7 +8,9 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Front\PageController;
 use App\Http\Controllers\Front\ProjectController;
@@ -44,9 +47,6 @@ Route::middleware(['auth', 'verified', 'admin.locale'])
         Route::resource('tags', TagController::class)->except('show');
         Route::resource('projects', AdminProjectController::class)->except('show');
         Route::resource('permissions', PermissionController::class)->except('show');
-
-        // ── NUEVOS CONTROLLERS (FCS) ───────────────────────────────
-
         Route::resource('categories', CategoryController::class)->except('show');
         Route::resource('students', StudentController::class)->except('show');
         Route::resource('teachers', TeacherController::class)->except('show');

@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Models\Student;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
@@ -18,18 +18,27 @@ class StudentController extends Controller
     {
         Gate::authorize('students.view');
 
+        $request->validate([
+            'sort' => 'in:name,email,created_at',
+            'direction' => 'in:asc,desc',
+            'per_page' => 'in:5,10,25',
+        ]);
+
         $search = $request->query('search');
+        $sort = $request->query('sort', 'name');
+        $direction = $request->query('direction', 'asc');
+        $perPage = (int) $request->query('per_page', 10);
 
         $students = Student::query()
+            ->withCount('projects')
             ->when($search, function ($q) use ($search) {
                 $q->where(function ($q) use ($search) {
                     $q->where('name', 'like', "%{$search}%")
                       ->orWhere('email', 'like', "%{$search}%");
                 });
             })
-            ->withCount('projects')
-            ->orderBy('name')
-            ->paginate(15)
+            ->orderBy($sort, $direction)
+            ->paginate($perPage)
             ->withQueryString();
 
         return view('admin.students.index', compact('students'));

@@ -18,13 +18,22 @@ class TagController extends Controller
     {
         Gate::authorize('tags.view');
 
+        $request->validate([
+            'sort' => 'in:id,created_at',
+            'direction' => 'in:asc,desc',
+            'per_page' => 'in:5,10,25',
+        ]);
+
         $search = $request->query('search');
+        $sort = $request->query('sort', 'created_at');
+        $direction = $request->query('direction', 'desc');
+        $perPage = (int) $request->query('per_page', 10);
 
         $tags = Tag::query()
             ->withCount('projects')
             ->when($search, fn ($q) => $q->whereRaw("JSON_EXTRACT(name, '$.es') LIKE ?", ["%{$search}%"]))
-            ->orderByRaw("JSON_EXTRACT(name, '$.es')")
-            ->paginate(15)
+            ->orderBy($sort, $direction)
+            ->paginate($perPage)
             ->withQueryString();
 
         return view('admin.tags.index', compact('tags'));

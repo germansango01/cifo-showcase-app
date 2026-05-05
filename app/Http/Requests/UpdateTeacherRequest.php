@@ -16,7 +16,7 @@ class UpdateTeacherRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'  => ['required', 'string', 'max:100'],
+            'name' => ['required', 'string', 'max:100'],
             'email' => [
                 'required',
                 'email',
