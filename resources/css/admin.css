@@ -12,6 +12,8 @@
 @source "../../app/View/Components/**/*.php";
 @source "../../storage/framework/views/*.php";
 
+@plugin "@tailwindcss/typography";
+
 @plugin "daisyui" {
     themes: false;
 }
