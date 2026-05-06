@@ -21,29 +21,7 @@
             @csrf @method('PATCH')
 
             <div class="space-y-1 mb-4">
-                <p class="fieldset-legend">{{ __('admin.categories.icon') }} <span class="text-error">*</span></p>
-                <div class="grid grid-cols-1 gap-3">
-                    {{-- <fieldset class="fieldset w-full"> --}}
-
-            <x-admin.ui.input
-                name="icon"
-                label="Icon"
-                icon="icofont-ui-image"
-                :value="$category->icon"
-                required />
-
-
-                {{-- @error('icon')
-                            <p class="fieldset-label text-error flex items-center gap-1">
-                                <i class="icofont-warning-alt"></i> {{ $message }}
-                            </p>
-                        @enderror
-                    </fieldset> --}}
-                </div>
-            </div>
-
-            <div class="space-y-1 mb-4">
-                <p class="fieldset-legend">{{ __('admin.categories.name_es') }} <span class="text-error">*</span></p>
+                <p class="fieldset-legend">{{ __('admin.categories.col_name') }} <span class="text-error">*</span></p>
                 <div class="grid grid-cols-2 gap-3">
                     <legend class="fieldset-legend"><span class="badge badge-xs badge-neutral">ES</span></legend>
                     <legend class="fieldset-legend"><span class="badge badge-xs badge-neutral">CA</span></legend>
@@ -54,14 +32,14 @@
             <x-admin.ui.input
                 name="name[es]"
                 {{-- label="Name (ES)" --}}
-                icon="icofont-ui-image"
+                icon="icofont-sub-listing"
                 :value="old('name.es', $category->getTranslation('name','es'))"
                 required />
 
             <x-admin.ui.input
                 name="name[ca]"
                 {{-- label="Name (CA)" --}}
-                icon="icofont-ui-image"
+                icon="icofont-sub-listing"
                 :value="old('name.ca', $category->getTranslation('name','ca'))"
                 required />
 

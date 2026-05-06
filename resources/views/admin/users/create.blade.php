@@ -24,7 +24,7 @@
 
             {{-- Datos personales --}}
             <div class="grid grid-cols-1 gap-4">
-                <x-admin.ui.input name="name" :label="__('admin.users.full_name')" icon="icofont-ui-user" placeholder="Nombre Apellido"
+                <x-admin.ui.input name="name" :label="__('admin.users.full_name')" icon="icofont-ui-user" :placeholder="__('admin.users.full_name')"
                     :required="true" x-model="form.name" @change="form.validate('name')" />
 
                 <x-admin.ui.input name="email" :label="__('admin.common.email')" type="email" icon="icofont-email"

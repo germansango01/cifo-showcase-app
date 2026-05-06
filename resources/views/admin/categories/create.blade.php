@@ -16,33 +16,14 @@
         <form method="POST" action="{{ route('categories.store') }}" novalidate>
             @csrf
 
-            <div class="space-y-1 mb-4">
-                <p class="fieldset-legend">{{ __('admin.categories.icon') }} <span class="text-error">*</span></p>
-                <div class="grid grid-cols-1 gap-3">
-                    <fieldset class="fieldset w-full">
-                        <label class="input input-bordered w-full flex items-center gap-2 @error('icon') input-error @enderror">
-                            <i class="icofont-price opacity-60"></i>
-                            <input type="text" name="icon" id="icon"
-                                value="{{ old('icon') }}"
-                                placeholder="{{ __('admin.categories.icon_placeholder') }}"
-                                required class="grow" />
-                        </label>
-                        @error('icon')
-                            <p class="fieldset-label text-error flex items-center gap-1">
-                                <i class="icofont-warning-alt"></i> {{ $message }}
-                            </p>
-                        @enderror
-                    </fieldset>
-                </div>
-            </div>
             {{-- name[es] / name[ca] --}}
             <div class="space-y-1 mb-4">
-                <p class="fieldset-legend">{{ __('admin.categories.name_es') }} <span class="text-error">*</span></p>
+                <p class="fieldset-legend">{{ __('admin.categories.col_name') }} <span class="text-error">*</span></p>
                 <div class="grid grid-cols-2 gap-3">
                     <fieldset class="fieldset w-full">
                         <legend class="fieldset-legend"><span class="badge badge-xs badge-neutral">ES</span></legend>
                         <label class="input input-bordered w-full flex items-center gap-2 @error('name.es') input-error @enderror">
-                            <i class="icofont-price opacity-60"></i>
+                            <i class="icofont-sub-listing opacity-60"></i>
                             <input type="text" name="name[es]" id="name_es"
                                 value="{{ old('name.es') }}"
                                 placeholder="{{ __('admin.categories.name_placeholder') }}"
@@ -58,7 +39,7 @@
                     <fieldset class="fieldset w-full">
                         <legend class="fieldset-legend"><span class="badge badge-xs badge-neutral">CA</span></legend>
                         <label class="input input-bordered w-full flex items-center gap-2 @error('name.ca') input-error @enderror">
-                            <i class="icofont-price opacity-60"></i>
+                            <i class="icofont-sub-listing opacity-60"></i>
                             <input type="text" name="name[ca]" id="name_ca"
                                 value="{{ old('name.ca') }}"
                                 placeholder="{{ __('admin.categories.name_placeholder') }}"

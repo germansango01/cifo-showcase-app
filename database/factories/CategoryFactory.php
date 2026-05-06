@@ -21,13 +21,13 @@ class CategoryFactory extends Factory
             ['es' => 'Competencias digitales',     'ca' => 'Competències digitals'],
         ];
 
-        $icons = ['icofont-code', 'icofont-shield', 'icofont-circuit', 'icofont-laptop'];
+        // $icons = ['icofont-code', 'icofont-shield', 'icofont-circuit', 'icofont-laptop'];
 
         $pair = $this->faker->randomElement($pairs);
 
         return [
             'name' => ['es' => $pair['es'], 'ca' => $pair['ca']],
-            'icon' => $this->faker->randomElement($icons),
+            // 'icon' => $this->faker->randomElement($icons),
         ];
     }
 }

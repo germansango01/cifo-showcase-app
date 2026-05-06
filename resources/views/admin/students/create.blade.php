@@ -16,12 +16,12 @@
             @csrf
 
             <div class="space-y-1 mb-4">
-                <p class="fieldset-legend">{{ __('admin.students.name') }} <span class="text-error">*</span></p>
+                <p class="fieldset-legend">{{ __('admin.students.col_name') }} <span class="text-error">*</span></p>
                 <div class="grid grid-cols-1 gap-3">
                     <fieldset class="fieldset w-full">
                         {{-- <legend class="fieldset-legend"><span class="badge badge-xs badge-neutral">ES</span></legend> --}}
                         <label class="input input-bordered w-full flex items-center gap-2 @error('name') input-error @enderror">
-                            <i class="icofont-price opacity-60"></i>
+                            <i class="icofont-ui-user opacity-60"></i>
 
             {{-- <x-admin.ui.input name="name" label="Name" required /> --}}
                         <input type="text" name="name" id="name"
@@ -35,11 +35,11 @@
                             </p>
                         @enderror
                 </div>
-                <p class="fieldset-legend">{{ __('admin.students.email') }} <span class="text-error">*</span></p>
+                <p class="fieldset-legend">{{ __('admin.students.col_email') }} <span class="text-error">*</span></p>
                 <div class="grid grid-cols-1 gap-3">
                         {{-- <legend class="fieldset-legend"><span class="badge badge-xs badge-neutral">ES</span></legend> --}}
                         <label class="input input-bordered w-full flex items-center gap-2 @error('email') input-error @enderror">
-                            <i class="icofont-price opacity-60"></i>
+                            <i class="icofont-email opacity-60"></i>
 
             {{-- <x-admin.ui.input name="email" label="Email" required /> --}}
                         <input type="text" name="email" id="email"

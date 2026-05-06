@@ -15,25 +15,12 @@
         <form method="POST" action="{{ route('teachers.store') }}" novalidate>
             @csrf
 
-            {{-- <x-admin.ui.input name="name" label="Name" required />
-            <x-admin.ui.input name="email" label="Email" required />
-
-            <div class="flex justify-end gap-2 mt-4">
-                <x-admin.ui.button variant="ghost" :href="route('teachers.index')">
-                    Cancel
-                </x-admin.ui.button>
-
-                <x-admin.ui.button type="submit">
-                    Create
-                </x-admin.ui.button>
-            </div> --}}
-
             <div class="space-y-1 mb-4">
-                <p class="fieldset-legend">{{ __('admin.teachers.name') }} <span class="text-error">*</span></p>
+                <p class="fieldset-legend">{{ __('admin.teachers.col_name') }} <span class="text-error">*</span></p>
                 <div class="grid grid-cols-1 gap-3">
                     <fieldset class="fieldset w-full">
                         <label class="input input-bordered w-full flex items-center gap-2 @error('name') input-error @enderror">
-                            <i class="icofont-price opacity-60"></i>
+                            <i class="icofont-user opacity-60"></i>
 
                         <input type="text" name="name" id="name"
                                 value="{{ old('name') }}"
@@ -46,10 +33,10 @@
                             </p>
                         @enderror
                 </div>
-                <p class="fieldset-legend">{{ __('admin.teachers.email') }} <span class="text-error">*</span></p>
+                <p class="fieldset-legend">{{ __('admin.teachers.col_email') }} <span class="text-error">*</span></p>
                 <div class="grid grid-cols-1 gap-3">
                         <label class="input input-bordered w-full flex items-center gap-2 @error('email') input-error @enderror">
-                            <i class="icofont-price opacity-60"></i>
+                            <i class="icofont-mail opacity-60"></i>
 
                         <input type="text" name="email" id="email"
                                 value="{{ old('email') }}"
