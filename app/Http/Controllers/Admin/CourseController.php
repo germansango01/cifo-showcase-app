@@ -30,20 +30,21 @@ class CourseController extends Controller
         $sort = $request->query('sort', 'course_code');
         $direction = $request->query('direction', 'asc');
         $perPage = (int) $request->query('per_page', 10);
+        $locale = app()->getLocale();
 
         $courses = Course::query()
             ->with('category')
             ->withCount('projects')
-            ->when($search, fn ($q) => $q->where(function ($q) use ($search) {
-                $q->whereRaw("JSON_EXTRACT(name, '$.es') LIKE ?", ["%{$search}%"])
-                  ->orWhere('course_code', 'like', "%{$search}%");
+            ->when($search, fn ($q) => $q->where(function ($q) use ($search, $locale) {
+                $q->whereRaw("LOWER(`name`->>'$.{$locale}') LIKE ?", [mb_strtolower("%{$search}%")])
+                  ->orWhere('course_code', 'like', mb_strtolower("%{$search}%"));
             }))
             ->when($categoryId, fn ($q) => $q->where('category_id', $categoryId))
             ->orderBy($sort, $direction)
             ->paginate($perPage)
             ->withQueryString();
 
-        $categories = Category::orderByRaw("JSON_EXTRACT(name, '$.es')")->get();
+        $categories = Category::orderBy("name->{$locale}")->get();
 
         return view('admin.courses.index', compact('courses', 'categories'));
     }
@@ -52,7 +53,7 @@ class CourseController extends Controller
     {
         Gate::authorize('courses.create');
 
-        $categoryOptions = Category::orderByRaw("JSON_EXTRACT(name, '$.es')")->get()->pluck('name', 'id')->toArray();
+        $categoryOptions = Category::orderBy('name->' . app()->getLocale())->get()->pluck('name', 'id')->toArray();
 
         return view('admin.courses.create', compact('categoryOptions'));
     }
@@ -76,7 +77,7 @@ class CourseController extends Controller
     {
         Gate::authorize('courses.update');
 
-        $categoryOptions = Category::orderByRaw("JSON_EXTRACT(name, '$.es')")->get()->pluck('name', 'id')->toArray();
+        $categoryOptions = Category::orderBy('name->' . app()->getLocale())->get()->pluck('name', 'id')->toArray();
 
         return view('admin.courses.edit', compact('course', 'categoryOptions'));
     }

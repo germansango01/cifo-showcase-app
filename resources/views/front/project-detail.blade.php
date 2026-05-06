@@ -13,7 +13,8 @@
     $year = $project->project_date?->year;
 @endphp
 
-<x-layouts.app :title="$title" :description="$desc" ogType="article" :ogImage="$project->thumbnail">
+@php($thumbnailUrl = $project->getFeaturedImage()?->getUrl() ?? asset('images/placeholder.webp'))
+<x-layouts.app :title="$title" :description="$desc" ogType="article" :ogImage="$thumbnailUrl">
 
     <article class="project-detail" aria-labelledby="detail-title">
 
@@ -33,7 +34,7 @@
         {{-- ── HERO IMAGE ─────────────────────────────────── --}}
         <header class="project-detail-hero">
             <figure>
-                <img src="{{ $project->thumbnail }}" alt="{{ __('front.project.thumbnail_alt') }} {{ $title }}"
+                <img src="{{ $thumbnailUrl }}" alt="{{ __('front.project.thumbnail_alt') }} {{ $title }}"
                     width="1200" height="800">
             </figure>
 
@@ -66,13 +67,13 @@
                     </section>
 
                     {{-- Gallery --}}
-                    @if ($project->media->count())
+                    @if ($project->externalMedia->count())
                         <section class="project-detail-section" aria-labelledby="section-gallery">
                             <h2 id="section-gallery">{{ __('front.project.section_gallery') }}</h2>
                             <figure class="project-detail-gallery">
                                 <div class="carousel project-detail-carousel" id="detail-carousel" role="region"
                                     aria-label="{{ __('front.project.gallery_aria') }}"
-                                    data-images="{{ json_encode($project->media->map(fn($m) => ['src' => $m->path, 'alt' => $m->alt_text])->values()) }}">
+                                    data-images="{{ json_encode($project->externalMedia->map(fn($m) => ['src' => $m->path, 'alt' => $m->alt_text])->values()) }}">
                                     <div class="carousel-track"></div>
 
                                     <button class="carousel-btn" data-direction="prev"

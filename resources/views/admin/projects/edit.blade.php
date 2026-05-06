@@ -111,23 +111,17 @@
                 </div>
             </div>
 
-            {{-- thumbnail --}}
+            {{-- images --}}
             <fieldset class="fieldset w-full mb-4">
-                <legend class="fieldset-legend">{{ __('admin.projects.thumbnail') }}</legend>
-                @if ($project->thumbnail)
-                    <div class="mb-2">
-                        <img src="{{ asset('storage/' . $project->thumbnail) }}"
-                            alt="{{ __('admin.projects.thumbnail_current') }}"
-                            class="h-24 w-auto rounded object-cover border border-base-300" />
-                        <p class="text-xs opacity-50 mt-1">{{ __('admin.projects.thumbnail_change') }}</p>
-                    </div>
-                @endif
-                <input type="file" name="thumbnail" id="thumbnail"
-                    accept="image/*"
-                    class="file-input file-input-bordered w-full @error('thumbnail') file-input-error @enderror" />
-                @error('thumbnail')
-                    <p class="fieldset-label text-error flex items-center gap-1"><i class="icofont-warning-alt"></i> {{ $message }}</p>
-                @enderror
+                <legend class="fieldset-legend">{{ __('admin.projects.images') }}</legend>
+                <x-admin.media.uploader
+                    :model="$project"
+                    collection="images"
+                    :max="8"
+                    :min="1"
+                    :featured="true"
+                    :sortable="true"
+                />
             </fieldset>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6">

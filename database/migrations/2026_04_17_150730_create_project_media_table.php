@@ -27,7 +27,6 @@ return new class () extends Migration {
             $table->index('type');
 
             $table->timestamps();
-
             $table->softDeletes();
         });
     }

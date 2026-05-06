@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Sluggable\HasTranslatableSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
@@ -16,19 +19,18 @@ use Spatie\Translatable\HasTranslations;
     'project_date',
     'title',
     'description',
-    'thumbnail',
     'repo_url',
     'live_url',
     'status',
     'featured',
     'published_at',
 ])]
-class Project extends Model
+class Project extends Model implements HasMedia
 {
-    /** @use HasFactory<\Database\Factories\ProjectFactory> */
     use HasFactory;
     use HasTranslatableSlug;
     use HasTranslations;
+    use InteractsWithMedia;
     use SoftDeletes;
 
     public array $translatable = ['title', 'description', 'slug'];
@@ -39,6 +41,38 @@ class Project extends Model
             ->generateSlugsFrom('title')
             ->saveSlugsTo('slug')
             ->doNotGenerateSlugsOnUpdate();
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('images')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
+            ->useFallbackUrl(asset('images/placeholder.webp'));
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(400)
+            ->height(300)
+            ->sharpen(10)
+            ->nonQueued();
+
+        $this->addMediaConversion('card')
+            ->width(800)
+            ->height(600)
+            ->sharpen(8)
+            ->nonQueued();
+    }
+
+    /**
+     * Returns the featured image, falling back to the first image in the collection.
+     */
+    public function getFeaturedImage(): ?Media
+    {
+        return $this->getMedia('images')->first(
+            fn (Media $m) => (bool) $m->getCustomProperty('is_featured')
+        ) ?? $this->getFirstMedia('images');
     }
 
     protected function casts(): array
@@ -65,7 +99,7 @@ class Project extends Model
         return $this->belongsToMany(Tag::class);
     }
 
-    public function media()
+    public function externalMedia()
     {
         return $this->hasMany(ProjectMedia::class)->orderBy('sort_order');
     }

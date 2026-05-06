@@ -27,6 +27,7 @@ package-lock.json
 /public/build/
 /public/hot
 /public/storage
+/public/media
 
 # --- Testing ---
 .phpunit.result.cache
@@ -44,7 +45,6 @@ coverage/
 # --- IDEs y editores ---
 .idea/
 .vscode/*
-!.vscode/settings.json
 !.vscode/extensions.json
 !.vscode/launch.json
 *.swp

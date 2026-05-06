@@ -21,7 +21,6 @@ return new class () extends Migration {
                 ->onDelete('cascade');
 
             $table->primary(['project_id', 'student_id']);
-
         });
     }
 

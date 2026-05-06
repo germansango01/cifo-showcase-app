@@ -10,8 +10,8 @@ use App\Models\Project;
 use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProjectController extends Controller
@@ -32,17 +32,21 @@ class ProjectController extends Controller
         $sort = $request->query('sort', 'project_date');
         $direction = $request->query('direction', 'desc');
         $perPage = (int) $request->query('per_page', 10);
+        $locale = app()->getLocale();
 
         $projects = Project::query()
             ->with(['course', 'tags'])
-            ->when($search, fn ($q) => $q->whereRaw("JSON_EXTRACT(title, '$.es') LIKE ?", ["%{$search}%"]))
+            ->when($search, fn ($q) => $q->whereRaw(
+                "LOWER(`title`->>'$.{$locale}') LIKE ?",
+                [mb_strtolower("%{$search}%")]
+            ))
             ->when($statusFilter, fn ($q) => $q->where('status', $statusFilter))
             ->when($courseFilter, fn ($q) => $q->where('course_id', $courseFilter))
             ->orderBy($sort, $direction)
             ->paginate($perPage)
             ->withQueryString();
 
-        $courses = Course::orderByRaw("JSON_EXTRACT(name, '$.es')")->get();
+        $courses = Course::orderBy("name->{$locale}")->get();
 
         return view('admin.projects.index', compact('projects', 'courses'));
     }
@@ -51,8 +55,9 @@ class ProjectController extends Controller
     {
         Gate::authorize('projects.create');
 
-        $courseOptions = Course::orderByRaw("JSON_EXTRACT(name, '$.es')")->get()->pluck('name', 'id')->toArray();
-        $tags = Tag::orderByRaw("JSON_EXTRACT(name, '$.es')")->get();
+        $locale = app()->getLocale();
+        $courseOptions = Course::orderBy("name->{$locale}")->get()->pluck('name', 'id')->toArray();
+        $tags = Tag::orderBy("name->{$locale}")->get();
 
         return view('admin.projects.create', compact('courseOptions', 'tags'));
     }
@@ -63,12 +68,29 @@ class ProjectController extends Controller
 
         $validated = $request->validated();
         $tags = $validated['tags'] ?? [];
+        $featuredValue = $validated['featured_media'] ?? null;
         $validated['featured'] = $request->boolean('featured');
-        $validated['thumbnail'] = $request->file('thumbnail')->store('projects/thumbnails', 'public');
-        unset($validated['tags']);
+        unset($validated['tags'], $validated['images'], $validated['featured_media']);
 
-        $project = Project::create($validated);
-        $project->tags()->sync($tags);
+        $project = DB::transaction(function () use ($validated, $tags, $request, $featuredValue) {
+            $project = Project::create($validated);
+            $project->tags()->sync($tags);
+
+            $files = $request->file('images', []);
+            foreach ($files as $index => $file) {
+                $isFeatured = $featuredValue === "new:{$index}";
+                $project->addMedia($file)
+                    ->withCustomProperties(['is_featured' => $isFeatured])
+                    ->toMediaCollection('images');
+            }
+
+            // If no featured was set explicitly, mark the first one
+            if (! $featuredValue && $project->getMedia('images')->isNotEmpty()) {
+                $project->getFirstMedia('images')->setCustomProperty('is_featured', true)->save();
+            }
+
+            return $project;
+        });
 
         return redirect()->route('projects.index')->with('success', __('admin.projects.created'));
     }
@@ -77,8 +99,9 @@ class ProjectController extends Controller
     {
         Gate::authorize('projects.update');
 
-        $courseOptions = Course::orderByRaw("JSON_EXTRACT(name, '$.es')")->get()->pluck('name', 'id')->toArray();
-        $tags = Tag::orderByRaw("JSON_EXTRACT(name, '$.es')")->get();
+        $locale = app()->getLocale();
+        $courseOptions = Course::orderBy("name->{$locale}")->get()->pluck('name', 'id')->toArray();
+        $tags = Tag::orderBy("name->{$locale}")->get();
         $selectedTags = $project->tags->pluck('id')->toArray();
 
         return view('admin.projects.edit', compact('project', 'courseOptions', 'tags', 'selectedTags'));
@@ -90,20 +113,56 @@ class ProjectController extends Controller
 
         $validated = $request->validated();
         $tags = $validated['tags'] ?? [];
+        $deleteIds = $validated['delete_media'] ?? [];
+        $mediaOrder = $validated['media_order'] ?? [];
+        $featuredValue = $validated['featured_media'] ?? null;
         $validated['featured'] = $request->boolean('featured');
-        unset($validated['tags']);
+        unset($validated['tags'], $validated['images'], $validated['delete_media'],
+            $validated['media_order'], $validated['featured_media']);
 
-        if ($request->hasFile('thumbnail')) {
-            Storage::disk('public')->delete($project->thumbnail);
-            $validated['thumbnail'] = $request->file('thumbnail')->store('projects/thumbnails', 'public');
-        } else {
-            unset($validated['thumbnail']);
-        }
+        DB::transaction(function () use ($project, $validated, $tags, $request, $deleteIds, $mediaOrder, $featuredValue) {
+            $project->update($validated);
+            $project->tags()->sync($tags);
 
-        $project->update($validated);
-        $project->tags()->sync($tags);
+            // Delete requested media (verify ownership)
+            if ($deleteIds) {
+                $project->media()
+                    ->whereIn('id', $deleteIds)
+                    ->get()
+                    ->each(fn ($m) => $m->delete());
+            }
 
-        return redirect()->route('projects.index')->with('success', __('admin.projects.updated'));
+            // Add new files
+            $newFiles = $request->file('images', []);
+            foreach ($newFiles as $index => $file) {
+                $isFeatured = $featuredValue === "new:{$index}";
+                $project->addMedia($file)
+                    ->withCustomProperties(['is_featured' => $isFeatured])
+                    ->toMediaCollection('images');
+            }
+
+            // Apply sort order for existing media
+            foreach ($mediaOrder as $position => $mediaId) {
+                $project->media()->where('id', $mediaId)->update(['order_column' => $position + 1]);
+            }
+
+            // Apply featured for existing media
+            if ($featuredValue && is_numeric($featuredValue)) {
+                $project->getMedia('images')->each(function ($m) use ($featuredValue) {
+                    $m->setCustomProperty('is_featured', $m->id === (int) $featuredValue)->save();
+                });
+            }
+
+            // Ensure at least one featured image
+            $hasAnyFeatured = $project->getMedia('images')
+                ->contains(fn ($m) => (bool) $m->getCustomProperty('is_featured'));
+
+            if (! $hasAnyFeatured && $project->getMedia('images')->isNotEmpty()) {
+                $project->getFirstMedia('images')->setCustomProperty('is_featured', true)->save();
+            }
+        });
+
+        return redirect()->route('projects.edit', $project)->with('success', __('admin.projects.updated'));
     }
 
     public function destroy(Project $project): RedirectResponse
