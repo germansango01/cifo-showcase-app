@@ -28,7 +28,7 @@
 
             <x-admin.table.index :items="$categories" :columns="[
                 ['label' => __('admin.categories.col_name'),    'key' => null,         'sortable' => false],
-                ['label' => __('admin.categories.col_icon'),    'key' => null,         'sortable' => false],
+                // ['label' => __('admin.categories.col_icon'),    'key' => null,         'sortable' => false],
                 ['label' => __('admin.categories.col_courses'), 'key' => null,         'sortable' => false],
                 ['label' => __('admin.common.created_at'),      'key' => 'created_at', 'sortable' => true],
                 ['label' => '',                                 'key' => null,         'sortable' => false],
@@ -38,10 +38,10 @@
                     <tr class="hover">
                         <td class="font-medium">{{ $category->name }}</td>
 
-                        <td>
+                        {{-- <td>
                             <i class="{{ $category->icon }}" aria-hidden="true"></i>
                             <span class="text-xs opacity-60 ml-1">{{ $category->icon }}</span>
-                        </td>
+                        </td> --}}
 
                         <td>
                             <x-admin.ui.badge color="neutral">
