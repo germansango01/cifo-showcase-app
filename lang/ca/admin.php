@@ -287,6 +287,9 @@ return [
         'thumbnail' => 'Imatge de portada',
         'thumbnail_current' => 'Imatge actual',
         'thumbnail_change' => 'Canviar imatge',
+        'images' => 'Imatges del projecte',
+        'images_min' => 'Afegeix almenys :min imatge.',
+        'images_max' => 'Màxim :max imatges permeses.',
         'repo_url' => 'URL repositori',
         'live_url' => 'URL demo',
         'status' => 'Estat',
@@ -415,5 +418,16 @@ return [
         'verify_recovery_btn' => 'Verificar codi de recuperació',
         'use_auth_code' => 'Usar codi d\'autenticació',
         'use_recovery_code' => 'Usar codi de recuperació',
+    ],
+
+    'media' => [
+        'drag_drop' => 'Arrossega imatges aquí o',
+        'browse' => 'selecciona fitxers',
+        'constraints' => 'JPG, PNG o WebP · Màx. :max imatges · :size per fitxer',
+        'limit_reached' => 'Has assolit el màxim de :max imatges.',
+        'featured' => 'Principal',
+        'new' => 'Nova',
+        'remove' => 'Eliminar',
+        'images' => 'imatges',
     ],
 ];

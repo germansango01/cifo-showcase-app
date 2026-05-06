@@ -28,10 +28,14 @@ class TagController extends Controller
         $sort = $request->query('sort', 'created_at');
         $direction = $request->query('direction', 'desc');
         $perPage = (int) $request->query('per_page', 10);
+        $locale = app()->getLocale();
 
         $tags = Tag::query()
             ->withCount('projects')
-            ->when($search, fn ($q) => $q->whereRaw("JSON_EXTRACT(name, '$.es') LIKE ?", ["%{$search}%"]))
+            ->when($search, fn ($q) => $q->whereRaw(
+                "LOWER(`name`->>'$.{$locale}') LIKE ?",
+                [mb_strtolower("%{$search}%")]
+            ))
             ->orderBy($sort, $direction)
             ->paginate($perPage)
             ->withQueryString();

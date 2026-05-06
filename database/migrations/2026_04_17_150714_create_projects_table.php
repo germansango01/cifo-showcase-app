@@ -21,7 +21,6 @@ return new class () extends Migration {
             $table->json('slug');
             $table->json('title');
             $table->json('description')->nullable();
-            $table->string('thumbnail');
             $table->string('repo_url', 512)->nullable();
             $table->string('live_url', 512)->nullable();
             $table->enum('status', ['draft', 'pending', 'published', 'rejected'])
@@ -34,7 +33,6 @@ return new class () extends Migration {
             $table->index('project_date');
 
             $table->timestamps();
-
             $table->softDeletes();
         });
     }

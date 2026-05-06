@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class UpdateProjectRequest extends FormRequest
 {
@@ -14,8 +15,6 @@ class UpdateProjectRequest extends FormRequest
 
     public function rules(): array
     {
-        $projectId = $this->route('project')?->id;
-
         return [
             'course_id' => ['required', 'integer', 'exists:courses,id'],
             'project_date' => ['required', 'date'],
@@ -25,7 +24,13 @@ class UpdateProjectRequest extends FormRequest
             'description' => ['nullable', 'array'],
             'description.es' => ['nullable', 'string'],
             'description.ca' => ['nullable', 'string'],
-            'thumbnail' => ['nullable', 'file', 'image', 'max:5120'],
+            'images' => ['nullable', 'array', 'max:8'],
+            'images.*' => ['file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'delete_media' => ['nullable', 'array'],
+            'delete_media.*' => ['integer'],
+            'media_order' => ['nullable', 'array'],
+            'media_order.*' => ['integer'],
+            'featured_media' => ['nullable', 'string'],
             'repo_url' => ['nullable', 'url', 'max:512'],
             'live_url' => ['nullable', 'url', 'max:512'],
             'status' => ['required', 'string', Rule::in(['draft', 'pending', 'published', 'rejected'])],
@@ -33,6 +38,27 @@ class UpdateProjectRequest extends FormRequest
             'published_at' => ['nullable', 'date'],
             'tags' => ['nullable', 'array'],
             'tags.*' => ['integer', 'exists:tags,id'],
+        ];
+    }
+
+    public function after(): array
+    {
+        return [
+            function (Validator $validator) {
+                $project = $this->route('project');
+                $existing = $project ? $project->getMedia('images')->count() : 0;
+                $toDelete = count($this->input('delete_media', []));
+                $newCount = count($this->file('images', []));
+                $total = $existing - $toDelete + $newCount;
+
+                if ($total < 1) {
+                    $validator->errors()->add('images', __('validation.project_images_min'));
+                }
+
+                if ($total > 8) {
+                    $validator->errors()->add('images', __('validation.project_images_max'));
+                }
+            },
         ];
     }
 }
