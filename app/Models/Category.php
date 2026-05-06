@@ -10,7 +10,7 @@ use Spatie\Sluggable\HasTranslatableSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
 
-#[Fillable(['slug', 'name', 'icon'])]
+#[Fillable(['slug', 'name'])]
 class Category extends Model
 {
     use HasFactory;

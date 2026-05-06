@@ -15,7 +15,7 @@ return new class () extends Migration {
 
             $table->json('slug');
             $table->json('name');
-            $table->string('icon', 255);
+            // $table->string('icon', 255);
 
             $table->timestamps();
             $table->softDeletes();

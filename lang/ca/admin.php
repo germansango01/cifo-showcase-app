@@ -333,6 +333,7 @@ return [
         'deleted' => 'Categoria eliminada correctament.',
         'created' => 'Categoria creada correctament.',
         'updated' => 'Categoria actualitzada correctament.',
+        'name_placeholder' => 'Categoria',
     ],
     'students' => [
         'title' => 'Estudiants',
@@ -351,6 +352,8 @@ return [
         'deleted' => 'Estudiant eliminat correctament.',
         'created' => 'Estudiant creat correctament.',
         'updated' => 'Estudiant actualitzat correctament.',
+        'name_placeholder' => 'Nom cognom',
+        'email_placeholder' => 'usuari@exemple.com',
     ],
     'teachers' => [
         'title' => 'Professors',
@@ -369,6 +372,8 @@ return [
         'deleted' => 'Professor eliminat correctament.',
         'created' => 'Professor creat correctament.',
         'updated' => 'Professor actualitzat correctament.',
+        'name_placeholder' => 'Nom cognom',
+        'email_placeholder' => 'usuari@exemple.com',
     ],
     'auth' => [
         'login_title' => 'Iniciar sessió',
