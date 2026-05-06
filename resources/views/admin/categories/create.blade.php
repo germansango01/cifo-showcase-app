@@ -1,95 +1,89 @@
-<x-layouts.admin :title="__('admin.categories.title')">
+<x-layouts.admin :title="__('admin.categories.create')">
 
     <x-admin.ui.breadcrumb :items="[
         ['label' => __('admin.nav.dashboard'), 'href' => route('dashboard')],
-        ['label' => __('admin.categories.title')],
+        ['label' => __('admin.categories.title'), 'href' => route('categories.index')],
+        ['label' => __('admin.categories.create')],
     ]" />
 
-    <div x-data="{ deleteId: null, deleteName: '' }"
-         @keydown.escape.window="document.getElementById('confirm-delete-category')?.close()">
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold">{{ __('admin.categories.create') }}</h1>
+        <p class="text-sm opacity-70">{{ __('admin.categories.create_sub') }}</p>
+    </div>
 
-        <div class="flex justify-between items-center mb-6">
-            <div>
-                <h1 class="text-2xl font-bold">{{ __('admin.categories.title') }}</h1>
-                <p class="text-sm opacity-70">
-                    {{ __('admin.categories.count', ['count' => $categories->total()]) }}
-                </p>
+    <x-admin.ui.card class="max-w-lg">
+
+        <form method="POST" action="{{ route('categories.store') }}" novalidate>
+            @csrf
+
+            <div class="space-y-1 mb-4">
+                <p class="fieldset-legend">{{ __('admin.categories.icon') }} <span class="text-error">*</span></p>
+                <div class="grid grid-cols-1 gap-3">
+                    <fieldset class="fieldset w-full">
+                        <label class="input input-bordered w-full flex items-center gap-2 @error('icon') input-error @enderror">
+                            <i class="icofont-price opacity-60"></i>
+                            <input type="text" name="icon" id="icon"
+                                value="{{ old('icon') }}"
+                                placeholder="{{ __('admin.categories.icon_placeholder') }}"
+                                required class="grow" />
+                        </label>
+                        @error('icon')
+                            <p class="fieldset-label text-error flex items-center gap-1">
+                                <i class="icofont-warning-alt"></i> {{ $message }}
+                            </p>
+                        @enderror
+                    </fieldset>
+                </div>
+            </div>
+            {{-- name[es] / name[ca] --}}
+            <div class="space-y-1 mb-4">
+                <p class="fieldset-legend">{{ __('admin.categories.name_es') }} <span class="text-error">*</span></p>
+                <div class="grid grid-cols-2 gap-3">
+                    <fieldset class="fieldset w-full">
+                        <legend class="fieldset-legend"><span class="badge badge-xs badge-neutral">ES</span></legend>
+                        <label class="input input-bordered w-full flex items-center gap-2 @error('name.es') input-error @enderror">
+                            <i class="icofont-price opacity-60"></i>
+                            <input type="text" name="name[es]" id="name_es"
+                                value="{{ old('name.es') }}"
+                                placeholder="{{ __('admin.categories.name_placeholder') }}"
+                                required class="grow" />
+                        </label>
+                        @error('name.es')
+                            <p class="fieldset-label text-error flex items-center gap-1">
+                                <i class="icofont-warning-alt"></i> {{ $message }}
+                            </p>
+                        @enderror
+                    </fieldset>
+
+                    <fieldset class="fieldset w-full">
+                        <legend class="fieldset-legend"><span class="badge badge-xs badge-neutral">CA</span></legend>
+                        <label class="input input-bordered w-full flex items-center gap-2 @error('name.ca') input-error @enderror">
+                            <i class="icofont-price opacity-60"></i>
+                            <input type="text" name="name[ca]" id="name_ca"
+                                value="{{ old('name.ca') }}"
+                                placeholder="{{ __('admin.categories.name_placeholder') }}"
+                                required class="grow" />
+                        </label>
+                        @error('name.ca')
+                            <p class="fieldset-label text-error flex items-center gap-1">
+                                <i class="icofont-warning-alt"></i> {{ $message }}
+                            </p>
+                        @enderror
+                    </fieldset>
+                </div>
             </div>
 
-            @can('categories.create')
-                <x-admin.ui.button :href="route('categories.create')" icon="icofont-plus">
-                    {{ __('admin.categories.create') }}
+            <div class="flex justify-end gap-2 mt-8 pt-4 border-t border-base-300">
+                <x-admin.ui.button variant="ghost" :href="route('categories.index')">
+                    {{ __('admin.common.cancel') }}
                 </x-admin.ui.button>
-            @endcan
-        </div>
+                <x-admin.ui.button type="submit" icon="icofont-check-circled">
+                    {{ __('admin.categories.create_btn') }}
+                </x-admin.ui.button>
+            </div>
 
-        <x-admin.ui.card>
+        </form>
 
-            <x-admin.table.filters :action="route('categories.index')" />
-
-            <x-admin.table.index :items="$categories" :columns="[
-                ['label' => __('admin.categories.name'), 'sortable' => false],
-                ['label' => __('admin.categories.icon'), 'sortable' => false],
-                ['label' => '', 'sortable' => false],
-            ]">
-
-                @foreach ($categories as $category)
-                    <tr>
-                        <td class="font-medium">{{ $category->name }}</td>
-
-                        <td>
-                            <i class="{{ $category->icon }}"></i>
-                            <span class="text-xs opacity-60">{{ $category->icon }}</span>
-                        </td>
-
-                        <td class="text-right">
-                            @can('categories.update')
-                                <a href="{{ route('categories.edit', $category) }}"
-                                   class="btn btn-ghost btn-xs">
-                                    <i class="icofont-edit"></i>
-                                </a>
-                            @endcan
-
-                            @can('categories.delete')
-                                <button class="btn btn-ghost btn-xs"
-                                    @click="deleteId = {{ $category->id }};
-                                            deleteName = @js($category->name);
-                                            document.getElementById('confirm-delete-category').showModal()">
-                                    <i class="icofont-ui-delete text-error"></i>
-                                </button>
-                            @endcan
-                        </td>
-                    </tr>
-                @endforeach
-
-            </x-admin.table.index>
-
-        </x-admin.ui.card>
-
-        @can('categories.delete')
-            <x-admin.ui.modal id="confirm-delete-category" title="Delete Category">
-                <p class="text-sm mb-3">
-                    {{ __('admin.common.delete_confirm') }}
-                    <strong x-text="deleteName"></strong>?
-                </p>
-
-                <form method="POST" :action="`/admin/categories/${deleteId}`">
-                    @csrf @method('DELETE')
-
-                    <div class="flex justify-end gap-2">
-                        <button type="button" class="btn btn-ghost btn-sm"
-                                onclick="document.getElementById('confirm-delete-category').close()">
-                            Cancel
-                        </button>
-
-                        <x-admin.ui.button variant="error" type="submit">
-                            Delete
-                        </x-admin.ui.button>
-                    </div>
-                </form>
-            </x-admin.ui.modal>
-        @endcan
-
-    </div>
+    </x-admin.ui.card>
 
 </x-layouts.admin>
