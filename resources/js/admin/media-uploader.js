@@ -48,8 +48,9 @@ export default function mediaUploader({
         },
 
         onFileInput(event) {
-            this._addFiles(Array.from(event.target.files));
+            const files = Array.from(event.target.files);
             event.target.value = '';
+            this._addFiles(files);
         },
 
         onDrop(event) {
