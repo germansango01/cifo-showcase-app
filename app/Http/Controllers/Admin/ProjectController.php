@@ -11,7 +11,6 @@ use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProjectController extends Controller
@@ -32,17 +31,21 @@ class ProjectController extends Controller
         $sort = $request->query('sort', 'project_date');
         $direction = $request->query('direction', 'desc');
         $perPage = (int) $request->query('per_page', 10);
+        $locale = app()->getLocale();
 
         $projects = Project::query()
             ->with(['course', 'tags'])
-            ->when($search, fn ($q) => $q->whereRaw("JSON_EXTRACT(title, '$.es') LIKE ?", ["%{$search}%"]))
+            ->when($search, fn ($q) => $q->whereRaw(
+                "LOWER(`title`->>'$.{$locale}') LIKE ?",
+                [mb_strtolower("%{$search}%")]
+            ))
             ->when($statusFilter, fn ($q) => $q->where('status', $statusFilter))
             ->when($courseFilter, fn ($q) => $q->where('course_id', $courseFilter))
             ->orderBy($sort, $direction)
             ->paginate($perPage)
             ->withQueryString();
 
-        $courses = Course::orderByRaw("JSON_EXTRACT(name, '$.es')")->get();
+        $courses = Course::orderBy("name->{$locale}")->get();
 
         return view('admin.projects.index', compact('projects', 'courses'));
     }
@@ -51,8 +54,9 @@ class ProjectController extends Controller
     {
         Gate::authorize('projects.create');
 
-        $courseOptions = Course::orderByRaw("JSON_EXTRACT(name, '$.es')")->get()->pluck('name', 'id')->toArray();
-        $tags = Tag::orderByRaw("JSON_EXTRACT(name, '$.es')")->get();
+        $locale = app()->getLocale();
+        $courseOptions = Course::orderBy("name->{$locale}")->get()->pluck('name', 'id')->toArray();
+        $tags = Tag::orderBy("name->{$locale}")->get();
 
         return view('admin.projects.create', compact('courseOptions', 'tags'));
     }
@@ -64,11 +68,14 @@ class ProjectController extends Controller
         $validated = $request->validated();
         $tags = $validated['tags'] ?? [];
         $validated['featured'] = $request->boolean('featured');
-        $validated['thumbnail'] = $request->file('thumbnail')->store('projects/thumbnails', 'public');
-        unset($validated['tags']);
+        unset($validated['tags'], $validated['thumbnail']);
 
         $project = Project::create($validated);
         $project->tags()->sync($tags);
+
+        if ($request->hasFile('thumbnail')) {
+            $project->addMediaFromRequest('thumbnail')->toMediaCollection('thumbnail');
+        }
 
         return redirect()->route('projects.index')->with('success', __('admin.projects.created'));
     }
@@ -77,8 +84,9 @@ class ProjectController extends Controller
     {
         Gate::authorize('projects.update');
 
-        $courseOptions = Course::orderByRaw("JSON_EXTRACT(name, '$.es')")->get()->pluck('name', 'id')->toArray();
-        $tags = Tag::orderByRaw("JSON_EXTRACT(name, '$.es')")->get();
+        $locale = app()->getLocale();
+        $courseOptions = Course::orderBy("name->{$locale}")->get()->pluck('name', 'id')->toArray();
+        $tags = Tag::orderBy("name->{$locale}")->get();
         $selectedTags = $project->tags->pluck('id')->toArray();
 
         return view('admin.projects.edit', compact('project', 'courseOptions', 'tags', 'selectedTags'));
@@ -91,17 +99,14 @@ class ProjectController extends Controller
         $validated = $request->validated();
         $tags = $validated['tags'] ?? [];
         $validated['featured'] = $request->boolean('featured');
-        unset($validated['tags']);
-
-        if ($request->hasFile('thumbnail')) {
-            Storage::disk('public')->delete($project->thumbnail);
-            $validated['thumbnail'] = $request->file('thumbnail')->store('projects/thumbnails', 'public');
-        } else {
-            unset($validated['thumbnail']);
-        }
+        unset($validated['tags'], $validated['thumbnail']);
 
         $project->update($validated);
         $project->tags()->sync($tags);
+
+        if ($request->hasFile('thumbnail')) {
+            $project->addMediaFromRequest('thumbnail')->toMediaCollection('thumbnail');
+        }
 
         return redirect()->route('projects.index')->with('success', __('admin.projects.updated'));
     }

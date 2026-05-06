@@ -114,9 +114,10 @@
             {{-- thumbnail --}}
             <fieldset class="fieldset w-full mb-4">
                 <legend class="fieldset-legend">{{ __('admin.projects.thumbnail') }}</legend>
-                @if ($project->thumbnail)
+                @php($thumbUrl = $project->getFirstMediaUrl('thumbnail', 'thumb'))
+                @if ($thumbUrl)
                     <div class="mb-2">
-                        <img src="{{ asset('storage/' . $project->thumbnail) }}"
+                        <img src="{{ $thumbUrl }}"
                             alt="{{ __('admin.projects.thumbnail_current') }}"
                             class="h-24 w-auto rounded object-cover border border-base-300" />
                         <p class="text-xs opacity-50 mt-1">{{ __('admin.projects.thumbnail_change') }}</p>

@@ -19,7 +19,6 @@ use Spatie\Translatable\HasTranslations;
     'project_date',
     'title',
     'description',
-    'thumbnail',
     'repo_url',
     'live_url',
     'status',
@@ -31,8 +30,8 @@ class Project extends Model implements HasMedia
     use HasFactory;
     use HasTranslatableSlug;
     use HasTranslations;
-    use SoftDeletes;
     use InteractsWithMedia;
+    use SoftDeletes;
 
     public array $translatable = ['title', 'description', 'slug'];
 
@@ -46,13 +45,21 @@ class Project extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
+        $this->addMediaCollection('thumbnail')
+            ->singleFile()
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
+
         $this->addMediaCollection('project_images')
-            ->registerFullConversions(function (Media $media) {
-                $this->addMediaConversion('thumb')
-                    ->width(300)
-                    ->height(300)
-                    ->sharpen(10);
-            });
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(300)
+            ->height(300)
+            ->sharpen(10)
+            ->nonQueued();
     }
 
     protected function casts(): array
@@ -79,10 +86,8 @@ class Project extends Model implements HasMedia
         return $this->belongsToMany(Tag::class);
     }
 
-    /*
-    public function media()
+    public function externalMedia()
     {
         return $this->hasMany(ProjectMedia::class)->orderBy('sort_order');
     }
-    */
 }

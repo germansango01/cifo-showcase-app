@@ -15,10 +15,11 @@
     $cycleCode = $project->course?->course_code ?? '';
     $cycleName = $project->course?->category?->name ?? $cycleCode;
     $students = $project->relationLoaded('students') ? $project->students->pluck('name')->join(', ') : '';
+    $thumbnailUrl = $project->getFirstMediaUrl('thumbnail', 'thumb');
     $projectJson = json_encode([
         'title' => $title,
         'description' => $desc,
-        'thumbnail' => $project->thumbnail,
+        'thumbnail' => $thumbnailUrl,
         'cycle' => $cycleCode,
         'cycleName' => $cycleName,
         'year' => $year,
@@ -33,7 +34,7 @@
     <div class="card-surface">
 
         <div class="card-media">
-            <img class="card-image" src="{{ $project->thumbnail }}"
+            <img class="card-image" src="{{ $thumbnailUrl }}"
                 alt="{{ __('Captura de pantalla de') }} {{ $title }}" width="600" height="400"
                 loading="lazy">
             <button class="card-quick-view" aria-label="{{ __('Vista rápida') }}: {{ $title }}"
