@@ -45,21 +45,34 @@ class Project extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('thumbnail')
-            ->singleFile()
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
-
-        $this->addMediaCollection('project_images')
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
+        $this->addMediaCollection('images')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
+            ->useFallbackUrl(asset('images/placeholder.webp'));
     }
 
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-            ->width(300)
+            ->width(400)
             ->height(300)
             ->sharpen(10)
             ->nonQueued();
+
+        $this->addMediaConversion('card')
+            ->width(800)
+            ->height(600)
+            ->sharpen(8)
+            ->nonQueued();
+    }
+
+    /**
+     * Returns the featured image, falling back to the first image in the collection.
+     */
+    public function getFeaturedImage(): ?Media
+    {
+        return $this->getMedia('images')->first(
+            fn (Media $m) => (bool) $m->getCustomProperty('is_featured')
+        ) ?? $this->getFirstMedia('images');
     }
 
     protected function casts(): array

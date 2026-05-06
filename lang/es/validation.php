@@ -285,4 +285,7 @@ return [
         'work'                     => 'trabajo',
         'year'                     => 'año',
     ],
+
+    'project_images_min' => 'El proyecto debe tener al menos 1 imagen.',
+    'project_images_max' => 'El proyecto no puede tener más de 8 imágenes.',
 ];

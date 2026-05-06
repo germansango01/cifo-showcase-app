@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
@@ -67,15 +68,29 @@ class ProjectController extends Controller
 
         $validated = $request->validated();
         $tags = $validated['tags'] ?? [];
+        $featuredValue = $validated['featured_media'] ?? null;
         $validated['featured'] = $request->boolean('featured');
-        unset($validated['tags'], $validated['thumbnail']);
+        unset($validated['tags'], $validated['images'], $validated['featured_media']);
 
-        $project = Project::create($validated);
-        $project->tags()->sync($tags);
+        $project = DB::transaction(function () use ($validated, $tags, $request, $featuredValue) {
+            $project = Project::create($validated);
+            $project->tags()->sync($tags);
 
-        if ($request->hasFile('thumbnail')) {
-            $project->addMediaFromRequest('thumbnail')->toMediaCollection('thumbnail');
-        }
+            $files = $request->file('images', []);
+            foreach ($files as $index => $file) {
+                $isFeatured = $featuredValue === "new:{$index}";
+                $project->addMedia($file)
+                    ->withCustomProperties(['is_featured' => $isFeatured])
+                    ->toMediaCollection('images');
+            }
+
+            // If no featured was set explicitly, mark the first one
+            if (! $featuredValue && $project->getMedia('images')->isNotEmpty()) {
+                $project->getFirstMedia('images')->setCustomProperty('is_featured', true)->save();
+            }
+
+            return $project;
+        });
 
         return redirect()->route('projects.index')->with('success', __('admin.projects.created'));
     }
@@ -98,17 +113,56 @@ class ProjectController extends Controller
 
         $validated = $request->validated();
         $tags = $validated['tags'] ?? [];
+        $deleteIds = $validated['delete_media'] ?? [];
+        $mediaOrder = $validated['media_order'] ?? [];
+        $featuredValue = $validated['featured_media'] ?? null;
         $validated['featured'] = $request->boolean('featured');
-        unset($validated['tags'], $validated['thumbnail']);
+        unset($validated['tags'], $validated['images'], $validated['delete_media'],
+            $validated['media_order'], $validated['featured_media']);
 
-        $project->update($validated);
-        $project->tags()->sync($tags);
+        DB::transaction(function () use ($project, $validated, $tags, $request, $deleteIds, $mediaOrder, $featuredValue) {
+            $project->update($validated);
+            $project->tags()->sync($tags);
 
-        if ($request->hasFile('thumbnail')) {
-            $project->addMediaFromRequest('thumbnail')->toMediaCollection('thumbnail');
-        }
+            // Delete requested media (verify ownership)
+            if ($deleteIds) {
+                $project->media()
+                    ->whereIn('id', $deleteIds)
+                    ->get()
+                    ->each(fn ($m) => $m->delete());
+            }
 
-        return redirect()->route('projects.index')->with('success', __('admin.projects.updated'));
+            // Add new files
+            $newFiles = $request->file('images', []);
+            foreach ($newFiles as $index => $file) {
+                $isFeatured = $featuredValue === "new:{$index}";
+                $project->addMedia($file)
+                    ->withCustomProperties(['is_featured' => $isFeatured])
+                    ->toMediaCollection('images');
+            }
+
+            // Apply sort order for existing media
+            foreach ($mediaOrder as $position => $mediaId) {
+                $project->media()->where('id', $mediaId)->update(['order_column' => $position + 1]);
+            }
+
+            // Apply featured for existing media
+            if ($featuredValue && is_numeric($featuredValue)) {
+                $project->getMedia('images')->each(function ($m) use ($featuredValue) {
+                    $m->setCustomProperty('is_featured', $m->id === (int) $featuredValue)->save();
+                });
+            }
+
+            // Ensure at least one featured image
+            $hasAnyFeatured = $project->getMedia('images')
+                ->contains(fn ($m) => (bool) $m->getCustomProperty('is_featured'));
+
+            if (! $hasAnyFeatured && $project->getMedia('images')->isNotEmpty()) {
+                $project->getFirstMedia('images')->setCustomProperty('is_featured', true)->save();
+            }
+        });
+
+        return redirect()->route('projects.edit', $project)->with('success', __('admin.projects.updated'));
     }
 
     public function destroy(Project $project): RedirectResponse

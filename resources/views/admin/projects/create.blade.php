@@ -103,15 +103,19 @@
                 </div>
             </div>
 
-            {{-- thumbnail --}}
+            {{-- images --}}
             <fieldset class="fieldset w-full mb-4">
-                <legend class="fieldset-legend">{{ __('admin.projects.thumbnail') }} <span class="text-error">*</span></legend>
-                <input type="file" name="thumbnail" id="thumbnail"
-                    accept="image/*" required
-                    class="file-input file-input-bordered w-full @error('thumbnail') file-input-error @enderror" />
-                @error('thumbnail')
-                    <p class="fieldset-label text-error flex items-center gap-1"><i class="icofont-warning-alt"></i> {{ $message }}</p>
-                @enderror
+                <legend class="fieldset-legend">
+                    {{ __('admin.projects.images') }} <span class="text-error">*</span>
+                </legend>
+                <x-admin.media.uploader
+                    :model="null"
+                    collection="images"
+                    :max="8"
+                    :min="1"
+                    :featured="true"
+                    :sortable="true"
+                />
             </fieldset>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6">

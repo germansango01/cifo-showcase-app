@@ -287,6 +287,9 @@ return [
         'thumbnail' => 'Imagen de portada',
         'thumbnail_current' => 'Imagen actual',
         'thumbnail_change' => 'Cambiar imagen',
+        'images' => 'Imágenes del proyecto',
+        'images_min' => 'Añade al menos :min imagen.',
+        'images_max' => 'Máximo :max imágenes permitidas.',
         'repo_url' => 'URL repositorio',
         'live_url' => 'URL demo',
         'status' => 'Estado',
@@ -410,5 +413,16 @@ return [
         'verify_recovery_btn' => 'Verificar código de recuperación',
         'use_auth_code' => 'Usar código de autenticación',
         'use_recovery_code' => 'Usar código de recuperación',
+    ],
+
+    'media' => [
+        'drag_drop' => 'Arrastra imágenes aquí o',
+        'browse' => 'selecciona archivos',
+        'constraints' => 'JPG, PNG o WebP · Máx. :max imágenes · :size por archivo',
+        'limit_reached' => 'Has alcanzado el máximo de :max imágenes.',
+        'featured' => 'Principal',
+        'new' => 'Nueva',
+        'remove' => 'Eliminar',
+        'images' => 'imágenes',
     ],
 ];

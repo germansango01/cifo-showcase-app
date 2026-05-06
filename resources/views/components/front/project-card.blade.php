@@ -15,7 +15,8 @@
     $cycleCode = $project->course?->course_code ?? '';
     $cycleName = $project->course?->category?->name ?? $cycleCode;
     $students = $project->relationLoaded('students') ? $project->students->pluck('name')->join(', ') : '';
-    $thumbnailUrl = $project->getFirstMediaUrl('thumbnail', 'thumb');
+    $featuredMedia = $project->getFeaturedImage();
+    $thumbnailUrl = $featuredMedia?->getUrl('thumb') ?? asset('images/placeholder.webp');
     $projectJson = json_encode([
         'title' => $title,
         'description' => $desc,

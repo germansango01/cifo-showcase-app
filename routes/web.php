@@ -51,9 +51,6 @@ Route::middleware(['auth', 'verified', 'admin.locale'])
         Route::resource('students', StudentController::class)->except('show');
         Route::resource('teachers', TeacherController::class)->except('show');
 
-        Route::post('/projects/{project}/images', [ProjectImageController::class, 'store'])->name('projects.images.store');
-        Route::delete('/media/{media}', [ProjectImageController::class, 'destroy'])->name('media.destroy');
-
         Route::post('/locale', [LocaleController::class, 'update'])
             ->name('admin.locale.update');
 

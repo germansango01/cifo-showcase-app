@@ -13,7 +13,7 @@
     $year = $project->project_date?->year;
 @endphp
 
-@php($thumbnailUrl = $project->getFirstMediaUrl('thumbnail'))
+@php($thumbnailUrl = $project->getFeaturedImage()?->getUrl() ?? asset('images/placeholder.webp'))
 <x-layouts.app :title="$title" :description="$desc" ogType="article" :ogImage="$thumbnailUrl">
 
     <article class="project-detail" aria-labelledby="detail-title">
