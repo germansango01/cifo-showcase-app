@@ -14,7 +14,7 @@
 
 @plugin "@tailwindcss/typography";
 
-@plugin "daisyui" {
+@plugin "daisyui/index.js" {
     themes: false;
 }
 
@@ -49,7 +49,7 @@
 
 @plugin "daisyui/theme" {
     name: "cifo-dark";
-    prefersdark: true;
+    prefers-dark: true;
     color-scheme: dark;
     --color-primary: oklch(56% 0.163 304.8);
     --color-primary-content: oklch(100% 0 0);
