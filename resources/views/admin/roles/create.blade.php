@@ -36,7 +36,7 @@
             {{-- Nombre del rol --}}
             <div class="max-w-sm mb-8">
                 <x-admin.ui.input name="name" :label="__('admin.roles.name')" icon="icofont-shield"
-                    placeholder="Ej: Editor de contenidos" required />
+                    :placeholder="__('admin.roles.name_placeholder')" required />
             </div>
 
             {{-- Contador en vivo --}}

@@ -1,5 +1,5 @@
 <x-layouts.admin :title="__('admin.students.create')">
-        <x-admin.ui.breadcrumb :items="[
+    <x-admin.ui.breadcrumb :items="[
         ['label' => __('admin.nav.dashboard'), 'href' => route('dashboard')],
         ['label' => __('admin.students.title'), 'href' => route('students.index')],
         ['label' => __('admin.students.create')],
@@ -11,73 +11,35 @@
     </div>
 
     <x-admin.ui.card class="max-w-lg">
-
-        <form method="POST" action="{{ route('students.store') }}" novalidate>
+        <form method="POST" action="{{ route('students.store') }}" novalidate
+            x-data="{
+                form: $form('post', '{{ route('students.store') }}', {
+                    name: '',
+                    email: ''
+                })
+            }"
+            @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('students.index') }}' })">
             @csrf
 
-            <div class="space-y-1 mb-4">
-                <p class="fieldset-legend">{{ __('admin.students.col_name') }} <span class="text-error">*</span></p>
-                <div class="grid grid-cols-1 gap-3">
-                    <fieldset class="fieldset w-full">
-                        {{-- <legend class="fieldset-legend"><span class="badge badge-xs badge-neutral">ES</span></legend> --}}
-                        <label class="input input-bordered w-full flex items-center gap-2 @error('name') input-error @enderror">
-                            <i class="icofont-ui-user opacity-60"></i>
+            <div class="space-y-4">
+                <x-admin.ui.input name="name" :label="__('admin.students.col_name')" icon="icofont-user"
+                    :placeholder="__('admin.students.name_placeholder')" :required="true"
+                    x-model="form.name" @change="form.validate('name')" />
 
-            {{-- <x-admin.ui.input name="name" label="Name" required /> --}}
-                        <input type="text" name="name" id="name"
-                                value="{{ old('name') }}"
-                                placeholder="{{ __('admin.students.name_placeholder') }}"
-                                required class="grow" />
-                        </label>
-                        @error('name')
-                            <p class="fieldset-label text-error flex items-center gap-1">
-                                <i class="icofont-warning-alt"></i> {{ $message }}
-                            </p>
-                        @enderror
-                </div>
-                <p class="fieldset-legend">{{ __('admin.students.col_email') }} <span class="text-error">*</span></p>
-                <div class="grid grid-cols-1 gap-3">
-                        {{-- <legend class="fieldset-legend"><span class="badge badge-xs badge-neutral">ES</span></legend> --}}
-                        <label class="input input-bordered w-full flex items-center gap-2 @error('email') input-error @enderror">
-                            <i class="icofont-email opacity-60"></i>
-
-            {{-- <x-admin.ui.input name="email" label="Email" required /> --}}
-                        <input type="text" name="email" id="email"
-                                value="{{ old('email') }}"
-                                placeholder="{{ __('admin.students.email_placeholder') }}"
-                                required class="grow" />
-                        </label>
-                        @error('email')
-                            <p class="fieldset-label text-error flex items-center gap-1">
-                                <i class="icofont-warning-alt"></i> {{ $message }}
-                            </p>
-                        @enderror
-                    </fieldset>
-                </div>
+                <x-admin.ui.input name="email" :label="__('admin.students.col_email')" type="email" icon="icofont-email"
+                    :placeholder="__('admin.students.email_placeholder')" :required="true"
+                    x-model="form.email" @change="form.validate('email')" />
             </div>
-           
 
-            {{-- <div class="flex justify-end gap-2 mt-4">
-                <x-admin.ui.button variant="ghost" :href="route('students.index')">
-                    Cancel
-                </x-admin.ui.button>
-
-                <x-admin.ui.button type="submit">
-                    Create
-                </x-admin.ui.button>
-            </div> --}}
-
-             <div class="flex justify-end gap-2 mt-8 pt-4 border-t border-base-300">
+            <div class="flex justify-end gap-2 mt-8 pt-4 border-t border-base-300">
                 <x-admin.ui.button variant="ghost" :href="route('students.index')">
                     {{ __('admin.common.cancel') }}
                 </x-admin.ui.button>
-                <x-admin.ui.button type="submit" icon="icofont-check-circled">
+                <x-admin.ui.button type="submit" icon="icofont-check-circled" x-bind:loading="form.processing">
                     {{ __('admin.students.create_btn') }}
                 </x-admin.ui.button>
             </div>
-
         </form>
-
     </x-admin.ui.card>
 
 </x-layouts.admin>

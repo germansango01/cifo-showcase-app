@@ -16,7 +16,13 @@
         <input type="{{ $type }}" name="{{ $name }}" id="{{ $name }}"
             value="{{ old($name, $value) }}" placeholder="{{ $placeholder }}" @required($required)
             @disabled($disabled) aria-invalid="{{ $hasError ? 'true' : 'false' }}"
-            aria-describedby="{{ $name }}-help" {{ $attributes->merge(['class' => 'grow']) }} />
+            aria-describedby="{{ $name }}-help"
+            @if ($autocomplete) autocomplete="{{ $autocomplete }}" @endif
+            @if ($step) step="{{ $step }}" @endif
+            @if ($min) min="{{ $min }}" @endif
+            @if ($max) max="{{ $max }}" @endif
+            @if ($inputmode) inputmode="{{ $inputmode }}" @endif
+            {{ $attributes->merge(['class' => 'grow']) }} />
     </label>
     <p id="{{ $name }}-help" class="fieldset-label">
         @error($name)

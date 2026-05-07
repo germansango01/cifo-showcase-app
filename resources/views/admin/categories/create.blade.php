@@ -12,59 +12,28 @@
     </div>
 
     <x-admin.ui.card class="max-w-lg">
-
-        <form method="POST" action="{{ route('categories.store') }}" novalidate>
+        <form method="POST" action="{{ route('categories.store') }}" novalidate
+            x-data="{
+                form: $form('post', '{{ route('categories.store') }}', {
+                    name: { es: '', ca: '' }
+                })
+            }"
+            @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('categories.index') }}' })">
             @csrf
 
-            {{-- name[es] / name[ca] --}}
-            <div class="space-y-1 mb-4">
-                <p class="fieldset-legend">{{ __('admin.categories.col_name') }} <span class="text-error">*</span></p>
-                <div class="grid grid-cols-2 gap-3">
-                    <fieldset class="fieldset w-full">
-                        <legend class="fieldset-legend"><span class="badge badge-xs badge-neutral">ES</span></legend>
-                        <label class="input input-bordered w-full flex items-center gap-2 @error('name.es') input-error @enderror">
-                            <i class="icofont-sub-listing opacity-60"></i>
-                            <input type="text" name="name[es]" id="name_es"
-                                value="{{ old('name.es') }}"
-                                placeholder="{{ __('admin.categories.name_placeholder') }}"
-                                required class="grow" />
-                        </label>
-                        @error('name.es')
-                            <p class="fieldset-label text-error flex items-center gap-1">
-                                <i class="icofont-warning-alt"></i> {{ $message }}
-                            </p>
-                        @enderror
-                    </fieldset>
-
-                    <fieldset class="fieldset w-full">
-                        <legend class="fieldset-legend"><span class="badge badge-xs badge-neutral">CA</span></legend>
-                        <label class="input input-bordered w-full flex items-center gap-2 @error('name.ca') input-error @enderror">
-                            <i class="icofont-sub-listing opacity-60"></i>
-                            <input type="text" name="name[ca]" id="name_ca"
-                                value="{{ old('name.ca') }}"
-                                placeholder="{{ __('admin.categories.name_placeholder') }}"
-                                required class="grow" />
-                        </label>
-                        @error('name.ca')
-                            <p class="fieldset-label text-error flex items-center gap-1">
-                                <i class="icofont-warning-alt"></i> {{ $message }}
-                            </p>
-                        @enderror
-                    </fieldset>
-                </div>
-            </div>
+            <x-admin.ui.translatable-input name="name" :label="__('admin.categories.col_name')"
+                icon="icofont-sub-listing" :placeholder="__('admin.categories.name_placeholder')"
+                :required="true" form-var="form" />
 
             <div class="flex justify-end gap-2 mt-8 pt-4 border-t border-base-300">
                 <x-admin.ui.button variant="ghost" :href="route('categories.index')">
                     {{ __('admin.common.cancel') }}
                 </x-admin.ui.button>
-                <x-admin.ui.button type="submit" icon="icofont-check-circled">
+                <x-admin.ui.button type="submit" icon="icofont-check-circled" x-bind:loading="form.processing">
                     {{ __('admin.categories.create_btn') }}
                 </x-admin.ui.button>
             </div>
-
         </form>
-
     </x-admin.ui.card>
 
 </x-layouts.admin>

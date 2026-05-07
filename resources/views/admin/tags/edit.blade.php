@@ -14,45 +14,24 @@
     </div>
 
     <x-admin.ui.card class="max-w-lg">
-        <form method="POST" action="{{ route('tags.update', $tag) }}" novalidate>
+        <form method="POST" action="{{ route('tags.update', $tag) }}" novalidate
+            x-data="{
+                form: $form('patch', '{{ route('tags.update', $tag) }}', {
+                    name: {
+                        es: @js($tag->getTranslation('name', 'es', false)),
+                        ca: @js($tag->getTranslation('name', 'ca', false))
+                    }
+                })
+            }"
+            @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('tags.index') }}' })">
             @csrf
             @method('PATCH')
 
-            {{-- name[es] / name[ca] --}}
-            <div class="space-y-1 mb-4">
-                <p class="fieldset-legend">{{ __('admin.tags.name') }} <span class="text-error">*</span></p>
-                <div class="grid grid-cols-2 gap-3">
-                    <fieldset class="fieldset w-full">
-                        <legend class="fieldset-legend"><span class="badge badge-xs badge-neutral">ES</span></legend>
-                        <label class="input input-bordered w-full flex items-center gap-2 @error('name.es') input-error @enderror">
-                            <i class="icofont-price opacity-60"></i>
-                            <input type="text" name="name[es]" id="name_es"
-                                value="{{ old('name.es', $tag->getTranslation('name', 'es', false)) }}"
-                                required class="grow" />
-                        </label>
-                        @error('name.es')
-                            <p class="fieldset-label text-error flex items-center gap-1">
-                                <i class="icofont-warning-alt"></i> {{ $message }}
-                            </p>
-                        @enderror
-                    </fieldset>
-
-                    <fieldset class="fieldset w-full">
-                        <legend class="fieldset-legend"><span class="badge badge-xs badge-neutral">CA</span></legend>
-                        <label class="input input-bordered w-full flex items-center gap-2 @error('name.ca') input-error @enderror">
-                            <i class="icofont-price opacity-60"></i>
-                            <input type="text" name="name[ca]" id="name_ca"
-                                value="{{ old('name.ca', $tag->getTranslation('name', 'ca', false)) }}"
-                                required class="grow" />
-                        </label>
-                        @error('name.ca')
-                            <p class="fieldset-label text-error flex items-center gap-1">
-                                <i class="icofont-warning-alt"></i> {{ $message }}
-                            </p>
-                        @enderror
-                    </fieldset>
-                </div>
-            </div>
+            <x-admin.ui.translatable-input name="name" :label="__('admin.tags.name')"
+                icon="icofont-price" :required="true"
+                :value-es="old('name.es', $tag->getTranslation('name', 'es', false))"
+                :value-ca="old('name.ca', $tag->getTranslation('name', 'ca', false))"
+                form-var="form" />
 
             <div class="mt-4 flex flex-wrap gap-x-6 gap-y-1 text-xs opacity-50">
                 <span><i class="icofont-calendar"></i> {{ __('admin.common.created_at') }}:
@@ -65,7 +44,7 @@
                 <x-admin.ui.button variant="ghost" :href="route('tags.index')">
                     {{ __('admin.common.cancel') }}
                 </x-admin.ui.button>
-                <x-admin.ui.button type="submit" icon="icofont-check-circled">
+                <x-admin.ui.button type="submit" icon="icofont-check-circled" x-bind:loading="form.processing">
                     {{ __('admin.common.save_changes') }}
                 </x-admin.ui.button>
             </div>
