@@ -14,7 +14,18 @@
     </div>
 
     <x-admin.ui.card class="max-w-lg">
-        <form method="POST" action="{{ route('courses.update', $course) }}" novalidate>
+        <form method="POST" action="{{ route('courses.update', $course) }}" novalidate
+            x-data="{
+                form: $form('patch', '{{ route('courses.update', $course) }}', {
+                    category_id: @js($course->category_id),
+                    course_code: @js($course->course_code),
+                    name: {
+                        es: @js($course->getTranslation('name', 'es', false)),
+                        ca: @js($course->getTranslation('name', 'ca', false))
+                    }
+                })
+            }"
+            @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('courses.index') }}' })">
             @csrf
             @method('PATCH')
 
@@ -25,50 +36,24 @@
                 :options="$categoryOptions"
                 :placeholder="__('admin.courses.category_placeholder')"
                 :selected="$course->category_id"
-                :required="true" />
+                :required="true"
+                x-model="form.category_id"
+                @change="form.validate('category_id')" />
 
             <x-admin.ui.input
                 name="course_code"
                 :label="__('admin.courses.code')"
                 icon="icofont-tag"
                 :value="$course->course_code"
-                :required="true" />
+                :required="true"
+                x-model="form.course_code"
+                @change="form.validate('course_code')" />
 
-            {{-- name[es] / name[ca] --}}
-            <div class="space-y-1 mb-4">
-                <p class="fieldset-legend">{{ __('admin.courses.name') }} <span class="text-error">*</span></p>
-                <div class="grid grid-cols-2 gap-3">
-                    <fieldset class="fieldset w-full">
-                        <legend class="fieldset-legend"><span class="badge badge-xs badge-neutral">ES</span></legend>
-                        <label class="input input-bordered w-full flex items-center gap-2 @error('name.es') input-error @enderror">
-                            <i class="icofont-book-alt opacity-60"></i>
-                            <input type="text" name="name[es]" id="name_es"
-                                value="{{ old('name.es', $course->getTranslation('name', 'es', false)) }}"
-                                required class="grow" />
-                        </label>
-                        @error('name.es')
-                            <p class="fieldset-label text-error flex items-center gap-1">
-                                <i class="icofont-warning-alt"></i> {{ $message }}
-                            </p>
-                        @enderror
-                    </fieldset>
-
-                    <fieldset class="fieldset w-full">
-                        <legend class="fieldset-legend"><span class="badge badge-xs badge-neutral">CA</span></legend>
-                        <label class="input input-bordered w-full flex items-center gap-2 @error('name.ca') input-error @enderror">
-                            <i class="icofont-book-alt opacity-60"></i>
-                            <input type="text" name="name[ca]" id="name_ca"
-                                value="{{ old('name.ca', $course->getTranslation('name', 'ca', false)) }}"
-                                required class="grow" />
-                        </label>
-                        @error('name.ca')
-                            <p class="fieldset-label text-error flex items-center gap-1">
-                                <i class="icofont-warning-alt"></i> {{ $message }}
-                            </p>
-                        @enderror
-                    </fieldset>
-                </div>
-            </div>
+            <x-admin.ui.translatable-input name="name" :label="__('admin.courses.name')"
+                icon="icofont-book-alt" :required="true"
+                :value-es="old('name.es', $course->getTranslation('name', 'es', false))"
+                :value-ca="old('name.ca', $course->getTranslation('name', 'ca', false))"
+                form-var="form" />
 
             <div class="mt-4 flex flex-wrap gap-x-6 gap-y-1 text-xs opacity-50">
                 <span><i class="icofont-calendar"></i> {{ __('admin.common.created_at') }}:
@@ -81,7 +66,7 @@
                 <x-admin.ui.button variant="ghost" :href="route('courses.index')">
                     {{ __('admin.common.cancel') }}
                 </x-admin.ui.button>
-                <x-admin.ui.button type="submit" icon="icofont-check-circled">
+                <x-admin.ui.button type="submit" icon="icofont-check-circled" x-bind:loading="form.processing">
                     {{ __('admin.common.save_changes') }}
                 </x-admin.ui.button>
             </div>

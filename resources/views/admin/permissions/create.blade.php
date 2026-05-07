@@ -18,10 +18,10 @@
                 name="name"
                 :label="__('admin.permissions.name')"
                 icon="icofont-key"
-                placeholder="módulo.acción"
+                :placeholder="__('admin.permissions.name_placeholder')"
                 :value="old('name')"
                 :required="true"
-                help="Formato: módulo.acción — ej: articles.create" />
+                :help="__('admin.permissions.name_help')" />
 
             <div class="flex justify-end gap-2 mt-6">
                 <x-admin.ui.button :ghost="true" :href="route('permissions.index')">

@@ -68,16 +68,17 @@ class ProjectController extends Controller
 
         $validated = $request->validated();
         $tags = $validated['tags'] ?? [];
+        $filesData = $validated['files'] ?? [];
         $featuredValue = $validated['featured_media'] ?? null;
         $validated['featured'] = $request->boolean('featured');
-        unset($validated['tags'], $validated['images'], $validated['featured_media']);
+        unset($validated['tags'], $validated['images'], $validated['featured_media'], $validated['files']);
 
-        $project = DB::transaction(function () use ($validated, $tags, $request, $featuredValue) {
+        $project = DB::transaction(function () use ($validated, $tags, $filesData, $request, $featuredValue) {
             $project = Project::create($validated);
             $project->tags()->sync($tags);
 
-            $files = $request->file('images', []);
-            foreach ($files as $index => $file) {
+            $images = $request->file('images', []);
+            foreach ($images as $index => $file) {
                 $isFeatured = $featuredValue === "new:{$index}";
                 $project->addMedia($file)
                     ->withCustomProperties(['is_featured' => $isFeatured])
@@ -87,6 +88,15 @@ class ProjectController extends Controller
             // If no featured was set explicitly, mark the first one
             if (! $featuredValue && $project->getMedia('images')->isNotEmpty()) {
                 $project->getFirstMedia('images')->setCustomProperty('is_featured', true)->save();
+            }
+
+            foreach ($filesData as $index => $fileData) {
+                $project->files()->create([
+                    'type' => $fileData['type'],
+                    'url' => $fileData['url'],
+                    'label' => $fileData['label'] ?? null,
+                    'sort_order' => $index,
+                ]);
             }
 
             return $project;
@@ -113,14 +123,15 @@ class ProjectController extends Controller
 
         $validated = $request->validated();
         $tags = $validated['tags'] ?? [];
+        $filesData = $validated['files'] ?? [];
         $deleteIds = $validated['delete_media'] ?? [];
         $mediaOrder = $validated['media_order'] ?? [];
         $featuredValue = $validated['featured_media'] ?? null;
         $validated['featured'] = $request->boolean('featured');
         unset($validated['tags'], $validated['images'], $validated['delete_media'],
-            $validated['media_order'], $validated['featured_media']);
+            $validated['media_order'], $validated['featured_media'], $validated['files']);
 
-        DB::transaction(function () use ($project, $validated, $tags, $request, $deleteIds, $mediaOrder, $featuredValue) {
+        DB::transaction(function () use ($project, $validated, $tags, $filesData, $request, $deleteIds, $mediaOrder, $featuredValue) {
             $project->update($validated);
             $project->tags()->sync($tags);
 
@@ -159,6 +170,31 @@ class ProjectController extends Controller
 
             if (! $hasAnyFeatured && $project->getMedia('images')->isNotEmpty()) {
                 $project->getFirstMedia('images')->setCustomProperty('is_featured', true)->save();
+            }
+
+            // Sync project files: delete removed, update existing, create new
+            $submittedIds = collect($filesData)
+                ->pluck('id')
+                ->filter()
+                ->map(fn ($id) => (int) $id)
+                ->toArray();
+
+            $project->files()->whereNotIn('id', $submittedIds)->delete();
+
+            foreach ($filesData as $index => $fileData) {
+                $id = isset($fileData['id']) ? (int) $fileData['id'] : null;
+                $attrs = [
+                    'type' => $fileData['type'],
+                    'url' => $fileData['url'],
+                    'label' => $fileData['label'] ?? null,
+                    'sort_order' => $index,
+                ];
+
+                if ($id) {
+                    $project->files()->where('id', $id)->update($attrs);
+                } else {
+                    $project->files()->create($attrs);
+                }
             }
         });
 

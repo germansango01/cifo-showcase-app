@@ -5,26 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
-#[Fillable(['project_id', 'type', 'path', 'alt_text', 'sort_order'])]
-class ProjectMedia extends Model
+#[Fillable(['project_id', 'type', 'url', 'label', 'sort_order'])]
+class ProjectFile extends Model
 {
     use HasFactory;
     use HasTranslations;
     use SoftDeletes;
 
-    protected $table = 'project_media';
-
-    public array $translatable = ['alt_text'];
+    public array $translatable = ['label'];
 
     protected function casts(): array
     {
         return ['sort_order' => 'integer'];
     }
 
-    public function project()
+    public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
     }

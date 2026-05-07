@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Project;
-use App\Models\ProjectMedia;
+use App\Models\ProjectFile;
 use App\Models\Student;
 use App\Models\Tag;
 use Illuminate\Database\Seeder;
@@ -29,8 +29,8 @@ class ProjectSeeder extends Seeder
                         ->pluck('id')
                 );
 
-                ProjectMedia::factory()
-                    ->count(rand(1, 4))
+                ProjectFile::factory()
+                    ->count(rand(0, 3))
                     ->create([
                         'project_id' => $project->id,
                     ]);
