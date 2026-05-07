@@ -99,8 +99,8 @@ class Project extends Model implements HasMedia
         return $this->belongsToMany(Tag::class);
     }
 
-    public function externalMedia()
+    public function files()
     {
-        return $this->hasMany(ProjectMedia::class)->orderBy('sort_order');
+        return $this->hasMany(ProjectFile::class)->orderBy('sort_order');
     }
 }

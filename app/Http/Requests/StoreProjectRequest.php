@@ -33,6 +33,16 @@ class StoreProjectRequest extends FormRequest
             'published_at' => ['nullable', 'date'],
             'tags' => ['nullable', 'array'],
             'tags.*' => ['integer', 'exists:tags,id'],
+            'files' => ['nullable', 'array'],
+            'files.*.type' => ['required_with:files.*', 'string', Rule::in([
+                'link', 'pdf', 'document', 'spreadsheet', 'presentation',
+                'markdown', 'image', 'video', 'archive', 'code', 'other',
+            ])],
+            'files.*.url' => ['required_with:files.*', 'url:http,https', 'max:1024'],
+            'files.*.label' => ['nullable', 'array'],
+            'files.*.label.es' => ['nullable', 'string', 'max:255'],
+            'files.*.label.ca' => ['nullable', 'string', 'max:255'],
+            'files.*.sort_order' => ['nullable', 'integer', 'min:0'],
         ];
     }
 }

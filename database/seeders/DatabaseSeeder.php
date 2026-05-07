@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             StudentSeeder::class,
             CourseSeeder::class,
             ProjectSeeder::class,
-            ProjectMediaSeeder::class,
+            ProjectFileSeeder::class,
         ]);
     }
 }
