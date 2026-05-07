@@ -41,7 +41,7 @@
                 @else
                     <span x-cloak
                           x-show="$data.form?.invalid('{{ $name }}.es')"
-                          x-text="$data.form?.errors?.{{ $name }}?.es ?? ''"
+                          x-text="$data.form?.errors?.['{{ $name }}.es'] ?? ''"
                           class="text-error flex items-center gap-1"></span>
                 @enderror
             </p>
@@ -77,7 +77,7 @@
                 @else
                     <span x-cloak
                           x-show="$data.form?.invalid('{{ $name }}.ca')"
-                          x-text="$data.form?.errors?.{{ $name }}?.ca ?? ''"
+                          x-text="$data.form?.errors?.['{{ $name }}.ca'] ?? ''"
                           class="text-error flex items-center gap-1"></span>
                     @if ($help)
                         <span x-show="!($data.form?.invalid('{{ $name }}.ca') ?? false)">{{ $help }}</span>
