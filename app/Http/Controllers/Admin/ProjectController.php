@@ -16,22 +16,17 @@ use Illuminate\View\View;
 
 class ProjectController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('precognitive')->only(['store', 'update']);
-    }
-
     public function index(Request $request): View
     {
         Gate::authorize('projects.view');
 
         $request->validate([
-            'search'    => ['nullable', 'string', 'max:255'],
-            'status'    => ['nullable', 'string', 'in:draft,pending,published,rejected'],
-            'course'    => ['nullable', 'integer'],
-            'sort'      => ['nullable', 'in:project_date,status,created_at'],
+            'search' => ['nullable', 'string', 'max:255'],
+            'status' => ['nullable', 'string', 'in:draft,pending,published,rejected'],
+            'course' => ['nullable', 'integer'],
+            'sort' => ['nullable', 'in:project_date,status,created_at'],
             'direction' => ['nullable', 'in:asc,desc'],
-            'per_page'  => ['nullable', 'in:5,10,25'],
+            'per_page' => ['nullable', 'in:5,10,25'],
         ]);
 
         $search = $request->query('search');
@@ -86,6 +81,7 @@ class ProjectController extends Controller
             $project->tags()->sync($tags);
             $this->syncMedia($project, $request->file('images', []), $featuredValue);
             $this->syncFiles($project, $filesData);
+
             return $project;
         });
 
@@ -201,9 +197,9 @@ class ProjectController extends Controller
         foreach ($filesData as $index => $fileData) {
             $id = isset($fileData['id']) ? (int) $fileData['id'] : null;
             $attrs = [
-                'type'       => $fileData['type'],
-                'url'        => $fileData['url'],
-                'label'      => $fileData['label'] ?? null,
+                'type' => $fileData['type'],
+                'url' => $fileData['url'],
+                'label' => $fileData['label'] ?? null,
                 'sort_order' => $index,
             ];
 

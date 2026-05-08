@@ -4,12 +4,12 @@ namespace App\Enums;
 
 enum ProjectFileType: string
 {
-    case Pdf          = 'pdf';
-    case Document     = 'document';
-    case Spreadsheet  = 'spreadsheet';
+    case Pdf = 'pdf';
+    case Document = 'document';
+    case Spreadsheet = 'spreadsheet';
     case Presentation = 'presentation';
-    case Markdown     = 'markdown';
-    case Video        = 'video';
+    case Markdown = 'markdown';
+    case Video = 'video';
 
     /** @return array<string,string> label keyed by value */
     public static function labels(): array
