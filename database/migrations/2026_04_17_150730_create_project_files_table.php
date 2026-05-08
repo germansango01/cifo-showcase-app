@@ -15,9 +15,9 @@ return new class () extends Migration {
                 ->cascadeOnDelete();
 
             $table->enum('type', [
-                'link', 'pdf', 'document', 'spreadsheet', 'presentation',
-                'markdown', 'image', 'video', 'archive', 'code', 'other',
-            ])->default('link');
+                'pdf', 'document', 'spreadsheet', 'presentation',
+                'markdown', 'video',
+            ])->default('pdf');
 
             $table->string('url', 1024);
             $table->json('label')->nullable();

@@ -1,5 +1,5 @@
 {{--
-    Translatable fields tabs (ES / CA).
+    Translatable fields — two-column layout (ES | CA).
     Variables expected in scope:
       $model      — Eloquent model with HasTranslations, or null (create)
       $titleEs    — old('title.es', ...) string
@@ -18,35 +18,16 @@
     $hasCaError = $errors->hasAny(['title.ca', 'description.ca']);
 @endphp
 
-<div class="mb-6" x-data="{ tab: '{{ $hasEsError || !$hasCaError ? 'es' : 'ca' }}' }">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
 
-    {{-- tab buttons --}}
-    <div role="tablist" class="tabs tabs-lift mb-0">
-        <button type="button"
-            role="tab"
-            :class="tab === 'es' ? 'tab-active' : ''"
-            @click="tab = 'es'"
-            class="tab font-medium gap-1.5">
-            ES
+    {{-- ES column --}}
+    <div class="border border-base-300 rounded-btn p-4 bg-base-100 space-y-4">
+        <div class="flex items-center gap-2 pb-2 border-b border-base-200">
+            <span class="font-semibold text-sm uppercase tracking-wide">ES</span>
             @if ($hasEsError)
                 <span class="badge badge-xs badge-error">!</span>
             @endif
-        </button>
-        <button type="button"
-            role="tab"
-            :class="tab === 'ca' ? 'tab-active' : ''"
-            @click="tab = 'ca'"
-            class="tab font-medium gap-1.5">
-            CA
-            @if ($hasCaError)
-                <span class="badge badge-xs badge-error">!</span>
-            @endif
-        </button>
-    </div>
-
-    {{-- ES panel --}}
-    <div x-show="tab === 'es'" x-cloak
-        class="border border-base-300 rounded-b-btn rounded-tr-btn p-4 bg-base-100 space-y-4">
+        </div>
 
         <fieldset class="fieldset w-full">
             <legend class="fieldset-legend">
@@ -72,9 +53,14 @@
             :rows="8" />
     </div>
 
-    {{-- CA panel --}}
-    <div x-show="tab === 'ca'" x-cloak
-        class="border border-base-300 rounded-b-btn rounded-tr-btn p-4 bg-base-100 space-y-4">
+    {{-- CA column --}}
+    <div class="border border-base-300 rounded-btn p-4 bg-base-100 space-y-4">
+        <div class="flex items-center gap-2 pb-2 border-b border-base-200">
+            <span class="font-semibold text-sm uppercase tracking-wide">CA</span>
+            @if ($hasCaError)
+                <span class="badge badge-xs badge-error">!</span>
+            @endif
+        </div>
 
         <fieldset class="fieldset w-full">
             <legend class="fieldset-legend">

@@ -16,14 +16,22 @@ use Illuminate\View\View;
 
 class ProjectController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('precognitive')->only(['store', 'update']);
+    }
+
     public function index(Request $request): View
     {
         Gate::authorize('projects.view');
 
         $request->validate([
-            'sort' => 'in:project_date,status,created_at',
-            'direction' => 'in:asc,desc',
-            'per_page' => 'in:5,10,25',
+            'search'    => ['nullable', 'string', 'max:255'],
+            'status'    => ['nullable', 'string', 'in:draft,pending,published,rejected'],
+            'course'    => ['nullable', 'integer'],
+            'sort'      => ['nullable', 'in:project_date,status,created_at'],
+            'direction' => ['nullable', 'in:asc,desc'],
+            'per_page'  => ['nullable', 'in:5,10,25'],
         ]);
 
         $search = $request->query('search');
@@ -76,29 +84,8 @@ class ProjectController extends Controller
         $project = DB::transaction(function () use ($validated, $tags, $filesData, $request, $featuredValue) {
             $project = Project::create($validated);
             $project->tags()->sync($tags);
-
-            $images = $request->file('images', []);
-            foreach ($images as $index => $file) {
-                $isFeatured = $featuredValue === "new:{$index}";
-                $project->addMedia($file)
-                    ->withCustomProperties(['is_featured' => $isFeatured])
-                    ->toMediaCollection('images');
-            }
-
-            // If no featured was set explicitly, mark the first one
-            if (! $featuredValue && $project->getMedia('images')->isNotEmpty()) {
-                $project->getFirstMedia('images')->setCustomProperty('is_featured', true)->save();
-            }
-
-            foreach ($filesData as $index => $fileData) {
-                $project->files()->create([
-                    'type' => $fileData['type'],
-                    'url' => $fileData['url'],
-                    'label' => $fileData['label'] ?? null,
-                    'sort_order' => $index,
-                ]);
-            }
-
+            $this->syncMedia($project, $request->file('images', []), $featuredValue);
+            $this->syncFiles($project, $filesData);
             return $project;
         });
 
@@ -135,7 +122,6 @@ class ProjectController extends Controller
             $project->update($validated);
             $project->tags()->sync($tags);
 
-            // Delete requested media (verify ownership)
             if ($deleteIds) {
                 $project->media()
                     ->whereIn('id', $deleteIds)
@@ -143,59 +129,18 @@ class ProjectController extends Controller
                     ->each(fn ($m) => $m->delete());
             }
 
-            // Add new files
-            $newFiles = $request->file('images', []);
-            foreach ($newFiles as $index => $file) {
-                $isFeatured = $featuredValue === "new:{$index}";
-                $project->addMedia($file)
-                    ->withCustomProperties(['is_featured' => $isFeatured])
-                    ->toMediaCollection('images');
-            }
-
-            // Apply sort order for existing media
             foreach ($mediaOrder as $position => $mediaId) {
                 $project->media()->where('id', $mediaId)->update(['order_column' => $position + 1]);
             }
 
-            // Apply featured for existing media
             if ($featuredValue && is_numeric($featuredValue)) {
                 $project->getMedia('images')->each(function ($m) use ($featuredValue) {
                     $m->setCustomProperty('is_featured', $m->id === (int) $featuredValue)->save();
                 });
             }
 
-            // Ensure at least one featured image
-            $hasAnyFeatured = $project->getMedia('images')
-                ->contains(fn ($m) => (bool) $m->getCustomProperty('is_featured'));
-
-            if (! $hasAnyFeatured && $project->getMedia('images')->isNotEmpty()) {
-                $project->getFirstMedia('images')->setCustomProperty('is_featured', true)->save();
-            }
-
-            // Sync project files: delete removed, update existing, create new
-            $submittedIds = collect($filesData)
-                ->pluck('id')
-                ->filter()
-                ->map(fn ($id) => (int) $id)
-                ->toArray();
-
-            $project->files()->whereNotIn('id', $submittedIds)->delete();
-
-            foreach ($filesData as $index => $fileData) {
-                $id = isset($fileData['id']) ? (int) $fileData['id'] : null;
-                $attrs = [
-                    'type' => $fileData['type'],
-                    'url' => $fileData['url'],
-                    'label' => $fileData['label'] ?? null,
-                    'sort_order' => $index,
-                ];
-
-                if ($id) {
-                    $project->files()->where('id', $id)->update($attrs);
-                } else {
-                    $project->files()->create($attrs);
-                }
-            }
+            $this->syncMedia($project, $request->file('images', []), $featuredValue);
+            $this->syncFiles($project, $filesData, existing: true);
         });
 
         return redirect()->route('projects.edit', $project)->with('success', __('admin.projects.updated'));
@@ -208,5 +153,65 @@ class ProjectController extends Controller
         $project->delete();
 
         return redirect()->route('projects.index')->with('success', __('admin.projects.deleted'));
+    }
+
+    /**
+     * Add newly uploaded image files to a project's media collection.
+     *
+     * @param  Project  $project
+     * @param  array<int,\Illuminate\Http\UploadedFile>  $files
+     * @param  string|null  $featuredValue  e.g. "new:0" or numeric media id
+     */
+    private function syncMedia(Project $project, array $files, ?string $featuredValue): void
+    {
+        foreach ($files as $index => $file) {
+            $isFeatured = $featuredValue === "new:{$index}";
+            $project->addMedia($file)
+                ->withCustomProperties(['is_featured' => $isFeatured])
+                ->toMediaCollection('images');
+        }
+
+        $hasAnyFeatured = $project->getMedia('images')
+            ->contains(fn ($m) => (bool) $m->getCustomProperty('is_featured'));
+
+        if (! $hasAnyFeatured && $project->getMedia('images')->isNotEmpty()) {
+            $project->getFirstMedia('images')->setCustomProperty('is_featured', true)->save();
+        }
+    }
+
+    /**
+     * Sync the project_files rows from submitted form data.
+     *
+     * @param  Project  $project
+     * @param  array<int,array<string,mixed>>  $filesData
+     * @param  bool  $existing  When true, delete rows not present in submission.
+     */
+    private function syncFiles(Project $project, array $filesData, bool $existing = false): void
+    {
+        if ($existing) {
+            $submittedIds = collect($filesData)
+                ->pluck('id')
+                ->filter()
+                ->map(fn ($id) => (int) $id)
+                ->toArray();
+
+            $project->files()->whereNotIn('id', $submittedIds)->delete();
+        }
+
+        foreach ($filesData as $index => $fileData) {
+            $id = isset($fileData['id']) ? (int) $fileData['id'] : null;
+            $attrs = [
+                'type'       => $fileData['type'],
+                'url'        => $fileData['url'],
+                'label'      => $fileData['label'] ?? null,
+                'sort_order' => $index,
+            ];
+
+            if ($id) {
+                $project->files()->where('id', $id)->update($attrs);
+            } else {
+                $project->files()->create($attrs);
+            }
+        }
     }
 }

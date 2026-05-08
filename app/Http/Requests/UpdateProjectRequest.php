@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\ProjectFileType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
@@ -40,11 +41,8 @@ class UpdateProjectRequest extends FormRequest
             'tags.*' => ['integer', 'exists:tags,id'],
             'files' => ['nullable', 'array'],
             'files.*.id' => ['nullable', 'integer', 'exists:project_files,id'],
-            'files.*.type' => ['required_with:files.*', 'string', Rule::in([
-                'link', 'pdf', 'document', 'spreadsheet', 'presentation',
-                'markdown', 'image', 'video', 'archive', 'code', 'other',
-            ])],
-            'files.*.url' => ['required_with:files.*', 'url:http,https', 'max:1024'],
+            'files.*.type' => ['required', Rule::enum(ProjectFileType::class)],
+            'files.*.url' => ['required', 'url:http,https', 'max:1024'],
             'files.*.label' => ['nullable', 'array'],
             'files.*.label.es' => ['nullable', 'string', 'max:255'],
             'files.*.label.ca' => ['nullable', 'string', 'max:255'],

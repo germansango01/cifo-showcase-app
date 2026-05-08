@@ -1,4 +1,6 @@
 @php
+use App\Enums\ProjectFileType;
+
 $fileItems = old('files', isset($project)
     ? $project->files->map(fn ($f) => [
         'id'    => $f->id,
@@ -11,25 +13,28 @@ $fileItems = old('files', isset($project)
     ])->values()->toArray()
     : []);
 
-$typeOptions = [
-    'link'         => __('admin.projects.file_type_link'),
-    'pdf'          => __('admin.projects.file_type_pdf'),
-    'document'     => __('admin.projects.file_type_document'),
-    'spreadsheet'  => __('admin.projects.file_type_spreadsheet'),
-    'presentation' => __('admin.projects.file_type_presentation'),
-    'markdown'     => __('admin.projects.file_type_markdown'),
-    'image'        => __('admin.projects.file_type_image'),
-    'video'        => __('admin.projects.file_type_video'),
-    'archive'      => __('admin.projects.file_type_archive'),
-    'code'         => __('admin.projects.file_type_code'),
-    'other'        => __('admin.projects.file_type_other'),
-];
+$typeOptions = ProjectFileType::labels();
+
+// Pass server-side URL errors to Alpine so they show inside x-for rows.
+$urlErrors = [];
+foreach (($errors->getMessages()) as $key => $msgs) {
+    if (preg_match('/^files\.(\d+)\.url$/', $key, $m)) {
+        $urlErrors[(int) $m[1]] = $msgs[0];
+    }
+}
 @endphp
 
-<x-admin.forms.repeater name="files" :items="$fileItems">
-
+<div
+    x-data="{
+        rows: {{ Js::from(collect($fileItems)->values()->toArray()) }},
+        urlErrors: {{ Js::from($urlErrors) }},
+        addRow(defaults) { this.rows.push(Object.assign({ id: null }, defaults ?? {})); },
+        removeRow(i) { this.rows.splice(i, 1); delete this.urlErrors[i]; },
+        isValidUrl(val) { return /^https?:\/\/.+/.test(val ?? ''); }
+    }"
+>
     <template x-for="(row, index) in rows" :key="index">
-        <div class="grid grid-cols-1 md:grid-cols-[140px_1fr_1fr_1fr_auto] gap-3 items-end p-3 bg-base-200 rounded-lg">
+        <div class="grid grid-cols-1 md:grid-cols-[140px_1fr_1fr_1fr_auto] gap-3 items-end p-3 bg-base-200 rounded-lg mb-2">
 
             <input type="hidden" :name="`files[${index}][id]`" :value="row.id ?? ''" />
 
@@ -48,15 +53,30 @@ $typeOptions = [
             {{-- url --}}
             <div class="form-control">
                 <label class="label pb-1">
-                    <span class="label-text text-xs">{{ __('admin.projects.files_url') }} <span class="text-error">*</span></span>
+                    <span class="label-text text-xs">
+                        {{ __('admin.projects.files_url') }} <span class="text-error">*</span>
+                    </span>
                 </label>
                 <input
                     type="url"
                     :name="`files[${index}][url]`"
                     x-model="row.url"
-                    class="input input-bordered input-sm w-full"
+                    required
                     placeholder="https://"
+                    :class="(!isValidUrl(row.url) && row.url !== '') || urlErrors[index] ? 'input-error' : ''"
+                    class="input input-bordered input-sm w-full"
                 />
+                <template x-if="urlErrors[index]">
+                    <p class="label-text-alt text-error mt-0.5 flex items-center gap-1">
+                        <i class="icofont-warning-alt" aria-hidden="true"></i>
+                        <span x-text="urlErrors[index]"></span>
+                    </p>
+                </template>
+                <template x-if="!urlErrors[index] && !isValidUrl(row.url) && row.url !== ''">
+                    <p class="label-text-alt text-error mt-0.5">
+                        {{ __('validation.url', ['attribute' => 'URL']) }}
+                    </p>
+                </template>
             </div>
 
             {{-- label ES --}}
@@ -103,11 +123,11 @@ $typeOptions = [
 
     <button
         type="button"
-        @click="addRow({ type: 'link', url: '', label: { es: '', ca: '' } })"
+        @click="addRow({ type: 'pdf', url: '', label: { es: '', ca: '' } })"
         class="btn btn-sm btn-outline btn-primary mt-1"
     >
         <i class="icofont-plus" aria-hidden="true"></i>
         {{ __('admin.projects.files_add') }}
     </button>
 
-</x-admin.forms.repeater>
+</div>
