@@ -15,8 +15,7 @@ class ProjectFileFactory extends Factory
     public function definition(): array
     {
         $type = $this->faker->randomElement([
-            'link', 'pdf', 'document', 'spreadsheet', 'presentation',
-            'markdown', 'image', 'video', 'archive', 'code', 'other',
+            'pdf', 'document', 'spreadsheet', 'presentation', 'markdown', 'video',
         ]);
 
         return [

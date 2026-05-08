@@ -26,7 +26,6 @@ class ProjectFactory extends Factory
             'live_url' => $this->faker->optional()->url(),
             'status' => 'published',
             'featured' => $this->faker->boolean(20),
-            'published_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }
