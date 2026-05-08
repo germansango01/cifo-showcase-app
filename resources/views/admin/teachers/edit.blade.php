@@ -1,4 +1,4 @@
-<x-layouts.admin :title="__('admin.teachers.edit') . ' · '. $teacher->name">
+<x-layouts.admin :title="__('admin.teachers.edit') . ' · ' . $teacher->name">
     <x-admin.ui.breadcrumb :items="[
         ['label' => __('admin.nav.dashboard'), 'href' => route('dashboard')],
         ['label' => __('admin.teachers.title'), 'href' => route('teachers.index')],
@@ -27,11 +27,11 @@
 
         <x-admin.ui.card class="max-w-lg">
             <div class="space-y-4">
-                <x-admin.ui.input name="name" :label="__('admin.teachers.col_name')" icon="icofont-user"
-                    :required="true" x-model="form.name" @change="form.validate('name')" />
+                <x-admin.ui.input name="name" :label="__('admin.teachers.col_name')" icon="icofont-user" :required="true"
+                    x-model="form.name" @change="form.validate('name')" />
 
-                <x-admin.ui.input name="email" :label="__('admin.teachers.col_email')" type="email" icon="icofont-mail"
-                    :required="true" x-model="form.email" @change="form.validate('email')" />
+                <x-admin.ui.input name="email" :label="__('admin.teachers.col_email')" type="email" icon="icofont-mail" :required="true"
+                    x-model="form.email" @change="form.validate('email')" />
             </div>
 
             <div class="mt-4 flex flex-wrap gap-x-6 gap-y-1 text-xs opacity-50">
@@ -53,11 +53,12 @@
                             <label class="cursor-pointer">
                                 <input type="checkbox" value="{{ $course->id }}" class="peer sr-only"
                                     x-model="form.courses" />
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm border border-base-300
+                                <span
+                                    class="inline-flex items-center px-3 py-1 rounded-full text-sm border border-base-300
                                     peer-checked:bg-primary peer-checked:text-primary-content peer-checked:border-primary
                                     hover:border-primary transition-colors select-none">
                                     <code class="text-xs mr-1.5 opacity-60">{{ $course->course_code }}</code>
-                                    {{ $course->name }}
+                                    <span>{{ $course->name }}</span>
                                 </span>
                             </label>
                         @endforeach

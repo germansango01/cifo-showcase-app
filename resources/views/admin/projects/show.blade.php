@@ -9,10 +9,11 @@
         <div>
             <h1 class="text-2xl font-bold">{{ $project->title }}</h1>
             <p class="text-sm opacity-70 mt-0.5">
-                <code class="bg-base-200 px-1.5 py-0.5 rounded text-xs">{{ $project->getTranslation('slug', 'es', false) }}</code>
+                <code
+                    class="bg-base-200 px-1.5 py-0.5 rounded text-xs">{{ $project->getTranslation('slug', 'es', false) }}</code>
             </p>
         </div>
-        <div class="flex gap-2 flex-shrink-0">
+        <div class="flex gap-2 shrink-0">
             @can('projects.update')
                 <x-admin.ui.button :href="route('admin.projects.edit', $project)" variant="warning" size="sm" icon="icofont-edit">
                     {{ __('admin.common.edit') }}
@@ -36,7 +37,8 @@
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                         @foreach ($project->getMedia('images') as $media)
                             @php $isFeatured = (bool) $media->getCustomProperty('is_featured'); @endphp
-                            <div class="relative rounded-lg overflow-hidden aspect-video border-2 {{ $isFeatured ? 'border-warning' : 'border-base-300' }}">
+                            <div
+                                class="relative rounded-lg overflow-hidden aspect-video border-2 {{ $isFeatured ? 'border-warning' : 'border-base-300' }}">
                                 <img src="{{ $media->getUrl('thumb') }}" alt="{{ $media->name }}"
                                     class="w-full h-full object-cover" loading="lazy" />
                                 @if ($isFeatured)
@@ -78,10 +80,10 @@
                             <li class="flex items-center gap-3 text-sm">
                                 <x-admin.ui.badge color="neutral" size="sm">{{ $file->type }}</x-admin.ui.badge>
                                 <a href="{{ $file->url }}" target="_blank" rel="noopener noreferrer"
-                                    class="link link-primary truncate">{{ $file->url }}</a>
-                                @if ($file->label)
-                                    <span class="opacity-50 text-xs truncate">{{ $file->label }}</span>
-                                @endif
+                                    class="btn btn-xs btn-outline">
+                                    <i class="icofont-external-link"></i>
+                                    {{ $file->label ?: __('admin.projects.files_view') }}
+                                </a>
                             </li>
                         @endforeach
                     </ul>
@@ -101,11 +103,11 @@
                         <dt class="opacity-60">{{ __('admin.projects.status') }}</dt>
                         <dd>
                             @php
-                                $statusColor = match($project->status) {
+                                $statusColor = match ($project->status) {
                                     'published' => 'success',
-                                    'pending'   => 'warning',
-                                    'rejected'  => 'error',
-                                    default     => 'neutral',
+                                    'pending' => 'warning',
+                                    'rejected' => 'error',
+                                    default => 'neutral',
                                 };
                             @endphp
                             <x-admin.ui.badge :color="$statusColor">
@@ -143,19 +145,25 @@
                     @if ($project->repo_url)
                         <div class="flex justify-between gap-2">
                             <dt class="opacity-60">{{ __('admin.projects.repo_url') }}</dt>
-                            <dd><a href="{{ $project->repo_url }}" target="_blank" rel="noopener noreferrer"
-                                class="link link-primary text-xs truncate max-w-[140px] block">
-                                {{ $project->repo_url }}
-                            </a></dd>
+                            <dd>
+                                <a href="{{ $project->repo_url }}" target="_blank" rel="noopener noreferrer"
+                                    class="btn btn-xs btn-outline">
+                                    <i class="icofont-code"></i>
+                                    {{ __('admin.projects.repo_url_btn') }}
+                                </a>
+                            </dd>
                         </div>
                     @endif
                     @if ($project->live_url)
                         <div class="flex justify-between gap-2">
                             <dt class="opacity-60">{{ __('admin.projects.live_url') }}</dt>
-                            <dd><a href="{{ $project->live_url }}" target="_blank" rel="noopener noreferrer"
-                                class="link link-primary text-xs truncate max-w-[140px] block">
-                                {{ $project->live_url }}
-                            </a></dd>
+                            <dd>
+                                <a href="{{ $project->live_url }}" target="_blank" rel="noopener noreferrer"
+                                    class="btn btn-xs btn-outline">
+                                    <i class="icofont-globe"></i>
+                                    {{ __('admin.projects.live_url_btn') }}
+                                </a>
+                            </dd>
                         </div>
                     @endif
                 </dl>

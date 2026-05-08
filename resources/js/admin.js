@@ -10,6 +10,7 @@ import Precognition from 'laravel-precognition-alpine';
 import registerForms from './admin/forms';
 import mediaUploader from './admin/media-uploader';
 import richEditor from './admin/forms/rich-editor';
+import selectMultiple from './admin/forms/select-multiple';
 
 window.Alpine = Alpine;
 Alpine.plugin(Precognition);
@@ -17,5 +18,6 @@ Alpine.plugin(Precognition);
 registerForms(Alpine);
 Alpine.data('mediaUploader', mediaUploader);
 Alpine.data('richEditor', richEditor);
+Alpine.data('selectMultiple', selectMultiple);
 
 Alpine.start();

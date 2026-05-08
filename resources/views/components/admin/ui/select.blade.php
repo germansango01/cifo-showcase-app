@@ -11,7 +11,8 @@
             @endif
         </legend>
     @endif
-    <label class="flex items-center gap-2 w-full @error($name) [&>select]:select-error @enderror">
+    <label class="flex items-center gap-2 w-full @error($name) [&>select]:select-error @enderror"
+        :class="{ '[&>select]:select-error': $data.form?.invalid('{{ $name }}') }">
         @if ($icon)
             <i class="{{ $icon }} opacity-60 shrink-0"></i>
         @endif
@@ -34,8 +35,12 @@
                 <i class="icofont-warning-alt"></i> {{ $message }}
             </span>
         @else
+            <span x-cloak
+                  x-show="$data.form?.invalid('{{ $name }}')"
+                  x-text="$data.form?.errors?.{{ $name }} ?? ''"
+                  class="text-error flex items-center gap-1"></span>
             @if ($help)
-                {{ $help }}
+                <span x-show="!($data.form?.invalid('{{ $name }}') ?? false)">{{ $help }}</span>
             @endif
         @enderror
     </p>

@@ -40,7 +40,7 @@ foreach (($errors->getMessages()) as $key => $msgs) {
     }"
 >
     <template x-for="(row, index) in rows" :key="index">
-        <div class="grid grid-cols-1 md:grid-cols-[140px_1fr_1fr_1fr_auto] gap-3 items-end p-3 bg-base-200 rounded-lg mb-2">
+        <div class="grid grid-cols-1 md:grid-cols-[140px_1fr_1fr_1fr_auto] gap-3 items-start p-3 bg-base-200 rounded-lg mb-2">
 
             <input type="hidden" :name="`files[${index}][id]`" :value="row.id ?? ''" />
 
@@ -112,7 +112,7 @@ foreach (($errors->getMessages()) as $key => $msgs) {
             </div>
 
             {{-- remove --}}
-            <div class="flex items-end pb-0.5">
+            <div class="flex items-end pb-0.5 self-end">
                 <button
                     type="button"
                     @click="removeRow(index)"

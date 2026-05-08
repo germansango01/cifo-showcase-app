@@ -10,26 +10,23 @@
         <p class="text-sm opacity-70">{{ __('admin.teachers.create_sub') }}</p>
     </div>
 
-    <form method="POST" action="{{ route('teachers.store') }}" novalidate class="space-y-6"
-        x-data="{
-            form: $form('post', '{{ route('teachers.store') }}', {
-                name: '',
-                email: '',
-                courses: []
-            })
-        }"
+    <form method="POST" action="{{ route('teachers.store') }}" novalidate class="space-y-6" x-data="{
+        form: $form('post', '{{ route('teachers.store') }}', {
+            name: '',
+            email: '',
+            courses: []
+        })
+    }"
         @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('teachers.index') }}' })">
         @csrf
 
         <x-admin.ui.card class="max-w-lg">
             <div class="space-y-4">
-                <x-admin.ui.input name="name" :label="__('admin.teachers.col_name')" icon="icofont-user"
-                    :placeholder="__('admin.teachers.name_placeholder')" :required="true"
-                    x-model="form.name" @change="form.validate('name')" />
+                <x-admin.ui.input name="name" :label="__('admin.teachers.col_name')" icon="icofont-user" :placeholder="__('admin.teachers.name_placeholder')"
+                    :required="true" x-model="form.name" @change="form.validate('name')" />
 
-                <x-admin.ui.input name="email" :label="__('admin.teachers.col_email')" type="email" icon="icofont-mail"
-                    :placeholder="__('admin.teachers.email_placeholder')" :required="true"
-                    x-model="form.email" @change="form.validate('email')" />
+                <x-admin.ui.input name="email" :label="__('admin.teachers.col_email')" type="email" icon="icofont-mail" :placeholder="__('admin.teachers.email_placeholder')"
+                    :required="true" x-model="form.email" @change="form.validate('email')" />
             </div>
         </x-admin.ui.card>
 
@@ -44,11 +41,12 @@
                             <label class="cursor-pointer">
                                 <input type="checkbox" value="{{ $course->id }}" class="peer sr-only"
                                     x-model="form.courses" />
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm border border-base-300
+                                <span
+                                    class="inline-flex items-center px-3 py-1 rounded-full text-sm border border-base-300
                                     peer-checked:bg-primary peer-checked:text-primary-content peer-checked:border-primary
                                     hover:border-primary transition-colors select-none">
                                     <code class="text-xs mr-1.5 opacity-60">{{ $course->course_code }}</code>
-                                    {{ $course->name }}
+                                    <span>{{ $course->name }}</span>
                                 </span>
                             </label>
                         @endforeach

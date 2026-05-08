@@ -61,6 +61,18 @@
                 <x-admin.ui.input name="live_url" type="url" :label="__('admin.projects.live_url')"
                     icon="icofont-globe" />
 
+                @if ($students->count())
+                    <div class="col-span-full">
+                        <x-admin.ui.select-multiple
+                            name="students"
+                            :label="__('admin.projects.students')"
+                            icon="icofont-students-alt"
+                            :options="$students->pluck('name', 'id')->all()"
+                            :search-placeholder="__('admin.students.search_placeholder')"
+                            :help="__('admin.projects.section_students_sub')" />
+                    </div>
+                @endif
+
             </div>
         </x-admin.ui.card>
 
@@ -101,31 +113,7 @@
             </div>
         </x-admin.ui.card>
 
-        {{-- ── (e) Students ── --}}
-        @if ($students->count())
-            <x-admin.ui.card>
-                <h2 class="text-lg font-semibold mb-1">{{ __('admin.projects.section_students') }}</h2>
-                <p class="text-sm opacity-60 mb-4">{{ __('admin.projects.section_students_sub') }}</p>
-                <fieldset class="fieldset w-full">
-                    <legend class="fieldset-legend sr-only">{{ __('admin.projects.students') }}</legend>
-                    <div class="flex flex-wrap gap-2 mt-2">
-                        @foreach ($students as $student)
-                            <label class="cursor-pointer">
-                                <input type="checkbox" name="students[]" value="{{ $student->id }}" class="peer sr-only"
-                                    {{ in_array($student->id, old('students', [])) ? 'checked' : '' }} />
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm border border-base-300
-                                    peer-checked:bg-secondary peer-checked:text-secondary-content peer-checked:border-secondary
-                                    hover:border-secondary transition-colors select-none">
-                                    {{ $student->name }}
-                                </span>
-                            </label>
-                        @endforeach
-                    </div>
-                </fieldset>
-            </x-admin.ui.card>
-        @endif
-
-        {{-- ── (f) Reference files ── --}}
+        {{-- ── (e) Reference files ── --}}
         <x-admin.ui.card>
             <h2 class="text-lg font-semibold mb-1">{{ __('admin.projects.section_files') }}</h2>
             <p class="text-sm opacity-60 mb-4">{{ __('admin.projects.section_files_sub') }}</p>
