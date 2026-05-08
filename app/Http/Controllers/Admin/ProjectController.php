@@ -7,6 +7,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Course;
 use App\Models\Project;
+use App\Models\Student;
 use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -21,9 +22,12 @@ class ProjectController extends Controller
         Gate::authorize('projects.view');
 
         $request->validate([
-            'sort' => 'in:project_date,status,created_at',
-            'direction' => 'in:asc,desc',
-            'per_page' => 'in:5,10,25',
+            'search' => ['nullable', 'string', 'max:255'],
+            'status' => ['nullable', 'string', 'in:draft,pending,published,rejected'],
+            'course' => ['nullable', 'integer'],
+            'sort' => ['nullable', 'in:project_date,status,created_at'],
+            'direction' => ['nullable', 'in:asc,desc'],
+            'per_page' => ['nullable', 'in:5,10,25'],
         ]);
 
         $search = $request->query('search');
@@ -58,8 +62,9 @@ class ProjectController extends Controller
         $locale = app()->getLocale();
         $courseOptions = Course::orderBy("name->{$locale}")->get()->pluck('name', 'id')->toArray();
         $tags = Tag::orderBy("name->{$locale}")->get();
+        $students = Student::orderBy('name')->get();
 
-        return view('admin.projects.create', compact('courseOptions', 'tags'));
+        return view('admin.projects.create', compact('courseOptions', 'tags', 'students'));
     }
 
     public function store(StoreProjectRequest $request): RedirectResponse
@@ -68,41 +73,33 @@ class ProjectController extends Controller
 
         $validated = $request->validated();
         $tags = $validated['tags'] ?? [];
+        $students = $validated['students'] ?? [];
         $filesData = $validated['files'] ?? [];
         $featuredValue = $validated['featured_media'] ?? null;
         $validated['featured'] = $request->boolean('featured');
-        unset($validated['tags'], $validated['images'], $validated['featured_media'], $validated['files']);
+        $validated['project_date'] = $validated['project_date'] . '-01';
+        unset($validated['tags'], $validated['students'], $validated['images'], $validated['featured_media'], $validated['files']);
 
-        $project = DB::transaction(function () use ($validated, $tags, $filesData, $request, $featuredValue) {
+        $project = DB::transaction(function () use ($validated, $tags, $students, $filesData, $request, $featuredValue) {
             $project = Project::create($validated);
             $project->tags()->sync($tags);
-
-            $images = $request->file('images', []);
-            foreach ($images as $index => $file) {
-                $isFeatured = $featuredValue === "new:{$index}";
-                $project->addMedia($file)
-                    ->withCustomProperties(['is_featured' => $isFeatured])
-                    ->toMediaCollection('images');
-            }
-
-            // If no featured was set explicitly, mark the first one
-            if (! $featuredValue && $project->getMedia('images')->isNotEmpty()) {
-                $project->getFirstMedia('images')->setCustomProperty('is_featured', true)->save();
-            }
-
-            foreach ($filesData as $index => $fileData) {
-                $project->files()->create([
-                    'type' => $fileData['type'],
-                    'url' => $fileData['url'],
-                    'label' => $fileData['label'] ?? null,
-                    'sort_order' => $index,
-                ]);
-            }
+            $project->students()->sync($students);
+            $this->syncMedia($project, $request->file('images', []), $featuredValue);
+            $this->syncFiles($project, $filesData);
 
             return $project;
         });
 
-        return redirect()->route('projects.index')->with('success', __('admin.projects.created'));
+        return redirect()->route('admin.projects.index')->with('success', __('admin.projects.created'));
+    }
+
+    public function show(Project $project): View
+    {
+        Gate::authorize('projects.view');
+
+        $project->load(['course', 'tags', 'students', 'files', 'media']);
+
+        return view('admin.projects.show', compact('project'));
     }
 
     public function edit(Project $project): View
@@ -113,8 +110,10 @@ class ProjectController extends Controller
         $courseOptions = Course::orderBy("name->{$locale}")->get()->pluck('name', 'id')->toArray();
         $tags = Tag::orderBy("name->{$locale}")->get();
         $selectedTags = $project->tags->pluck('id')->toArray();
+        $students = Student::orderBy('name')->get();
+        $selectedStudents = $project->students->pluck('id')->toArray();
 
-        return view('admin.projects.edit', compact('project', 'courseOptions', 'tags', 'selectedTags'));
+        return view('admin.projects.edit', compact('project', 'courseOptions', 'tags', 'selectedTags', 'students', 'selectedStudents'));
     }
 
     public function update(UpdateProjectRequest $request, Project $project): RedirectResponse
@@ -123,19 +122,21 @@ class ProjectController extends Controller
 
         $validated = $request->validated();
         $tags = $validated['tags'] ?? [];
+        $students = $validated['students'] ?? [];
         $filesData = $validated['files'] ?? [];
         $deleteIds = $validated['delete_media'] ?? [];
         $mediaOrder = $validated['media_order'] ?? [];
         $featuredValue = $validated['featured_media'] ?? null;
         $validated['featured'] = $request->boolean('featured');
-        unset($validated['tags'], $validated['images'], $validated['delete_media'],
+        $validated['project_date'] = $validated['project_date'] . '-01';
+        unset($validated['tags'], $validated['students'], $validated['images'], $validated['delete_media'],
             $validated['media_order'], $validated['featured_media'], $validated['files']);
 
-        DB::transaction(function () use ($project, $validated, $tags, $filesData, $request, $deleteIds, $mediaOrder, $featuredValue) {
+        DB::transaction(function () use ($project, $validated, $tags, $students, $filesData, $request, $deleteIds, $mediaOrder, $featuredValue) {
             $project->update($validated);
             $project->tags()->sync($tags);
+            $project->students()->sync($students);
 
-            // Delete requested media (verify ownership)
             if ($deleteIds) {
                 $project->media()
                     ->whereIn('id', $deleteIds)
@@ -143,62 +144,21 @@ class ProjectController extends Controller
                     ->each(fn ($m) => $m->delete());
             }
 
-            // Add new files
-            $newFiles = $request->file('images', []);
-            foreach ($newFiles as $index => $file) {
-                $isFeatured = $featuredValue === "new:{$index}";
-                $project->addMedia($file)
-                    ->withCustomProperties(['is_featured' => $isFeatured])
-                    ->toMediaCollection('images');
-            }
-
-            // Apply sort order for existing media
             foreach ($mediaOrder as $position => $mediaId) {
                 $project->media()->where('id', $mediaId)->update(['order_column' => $position + 1]);
             }
 
-            // Apply featured for existing media
             if ($featuredValue && is_numeric($featuredValue)) {
                 $project->getMedia('images')->each(function ($m) use ($featuredValue) {
                     $m->setCustomProperty('is_featured', $m->id === (int) $featuredValue)->save();
                 });
             }
 
-            // Ensure at least one featured image
-            $hasAnyFeatured = $project->getMedia('images')
-                ->contains(fn ($m) => (bool) $m->getCustomProperty('is_featured'));
-
-            if (! $hasAnyFeatured && $project->getMedia('images')->isNotEmpty()) {
-                $project->getFirstMedia('images')->setCustomProperty('is_featured', true)->save();
-            }
-
-            // Sync project files: delete removed, update existing, create new
-            $submittedIds = collect($filesData)
-                ->pluck('id')
-                ->filter()
-                ->map(fn ($id) => (int) $id)
-                ->toArray();
-
-            $project->files()->whereNotIn('id', $submittedIds)->delete();
-
-            foreach ($filesData as $index => $fileData) {
-                $id = isset($fileData['id']) ? (int) $fileData['id'] : null;
-                $attrs = [
-                    'type' => $fileData['type'],
-                    'url' => $fileData['url'],
-                    'label' => $fileData['label'] ?? null,
-                    'sort_order' => $index,
-                ];
-
-                if ($id) {
-                    $project->files()->where('id', $id)->update($attrs);
-                } else {
-                    $project->files()->create($attrs);
-                }
-            }
+            $this->syncMedia($project, $request->file('images', []), $featuredValue);
+            $this->syncFiles($project, $filesData, existing: true);
         });
 
-        return redirect()->route('projects.edit', $project)->with('success', __('admin.projects.updated'));
+        return redirect()->route('admin.projects.edit', $project)->with('success', __('admin.projects.updated'));
     }
 
     public function destroy(Project $project): RedirectResponse
@@ -207,6 +167,66 @@ class ProjectController extends Controller
 
         $project->delete();
 
-        return redirect()->route('projects.index')->with('success', __('admin.projects.deleted'));
+        return redirect()->route('admin.projects.index')->with('success', __('admin.projects.deleted'));
+    }
+
+    /**
+     * Add newly uploaded image files to a project's media collection.
+     *
+     * @param  Project  $project
+     * @param  array<int,\Illuminate\Http\UploadedFile>  $files
+     * @param  string|null  $featuredValue  e.g. "new:0" or numeric media id
+     */
+    private function syncMedia(Project $project, array $files, ?string $featuredValue): void
+    {
+        foreach ($files as $index => $file) {
+            $isFeatured = $featuredValue === "new:{$index}";
+            $project->addMedia($file)
+                ->withCustomProperties(['is_featured' => $isFeatured])
+                ->toMediaCollection('images');
+        }
+
+        $hasAnyFeatured = $project->getMedia('images')
+            ->contains(fn ($m) => (bool) $m->getCustomProperty('is_featured'));
+
+        if (! $hasAnyFeatured && $project->getMedia('images')->isNotEmpty()) {
+            $project->getFirstMedia('images')->setCustomProperty('is_featured', true)->save();
+        }
+    }
+
+    /**
+     * Sync the project_files rows from submitted form data.
+     *
+     * @param  Project  $project
+     * @param  array<int,array<string,mixed>>  $filesData
+     * @param  bool  $existing  When true, delete rows not present in submission.
+     */
+    private function syncFiles(Project $project, array $filesData, bool $existing = false): void
+    {
+        if ($existing) {
+            $submittedIds = collect($filesData)
+                ->pluck('id')
+                ->filter()
+                ->map(fn ($id) => (int) $id)
+                ->toArray();
+
+            $project->files()->whereNotIn('id', $submittedIds)->delete();
+        }
+
+        foreach ($filesData as $index => $fileData) {
+            $id = isset($fileData['id']) ? (int) $fileData['id'] : null;
+            $attrs = [
+                'type' => $fileData['type'],
+                'url' => $fileData['url'],
+                'label' => $fileData['label'] ?? null,
+                'sort_order' => $index,
+            ];
+
+            if ($id) {
+                $project->files()->where('id', $id)->update($attrs);
+            } else {
+                $project->files()->create($attrs);
+            }
+        }
     }
 }

@@ -26,7 +26,6 @@ return new class () extends Migration {
             $table->enum('status', ['draft', 'pending', 'published', 'rejected'])
                 ->default('draft');
             $table->boolean('featured')->default(false);
-            $table->timestamp('published_at')->nullable();
 
             $table->index('status');
             $table->index('featured');

@@ -11,7 +11,7 @@
 @else
     <button type="{{ $type }}" {{ $attributes->merge(['class' => $classes()]) }} @disabled($loading)
         aria-busy="{{ $loading ? 'true' : 'false' }}"
-        :disabled="$data.form?.processing ?? false"
+        :disabled="($data.form?.processing ?? false) || ($data.filesHaveErrors ?? false)"
         :aria-busy="($data.form?.processing ?? false) ? 'true' : 'false'">
         @if ($loading)
             <span class="loading loading-spinner loading-sm"></span>

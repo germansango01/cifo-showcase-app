@@ -38,7 +38,8 @@
                         <details @class(['open' => request()->routeIs('users.*')])>
                             <summary @class([
                                 'flex items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors list-none',
-                                'bg-primary text-primary-content font-semibold' => request()->routeIs('users.*'),
+                                'bg-primary text-primary-content font-semibold' => request()->routeIs(
+                                    'users.*'),
                                 'hover:bg-neutral-content/10' => !request()->routeIs('users.*'),
                             ])>
                                 <i class="icofont-users text-lg w-5 text-center" aria-hidden="true"></i>
@@ -48,8 +49,7 @@
                                 <li>
                                     <a href="{{ route('users.index') }}" @class([
                                         'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
-                                        'bg-white text-primary font-semibold' => request()->routeIs(
-                                            'users.index'),
+                                        'bg-white text-primary font-semibold' => request()->routeIs('users.index'),
                                         'hover:bg-neutral-content/10' => !request()->routeIs('users.index'),
                                     ])>
                                         {{ __('admin.nav.users_list') }}
@@ -59,8 +59,7 @@
                                     <li>
                                         <a href="{{ route('users.create') }}" @class([
                                             'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
-                                            'bg-white text-primary font-semibold' => request()->routeIs(
-                                                'users.create'),
+                                            'bg-white text-primary font-semibold' => request()->routeIs('users.create'),
                                             'hover:bg-neutral-content/10' => !request()->routeIs('users.create'),
                                         ])>
                                             {{ __('admin.nav.users_create') }}
@@ -131,7 +130,8 @@
                         <details @class(['open' => request()->routeIs('categories.*')])>
                             <summary @class([
                                 'flex items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors list-none',
-                                'bg-primary text-primary-content font-semibold' => request()->routeIs('categories.*'),
+                                'bg-primary text-primary-content font-semibold' => request()->routeIs(
+                                    'categories.*'),
                                 'hover:bg-neutral-content/10' => !request()->routeIs('categories.*'),
                             ])>
                                 <i class="icofont-listine-dots text-lg w-5 text-center" aria-hidden="true"></i>
@@ -141,7 +141,8 @@
                                 <li>
                                     <a href="{{ route('categories.index') }}" @class([
                                         'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
-                                        'bg-white text-primary font-semibold' => request()->routeIs('categories.index'),
+                                        'bg-white text-primary font-semibold' => request()->routeIs(
+                                            'categories.index'),
                                         'hover:bg-neutral-content/10' => !request()->routeIs('categories.index'),
                                     ])>
                                         {{ __('admin.nav.categories_list') }}
@@ -151,7 +152,8 @@
                                     <li>
                                         <a href="{{ route('categories.create') }}" @class([
                                             'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
-                                            'bg-white text-primary font-semibold' => request()->routeIs('categories.create'),
+                                            'bg-white text-primary font-semibold' => request()->routeIs(
+                                                'categories.create'),
                                             'hover:bg-neutral-content/10' => !request()->routeIs('categories.create'),
                                         ])>
                                             {{ __('admin.nav.categories_create') }}
@@ -169,7 +171,8 @@
                         <details @class(['open' => request()->routeIs('courses.*')])>
                             <summary @class([
                                 'flex items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors list-none',
-                                'bg-primary text-primary-content font-semibold' => request()->routeIs('courses.*'),
+                                'bg-primary text-primary-content font-semibold' => request()->routeIs(
+                                    'courses.*'),
                                 'hover:bg-neutral-content/10' => !request()->routeIs('courses.*'),
                             ])>
                                 <i class="icofont-book-alt text-lg w-5 text-center" aria-hidden="true"></i>
@@ -179,7 +182,8 @@
                                 <li>
                                     <a href="{{ route('courses.index') }}" @class([
                                         'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
-                                        'bg-white text-primary font-semibold' => request()->routeIs('courses.index'),
+                                        'bg-white text-primary font-semibold' => request()->routeIs(
+                                            'courses.index'),
                                         'hover:bg-neutral-content/10' => !request()->routeIs('courses.index'),
                                     ])>
                                         {{ __('admin.nav.courses_list') }}
@@ -189,7 +193,8 @@
                                     <li>
                                         <a href="{{ route('courses.create') }}" @class([
                                             'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
-                                            'bg-white text-primary font-semibold' => request()->routeIs('courses.create'),
+                                            'bg-white text-primary font-semibold' => request()->routeIs(
+                                                'courses.create'),
                                             'hover:bg-neutral-content/10' => !request()->routeIs('courses.create'),
                                         ])>
                                             {{ __('admin.nav.courses_create') }}
@@ -202,78 +207,82 @@
                 @endcan
 
                 @can('tags.view')
-                <li>
-                    <details @class(['open' => request()->routeIs('tags.*')])>
-                        <summary @class([
-                            'flex items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors list-none',
-                            'bg-primary text-primary-content font-semibold' => request()->routeIs('tags.*'),
-                            'hover:bg-neutral-content/10' => !request()->routeIs('tags.*'),
-                        ])>
-                            <i class="icofont-price text-lg w-5 text-center" aria-hidden="true"></i>
-                            <span class="flex-1">{{ __('admin.nav.tags') }}</span>
-                        </summary>
-                        <ul class="mt-0.5 space-y-0.5">
-                            <li>
-                                <a href="{{ route('tags.index') }}" @class([
-                                    'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
-                                    'bg-white text-primary font-semibold' => request()->routeIs('tags.index'),
-                                    'hover:bg-neutral-content/10' => !request()->routeIs('tags.index'),
-                                ])>
-                                    {{ __('admin.nav.tags_list') }}
-                                </a>
-                            </li>
-                            @can('tags.create')
+                    <li>
+                        <details @class(['open' => request()->routeIs('tags.*')])>
+                            <summary @class([
+                                'flex items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors list-none',
+                                'bg-primary text-primary-content font-semibold' => request()->routeIs(
+                                    'tags.*'),
+                                'hover:bg-neutral-content/10' => !request()->routeIs('tags.*'),
+                            ])>
+                                <i class="icofont-price text-lg w-5 text-center" aria-hidden="true"></i>
+                                <span class="flex-1">{{ __('admin.nav.tags') }}</span>
+                            </summary>
+                            <ul class="mt-0.5 space-y-0.5">
                                 <li>
-                                    <a href="{{ route('tags.create') }}" @class([
+                                    <a href="{{ route('tags.index') }}" @class([
                                         'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
-                                        'bg-white text-primary font-semibold' => request()->routeIs('tags.create'),
-                                        'hover:bg-neutral-content/10' => !request()->routeIs('tags.create'),
+                                        'bg-white text-primary font-semibold' => request()->routeIs('tags.index'),
+                                        'hover:bg-neutral-content/10' => !request()->routeIs('tags.index'),
                                     ])>
-                                        {{ __('admin.nav.tags_create') }}
+                                        {{ __('admin.nav.tags_list') }}
                                     </a>
                                 </li>
-                            @endcan
-                        </ul>
-                    </details>
-                </li>
+                                @can('tags.create')
+                                    <li>
+                                        <a href="{{ route('tags.create') }}" @class([
+                                            'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
+                                            'bg-white text-primary font-semibold' => request()->routeIs('tags.create'),
+                                            'hover:bg-neutral-content/10' => !request()->routeIs('tags.create'),
+                                        ])>
+                                            {{ __('admin.nav.tags_create') }}
+                                        </a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </details>
+                    </li>
                 @endcan
 
                 {{-- Proyectos --}}
                 @can('projects.view')
-                <li>
-                    <details @class(['open' => request()->routeIs('projects.*')])>
-                        <summary @class([
-                            'flex items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors list-none',
-                            'bg-primary text-primary-content font-semibold' => request()->routeIs('projects.*'),
-                            'hover:bg-neutral-content/10' => !request()->routeIs('projects.*'),
-                        ])>
-                            <i class="icofont-image text-lg w-5 text-center" aria-hidden="true"></i>
-                            <span class="flex-1">{{ __('admin.nav.projects') }}</span>
-                        </summary>
-                        <ul class="mt-0.5 space-y-0.5">
-                            <li>
-                                <a href="{{ route('projects.index') }}" @class([
-                                    'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
-                                    'bg-white text-primary font-semibold' => request()->routeIs('projects.index'),
-                                    'hover:bg-neutral-content/10' => !request()->routeIs('projects.index'),
-                                ])>
-                                    {{ __('admin.nav.projects_list') }}
-                                </a>
-                            </li>
-                            @can('projects.create')
+                    <li>
+                        <details @class(['open' => request()->routeIs('admin.projects.*')])>
+                            <summary @class([
+                                'flex items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors list-none',
+                                'bg-primary text-primary-content font-semibold' => request()->routeIs(
+                                    'projects.*'),
+                                'hover:bg-neutral-content/10' => !request()->routeIs('projects.*'),
+                            ])>
+                                <i class="icofont-image text-lg w-5 text-center" aria-hidden="true"></i>
+                                <span class="flex-1">{{ __('admin.nav.projects') }}</span>
+                            </summary>
+                            <ul class="mt-0.5 space-y-0.5">
                                 <li>
-                                    <a href="{{ route('projects.create') }}" @class([
+                                    <a href="{{ route('admin.projects.index') }}" @class([
                                         'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
-                                        'bg-white text-primary font-semibold' => request()->routeIs('projects.create'),
-                                        'hover:bg-neutral-content/10' => !request()->routeIs('projects.create'),
+                                        'bg-white text-primary font-semibold' => request()->routeIs(
+                                            'projects.index'),
+                                        'hover:bg-neutral-content/10' => !request()->routeIs('projects.index'),
                                     ])>
-                                        {{ __('admin.nav.projects_create') }}
+                                        {{ __('admin.nav.projects_list') }}
                                     </a>
                                 </li>
-                            @endcan
-                        </ul>
-                    </details>
-                </li>
+                                @can('projects.create')
+                                    <li>
+                                        <a href="{{ route('admin.projects.create') }}" @class([
+                                            'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
+                                            'bg-white text-primary font-semibold' => request()->routeIs(
+                                                'projects.create'),
+                                            'hover:bg-neutral-content/10' => !request()->routeIs('projects.create'),
+                                        ])>
+                                            {{ __('admin.nav.projects_create') }}
+                                        </a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </details>
+                    </li>
                 @endcan
 
             @endcanany
@@ -290,7 +299,8 @@
                         <details @class(['open' => request()->routeIs('students.*')])>
                             <summary @class([
                                 'flex items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors list-none',
-                                'bg-primary text-primary-content font-semibold' => request()->routeIs('students.*'),
+                                'bg-primary text-primary-content font-semibold' => request()->routeIs(
+                                    'students.*'),
                                 'hover:bg-neutral-content/10' => !request()->routeIs('students.*'),
                             ])>
                                 <i class="icofont-student-alt text-lg w-5 text-center" aria-hidden="true"></i>
@@ -300,7 +310,8 @@
                                 <li>
                                     <a href="{{ route('students.index') }}" @class([
                                         'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
-                                        'bg-white text-primary font-semibold' => request()->routeIs('students.index'),
+                                        'bg-white text-primary font-semibold' => request()->routeIs(
+                                            'students.index'),
                                         'hover:bg-neutral-content/10' => !request()->routeIs('students.index'),
                                     ])>
                                         {{ __('admin.nav.students_list') }}
@@ -310,7 +321,8 @@
                                     <li>
                                         <a href="{{ route('students.create') }}" @class([
                                             'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
-                                            'bg-white text-primary font-semibold' => request()->routeIs('students.create'),
+                                            'bg-white text-primary font-semibold' => request()->routeIs(
+                                                'students.create'),
                                             'hover:bg-neutral-content/10' => !request()->routeIs('students.create'),
                                         ])>
                                             {{ __('admin.nav.students_create') }}
@@ -327,7 +339,8 @@
                         <details @class(['open' => request()->routeIs('teachers.*')])>
                             <summary @class([
                                 'flex items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors list-none',
-                                'bg-primary text-primary-content font-semibold' => request()->routeIs('teachers.*'),
+                                'bg-primary text-primary-content font-semibold' => request()->routeIs(
+                                    'teachers.*'),
                                 'hover:bg-neutral-content/10' => !request()->routeIs('teachers.*'),
                             ])>
                                 <i class="icofont-teacher text-lg w-5 text-center" aria-hidden="true"></i>
@@ -337,7 +350,8 @@
                                 <li>
                                     <a href="{{ route('teachers.index') }}" @class([
                                         'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
-                                        'bg-white text-primary font-semibold' => request()->routeIs('teachers.index'),
+                                        'bg-white text-primary font-semibold' => request()->routeIs(
+                                            'teachers.index'),
                                         'hover:bg-neutral-content/10' => !request()->routeIs('teachers.index'),
                                     ])>
                                         {{ __('admin.nav.teachers_list') }}
@@ -347,7 +361,8 @@
                                     <li>
                                         <a href="{{ route('teachers.create') }}" @class([
                                             'block pl-9 pr-3 py-2.5 rounded-lg text-sm transition-colors',
-                                            'bg-white text-primary font-semibold' => request()->routeIs('teachers.create'),
+                                            'bg-white text-primary font-semibold' => request()->routeIs(
+                                                'teachers.create'),
                                             'hover:bg-neutral-content/10' => !request()->routeIs('teachers.create'),
                                         ])>
                                             {{ __('admin.nav.teachers_create') }}

@@ -105,7 +105,20 @@ export default function mediaUploader({
             [this.existing[index], this.existing[target]] = [this.existing[target], this.existing[index]];
         },
 
-        // Drag-to-sort for existing images
+        init() {
+            const cleanup = () => this.previews.forEach(p => URL.revokeObjectURL(p.url));
+            window.addEventListener('beforeunload', cleanup, { once: true });
+        },
+
+        movePreview(index, direction) {
+            const target = index + direction;
+            if (target < 0 || target >= this.previews.length) return;
+            [this.previews[index], this.previews[target]] = [this.previews[target], this.previews[index]];
+            [this.newFiles[index], this.newFiles[target]] = [this.newFiles[target], this.newFiles[index]];
+            this._syncFileInput();
+        },
+
+        // Drag-to-sort for existing and preview images
         onDragStart(event, index, type) {
             this.dragSource = { type, index };
             event.dataTransfer.effectAllowed = 'move';
@@ -125,6 +138,12 @@ export default function mediaUploader({
             if (type === 'existing') {
                 const item = this.existing.splice(from, 1)[0];
                 this.existing.splice(targetIndex, 0, item);
+            } else if (type === 'new') {
+                const preview = this.previews.splice(from, 1)[0];
+                this.previews.splice(targetIndex, 0, preview);
+                const file = this.newFiles.splice(from, 1)[0];
+                this.newFiles.splice(targetIndex, 0, file);
+                this._syncFileInput();
             }
             this.dragSource = null;
         },

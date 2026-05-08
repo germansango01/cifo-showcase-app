@@ -140,6 +140,11 @@
             <div
                 class="relative group rounded-box overflow-hidden border border-base-300 bg-base-200"
                 :class="{ 'ring-2 ring-primary': preview.is_featured }"
+                draggable="true"
+                @dragstart="onDragStart($event, index, 'new')"
+                @dragover.prevent="onDragOver($event, index, 'new')"
+                @drop.prevent="onDropSort($event, index, 'new')"
+                @dragend="onDragEnd"
             >
                 <img :src="preview.url" :alt="preview.name" class="w-full h-28 object-cover">
 
@@ -163,10 +168,20 @@
                             <i class="icofont-trash" aria-hidden="true"></i>
                         </button>
                     </div>
-                    <div class="flex justify-center">
+                    <div class="flex gap-1 justify-center">
+                        <template x-if="sortableEnabled">
+                            <button type="button" class="btn btn-ghost btn-xs" @click="movePreview(index, -1)" :disabled="index === 0">
+                                <i class="icofont-arrow-left" aria-hidden="true"></i>
+                            </button>
+                        </template>
                         <template x-if="featuredEnabled && !preview.is_featured">
                             <button type="button" class="btn btn-primary btn-xs" @click="setFeatured('new', index)">
                                 <i class="icofont-star" aria-hidden="true"></i>
+                            </button>
+                        </template>
+                        <template x-if="sortableEnabled">
+                            <button type="button" class="btn btn-ghost btn-xs" @click="movePreview(index, 1)" :disabled="index === previews.length - 1">
+                                <i class="icofont-arrow-right" aria-hidden="true"></i>
                             </button>
                         </template>
                     </div>

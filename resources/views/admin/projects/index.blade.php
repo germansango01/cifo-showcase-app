@@ -15,7 +15,7 @@
             </div>
 
             @can('projects.create')
-                <x-admin.ui.button :href="route('projects.create')" icon="icofont-plus">
+                <x-admin.ui.button :href="route('admin.projects.create')" icon="icofont-plus">
                     {{ __('admin.projects.create') }}
                 </x-admin.ui.button>
             @endcan
@@ -23,7 +23,7 @@
 
         <x-admin.ui.card>
 
-            <x-admin.table.filters :action="route('projects.index')" :search-placeholder="__('admin.projects.search_placeholder')">
+            <x-admin.table.filters :action="route('admin.projects.index')" :search-placeholder="__('admin.projects.search_placeholder')">
                 <x-admin.ui.select
                     name="status"
                     :options="collect(['draft', 'pending', 'published', 'rejected'])->mapWithKeys(fn ($s) => [$s => __('admin.projects.status_' . $s)])->toArray()"
@@ -83,20 +83,27 @@
                         </td>
 
                         <td class="text-sm opacity-70">
-                            {{ $project->project_date->format('d/m/Y') }}
+                            {{ $project->project_date->format('m/Y') }}
                         </td>
 
                         <td class="text-right">
                             <div class="flex justify-end gap-1">
+                                @can('projects.view')
+                                    <a href="{{ route('admin.projects.show', $project) }}" class="btn btn-ghost btn-xs btn-square"
+                                        title="{{ __('admin.common.view') }}">
+                                        <i class="icofont-eye text-info text-base"></i>
+                                    </a>
+                                @endcan
+
                                 @can('projects.update')
-                                    <a href="{{ route('projects.edit', $project) }}" class="btn btn-ghost btn-xs btn-square">
+                                    <a href="{{ route('admin.projects.edit', $project) }}" class="btn btn-ghost btn-xs btn-square">
                                         <i class="icofont-edit text-warning text-base"></i>
                                     </a>
                                 @endcan
 
                                 @can('projects.delete')
                                     <button type="button" class="btn btn-ghost btn-xs btn-square"
-                                        @click="deleteTitle = @js($project->title); deleteUrl = '{{ route('projects.destroy', $project) }}'; $nextTick(() => document.getElementById('confirm-delete-project').showModal())">
+                                        @click="deleteTitle = @js($project->title); deleteUrl = '{{ route('admin.projects.destroy', $project) }}'; $nextTick(() => document.getElementById('confirm-delete-project').showModal())">
                                         <i class="icofont-ui-delete text-error text-base"></i>
                                     </button>
                                 @endcan
