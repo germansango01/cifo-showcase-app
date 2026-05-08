@@ -10,17 +10,18 @@
         <p class="text-sm opacity-70">{{ __('admin.teachers.create_sub') }}</p>
     </div>
 
-    <x-admin.ui.card class="max-w-lg">
-        <form method="POST" action="{{ route('teachers.store') }}" novalidate
-            x-data="{
-                form: $form('post', '{{ route('teachers.store') }}', {
-                    name: '',
-                    email: ''
-                })
-            }"
-            @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('teachers.index') }}' })">
-            @csrf
+    <form method="POST" action="{{ route('teachers.store') }}" novalidate class="space-y-6"
+        x-data="{
+            form: $form('post', '{{ route('teachers.store') }}', {
+                name: '',
+                email: '',
+                courses: []
+            })
+        }"
+        @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('teachers.index') }}' })">
+        @csrf
 
+        <x-admin.ui.card class="max-w-lg">
             <div class="space-y-4">
                 <x-admin.ui.input name="name" :label="__('admin.teachers.col_name')" icon="icofont-user"
                     :placeholder="__('admin.teachers.name_placeholder')" :required="true"
@@ -30,16 +31,41 @@
                     :placeholder="__('admin.teachers.email_placeholder')" :required="true"
                     x-model="form.email" @change="form.validate('email')" />
             </div>
+        </x-admin.ui.card>
 
-            <div class="flex justify-end gap-2 mt-8 pt-4 border-t border-base-300">
-                <x-admin.ui.button variant="ghost" :href="route('teachers.index')">
-                    {{ __('admin.common.cancel') }}
-                </x-admin.ui.button>
-                <x-admin.ui.button type="submit" icon="icofont-check-circled" x-bind:loading="form.processing">
-                    {{ __('admin.teachers.create_btn') }}
-                </x-admin.ui.button>
-            </div>
-        </form>
-    </x-admin.ui.card>
+        @if ($courseOptions->count())
+            <x-admin.ui.card class="max-w-lg">
+                <h2 class="text-base font-semibold mb-1">{{ __('admin.teachers.courses') }}</h2>
+                <p class="text-sm opacity-60 mb-3">{{ __('admin.teachers.courses_sub') }}</p>
+                <fieldset class="fieldset w-full">
+                    <legend class="fieldset-legend sr-only">{{ __('admin.teachers.courses') }}</legend>
+                    <div class="flex flex-wrap gap-2 mt-1">
+                        @foreach ($courseOptions as $course)
+                            <label class="cursor-pointer">
+                                <input type="checkbox" value="{{ $course->id }}" class="peer sr-only"
+                                    x-model="form.courses" />
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm border border-base-300
+                                    peer-checked:bg-primary peer-checked:text-primary-content peer-checked:border-primary
+                                    hover:border-primary transition-colors select-none">
+                                    <code class="text-xs mr-1.5 opacity-60">{{ $course->course_code }}</code>
+                                    {{ $course->name }}
+                                </span>
+                            </label>
+                        @endforeach
+                    </div>
+                </fieldset>
+            </x-admin.ui.card>
+        @endif
+
+        <div class="max-w-lg flex justify-end gap-2 pt-2">
+            <x-admin.ui.button variant="ghost" :href="route('teachers.index')">
+                {{ __('admin.common.cancel') }}
+            </x-admin.ui.button>
+            <x-admin.ui.button type="submit" icon="icofont-check-circled" x-bind:loading="form.processing">
+                {{ __('admin.teachers.create_btn') }}
+            </x-admin.ui.button>
+        </div>
+
+    </form>
 
 </x-layouts.admin>

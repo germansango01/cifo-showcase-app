@@ -17,7 +17,7 @@ class StoreProjectRequest extends FormRequest
     {
         return [
             'course_id' => ['required', 'integer', 'exists:courses,id'],
-            'project_date' => ['required', 'date'],
+            'project_date' => ['required', 'string', 'regex:/^\d{4}-(0[1-9]|1[0-2])$/'],
             'title' => ['required', 'array'],
             'title.es' => ['required', 'string', 'max:255'],
             'title.ca' => ['required', 'string', 'max:255'],
@@ -31,7 +31,8 @@ class StoreProjectRequest extends FormRequest
             'live_url' => ['nullable', 'url', 'max:512'],
             'status' => ['required', 'string', Rule::in(['draft', 'pending', 'published', 'rejected'])],
             'featured' => ['boolean'],
-            'published_at' => ['nullable', 'date'],
+            'students' => ['nullable', 'array'],
+            'students.*' => ['integer', 'exists:students,id'],
             'tags' => ['nullable', 'array'],
             'tags.*' => ['integer', 'exists:tags,id'],
             'files' => ['nullable', 'array'],

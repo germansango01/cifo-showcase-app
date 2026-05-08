@@ -23,7 +23,6 @@ use Spatie\Translatable\HasTranslations;
     'live_url',
     'status',
     'featured',
-    'published_at',
 ])]
 class Project extends Model implements HasMedia
 {
@@ -80,7 +79,6 @@ class Project extends Model implements HasMedia
         return [
             'project_date' => 'date',
             'featured' => 'boolean',
-            'published_at' => 'datetime',
         ];
     }
 

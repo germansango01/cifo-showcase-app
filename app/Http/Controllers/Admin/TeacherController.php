@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
+use App\Models\Course;
 use App\Models\Teacher;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -48,14 +49,22 @@ class TeacherController extends Controller
     {
         Gate::authorize('teachers.create');
 
-        return view('admin.teachers.create');
+        $locale = app()->getLocale();
+        $courseOptions = Course::orderBy("name->{$locale}")->get();
+
+        return view('admin.teachers.create', compact('courseOptions'));
     }
 
     public function store(StoreTeacherRequest $request): RedirectResponse|Response
     {
         Gate::authorize('teachers.create');
 
-        Teacher::create($request->validated());
+        $validated = $request->validated();
+        $courses = $validated['courses'] ?? [];
+        unset($validated['courses']);
+
+        $teacher = Teacher::create($validated);
+        $teacher->courses()->sync($courses);
 
         session()->flash('success', __('admin.teachers.created'));
 
@@ -70,14 +79,23 @@ class TeacherController extends Controller
     {
         Gate::authorize('teachers.update');
 
-        return view('admin.teachers.edit', compact('teacher'));
+        $locale = app()->getLocale();
+        $courseOptions = Course::orderBy("name->{$locale}")->get();
+        $selectedCourses = $teacher->courses->pluck('id')->toArray();
+
+        return view('admin.teachers.edit', compact('teacher', 'courseOptions', 'selectedCourses'));
     }
 
     public function update(UpdateTeacherRequest $request, Teacher $teacher): RedirectResponse|Response
     {
         Gate::authorize('teachers.update');
 
-        $teacher->update($request->validated());
+        $validated = $request->validated();
+        $courses = $validated['courses'] ?? [];
+        unset($validated['courses']);
+
+        $teacher->update($validated);
+        $teacher->courses()->sync($courses);
 
         session()->flash('success', __('admin.teachers.updated'));
 

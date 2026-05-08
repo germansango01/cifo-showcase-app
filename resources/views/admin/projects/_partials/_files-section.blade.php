@@ -30,7 +30,13 @@ foreach (($errors->getMessages()) as $key => $msgs) {
         urlErrors: {{ Js::from($urlErrors) }},
         addRow(defaults) { this.rows.push(Object.assign({ id: null }, defaults ?? {})); },
         removeRow(i) { this.rows.splice(i, 1); delete this.urlErrors[i]; },
-        isValidUrl(val) { return /^https?:\/\/.+/.test(val ?? ''); }
+        isValidUrl(val) { return /^https?:\/\/.+/.test(val ?? ''); },
+        init() {
+            this.$watch('rows', () => {
+                const hasErrors = this.rows.some(r => r.url !== '' && !this.isValidUrl(r.url));
+                window.dispatchEvent(new CustomEvent('files-url-validity', { detail: { hasErrors } }));
+            });
+        }
     }"
 >
     <template x-for="(row, index) in rows" :key="index">

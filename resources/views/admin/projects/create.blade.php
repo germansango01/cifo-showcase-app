@@ -1,7 +1,7 @@
 <x-layouts.admin :title="__('admin.projects.create')">
     <x-admin.ui.breadcrumb :items="[
         ['label' => __('admin.nav.dashboard'), 'href' => route('dashboard')],
-        ['label' => __('admin.projects.title'), 'href' => route('projects.index')],
+        ['label' => __('admin.projects.title'), 'href' => route('admin.projects.index')],
         ['label' => __('admin.projects.create')],
     ]" />
 
@@ -10,8 +10,10 @@
         <p class="text-sm opacity-70">{{ __('admin.projects.create_sub') }}</p>
     </div>
 
-    <form method="POST" action="{{ route('projects.store') }}" enctype="multipart/form-data" novalidate
-        class="space-y-6">
+    <form method="POST" action="{{ route('admin.projects.store') }}" enctype="multipart/form-data" novalidate
+        class="space-y-6"
+        x-data="{ filesHaveErrors: false }"
+        @files-url-validity.window="filesHaveErrors = $event.detail.hasErrors">
         @csrf
 
         {{-- ── (a) Translatable texts ── --}}
@@ -50,7 +52,7 @@
                     'rejected'  => __('admin.projects.status_rejected'),
                 ]" :selected="old('status', 'draft')" :required="true" />
 
-                <x-admin.ui.input name="project_date" type="date" :label="__('admin.projects.date')"
+                <x-admin.ui.input name="project_date" type="month" :label="__('admin.projects.date')"
                     icon="icofont-calendar" :required="true" />
 
                 <x-admin.ui.input name="repo_url" type="url" :label="__('admin.projects.repo_url')"
@@ -58,9 +60,6 @@
 
                 <x-admin.ui.input name="live_url" type="url" :label="__('admin.projects.live_url')"
                     icon="icofont-globe" />
-
-                <x-admin.ui.input name="published_at" type="datetime-local" :label="__('admin.projects.published_at')"
-                    icon="icofont-calendar" />
 
             </div>
         </x-admin.ui.card>
@@ -70,37 +69,63 @@
             <h2 class="text-lg font-semibold mb-1">{{ __('admin.projects.section_featured_tags') }}</h2>
             <p class="text-sm opacity-60 mb-4">{{ __('admin.projects.section_featured_tags_sub') }}</p>
 
-            <fieldset class="fieldset w-full mb-4">
-                <legend class="fieldset-legend">{{ __('admin.projects.featured') }}</legend>
-                <label class="flex items-center gap-3 cursor-pointer mt-1">
-                    <input type="hidden" name="featured" value="0" />
-                    <input type="checkbox" name="featured" value="1" class="toggle toggle-warning"
-                        {{ old('featured') ? 'checked' : '' }} />
-                    <span class="text-sm opacity-70">{{ __('admin.projects.featured_hint') }}</span>
-                </label>
-            </fieldset>
-
-            @if ($tags->count())
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <fieldset class="fieldset w-full">
-                    <legend class="fieldset-legend">{{ __('admin.projects.tags') }}</legend>
+                    <legend class="fieldset-legend">{{ __('admin.projects.featured') }}</legend>
+                    <label class="flex items-center gap-3 cursor-pointer mt-1">
+                        <input type="hidden" name="featured" value="0" />
+                        <input type="checkbox" name="featured" value="1" class="toggle toggle-warning"
+                            {{ old('featured') ? 'checked' : '' }} />
+                        <span class="text-sm opacity-70">{{ __('admin.projects.featured_hint') }}</span>
+                    </label>
+                </fieldset>
+
+                @if ($tags->count())
+                    <fieldset class="fieldset w-full">
+                        <legend class="fieldset-legend">{{ __('admin.projects.tags') }}</legend>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            @foreach ($tags as $tag)
+                                <label class="cursor-pointer">
+                                    <input type="checkbox" name="tags[]" value="{{ $tag->id }}" class="peer sr-only"
+                                        {{ in_array($tag->id, old('tags', [])) ? 'checked' : '' }} />
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm border border-base-300
+                                        peer-checked:bg-primary peer-checked:text-primary-content peer-checked:border-primary
+                                        hover:border-primary transition-colors select-none">
+                                        {{ $tag->name }}
+                                    </span>
+                                </label>
+                            @endforeach
+                        </div>
+                    </fieldset>
+                @endif
+            </div>
+        </x-admin.ui.card>
+
+        {{-- ── (e) Students ── --}}
+        @if ($students->count())
+            <x-admin.ui.card>
+                <h2 class="text-lg font-semibold mb-1">{{ __('admin.projects.section_students') }}</h2>
+                <p class="text-sm opacity-60 mb-4">{{ __('admin.projects.section_students_sub') }}</p>
+                <fieldset class="fieldset w-full">
+                    <legend class="fieldset-legend sr-only">{{ __('admin.projects.students') }}</legend>
                     <div class="flex flex-wrap gap-2 mt-2">
-                        @foreach ($tags as $tag)
+                        @foreach ($students as $student)
                             <label class="cursor-pointer">
-                                <input type="checkbox" name="tags[]" value="{{ $tag->id }}" class="peer sr-only"
-                                    {{ in_array($tag->id, old('tags', [])) ? 'checked' : '' }} />
+                                <input type="checkbox" name="students[]" value="{{ $student->id }}" class="peer sr-only"
+                                    {{ in_array($student->id, old('students', [])) ? 'checked' : '' }} />
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-sm border border-base-300
-                                    peer-checked:bg-primary peer-checked:text-primary-content peer-checked:border-primary
-                                    hover:border-primary transition-colors select-none">
-                                    {{ $tag->name }}
+                                    peer-checked:bg-secondary peer-checked:text-secondary-content peer-checked:border-secondary
+                                    hover:border-secondary transition-colors select-none">
+                                    {{ $student->name }}
                                 </span>
                             </label>
                         @endforeach
                     </div>
                 </fieldset>
-            @endif
-        </x-admin.ui.card>
+            </x-admin.ui.card>
+        @endif
 
-        {{-- ── (e) Reference files ── --}}
+        {{-- ── (f) Reference files ── --}}
         <x-admin.ui.card>
             <h2 class="text-lg font-semibold mb-1">{{ __('admin.projects.section_files') }}</h2>
             <p class="text-sm opacity-60 mb-4">{{ __('admin.projects.section_files_sub') }}</p>
@@ -108,7 +133,7 @@
         </x-admin.ui.card>
 
         <div class="flex justify-end gap-2 pt-2">
-            <x-admin.ui.button variant="ghost" :href="route('projects.index')">
+            <x-admin.ui.button variant="ghost" :href="route('admin.projects.index')">
                 {{ __('admin.common.cancel') }}
             </x-admin.ui.button>
             <x-admin.ui.button type="submit" icon="icofont-check-circled">

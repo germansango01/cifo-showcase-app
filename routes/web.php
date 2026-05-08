@@ -45,7 +45,7 @@ Route::middleware(['auth', 'verified', 'admin.locale'])
         Route::resource('roles', RoleController::class)->except('show');
         Route::resource('courses', CourseController::class)->except('show');
         Route::resource('tags', TagController::class)->except('show');
-        Route::resource('projects', AdminProjectController::class)->except('show');
+        Route::resource('projects', AdminProjectController::class)->names('admin.projects');
         Route::resource('permissions', PermissionController::class)->except('show');
         Route::resource('categories', CategoryController::class)->except('show');
         Route::resource('students', StudentController::class)->except('show');

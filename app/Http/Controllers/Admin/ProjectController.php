@@ -7,6 +7,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Course;
 use App\Models\Project;
+use App\Models\Student;
 use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -61,8 +62,9 @@ class ProjectController extends Controller
         $locale = app()->getLocale();
         $courseOptions = Course::orderBy("name->{$locale}")->get()->pluck('name', 'id')->toArray();
         $tags = Tag::orderBy("name->{$locale}")->get();
+        $students = Student::orderBy('name')->get();
 
-        return view('admin.projects.create', compact('courseOptions', 'tags'));
+        return view('admin.projects.create', compact('courseOptions', 'tags', 'students'));
     }
 
     public function store(StoreProjectRequest $request): RedirectResponse
@@ -71,21 +73,33 @@ class ProjectController extends Controller
 
         $validated = $request->validated();
         $tags = $validated['tags'] ?? [];
+        $students = $validated['students'] ?? [];
         $filesData = $validated['files'] ?? [];
         $featuredValue = $validated['featured_media'] ?? null;
         $validated['featured'] = $request->boolean('featured');
-        unset($validated['tags'], $validated['images'], $validated['featured_media'], $validated['files']);
+        $validated['project_date'] = $validated['project_date'] . '-01';
+        unset($validated['tags'], $validated['students'], $validated['images'], $validated['featured_media'], $validated['files']);
 
-        $project = DB::transaction(function () use ($validated, $tags, $filesData, $request, $featuredValue) {
+        $project = DB::transaction(function () use ($validated, $tags, $students, $filesData, $request, $featuredValue) {
             $project = Project::create($validated);
             $project->tags()->sync($tags);
+            $project->students()->sync($students);
             $this->syncMedia($project, $request->file('images', []), $featuredValue);
             $this->syncFiles($project, $filesData);
 
             return $project;
         });
 
-        return redirect()->route('projects.index')->with('success', __('admin.projects.created'));
+        return redirect()->route('admin.projects.index')->with('success', __('admin.projects.created'));
+    }
+
+    public function show(Project $project): View
+    {
+        Gate::authorize('projects.view');
+
+        $project->load(['course', 'tags', 'students', 'files', 'media']);
+
+        return view('admin.projects.show', compact('project'));
     }
 
     public function edit(Project $project): View
@@ -96,8 +110,10 @@ class ProjectController extends Controller
         $courseOptions = Course::orderBy("name->{$locale}")->get()->pluck('name', 'id')->toArray();
         $tags = Tag::orderBy("name->{$locale}")->get();
         $selectedTags = $project->tags->pluck('id')->toArray();
+        $students = Student::orderBy('name')->get();
+        $selectedStudents = $project->students->pluck('id')->toArray();
 
-        return view('admin.projects.edit', compact('project', 'courseOptions', 'tags', 'selectedTags'));
+        return view('admin.projects.edit', compact('project', 'courseOptions', 'tags', 'selectedTags', 'students', 'selectedStudents'));
     }
 
     public function update(UpdateProjectRequest $request, Project $project): RedirectResponse
@@ -106,17 +122,20 @@ class ProjectController extends Controller
 
         $validated = $request->validated();
         $tags = $validated['tags'] ?? [];
+        $students = $validated['students'] ?? [];
         $filesData = $validated['files'] ?? [];
         $deleteIds = $validated['delete_media'] ?? [];
         $mediaOrder = $validated['media_order'] ?? [];
         $featuredValue = $validated['featured_media'] ?? null;
         $validated['featured'] = $request->boolean('featured');
-        unset($validated['tags'], $validated['images'], $validated['delete_media'],
+        $validated['project_date'] = $validated['project_date'] . '-01';
+        unset($validated['tags'], $validated['students'], $validated['images'], $validated['delete_media'],
             $validated['media_order'], $validated['featured_media'], $validated['files']);
 
-        DB::transaction(function () use ($project, $validated, $tags, $filesData, $request, $deleteIds, $mediaOrder, $featuredValue) {
+        DB::transaction(function () use ($project, $validated, $tags, $students, $filesData, $request, $deleteIds, $mediaOrder, $featuredValue) {
             $project->update($validated);
             $project->tags()->sync($tags);
+            $project->students()->sync($students);
 
             if ($deleteIds) {
                 $project->media()
@@ -139,7 +158,7 @@ class ProjectController extends Controller
             $this->syncFiles($project, $filesData, existing: true);
         });
 
-        return redirect()->route('projects.edit', $project)->with('success', __('admin.projects.updated'));
+        return redirect()->route('admin.projects.edit', $project)->with('success', __('admin.projects.updated'));
     }
 
     public function destroy(Project $project): RedirectResponse
@@ -148,7 +167,7 @@ class ProjectController extends Controller
 
         $project->delete();
 
-        return redirect()->route('projects.index')->with('success', __('admin.projects.deleted'));
+        return redirect()->route('admin.projects.index')->with('success', __('admin.projects.deleted'));
     }
 
     /**

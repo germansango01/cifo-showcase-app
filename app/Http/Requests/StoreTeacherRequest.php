@@ -15,8 +15,10 @@ class StoreTeacherRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:100','min:3'],
-            'email' => ['required',  'regex:/^[A-Za-z0-9._%+-]{3,}@[A-Za-z0-9]{2,}(\.[A-Za-z]{2,})+$/', 'max:150', 'unique:teachers,email'],
+            'name' => ['required', 'string', 'max:100', 'min:3'],
+            'email' => ['required', 'regex:/^[A-Za-z0-9._%+-]{3,}@[A-Za-z0-9]{2,}(\.[A-Za-z]{2,})+$/', 'max:150', 'unique:teachers,email'],
+            'courses' => ['nullable', 'array'],
+            'courses.*' => ['integer', 'exists:courses,id'],
         ];
     }
 }
