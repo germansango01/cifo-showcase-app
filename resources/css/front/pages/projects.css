@@ -49,77 +49,11 @@
 }
 
 /* ─────────────────────────────────────────
-   MAIN LAYOUT — content + sidebar right
+   PAGE WRAPPER — vertical rhythm
+   Grid styles live in layout/grid.css
    ───────────────────────────────────────── */
-.projects-layout {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-8);
+.projects-page {
     padding-block: var(--space-12);
-    align-items: start;
-}
-
-@media (min-width: 1024px) {
-    .projects-layout {
-        /* sidebar fixed 280px on the right; main takes remaining space */
-        grid-template-columns: 1fr 280px;
-        grid-template-areas: "main sidebar";
-    }
-}
-
-/* ─────────────────────────────────────────
-   MAIN — project grid area
-   ───────────────────────────────────────── */
-.projects-main {
-    min-width: 0; /* prevent grid blowout */
-}
-
-@media (min-width: 1024px) {
-    .projects-main {
-        grid-area: main;
-    }
-}
-
-/* ─────────────────────────────────────────
-   ASIDE — sticky on desktop, right column
-   ───────────────────────────────────────── */
-.projects-aside {
-    /* mobile: renders after main (DOM order) */
-}
-
-@media (min-width: 1024px) {
-    .projects-aside {
-        grid-area: sidebar;
-        align-self: start;
-        position: sticky;
-        top: calc(var(--header-height, 64px) + var(--space-6));
-        /* scroll only if sidebar taller than viewport */
-        max-height: calc(100vh - var(--header-height, 64px) - var(--space-12));
-        overflow-y: auto;
-        border-left: 1px solid var(--color-border);
-        padding-left: var(--space-6);
-    }
-}
-
-/* ─────────────────────────────────────────
-   PROJECT GRID — cards
-   ───────────────────────────────────────── */
-.projects-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-6);
-}
-
-@media (min-width: 640px) {
-    .projects-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (min-width: 1280px) {
-    .projects-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
 }
 
 /* ─────────────────────────────────────────

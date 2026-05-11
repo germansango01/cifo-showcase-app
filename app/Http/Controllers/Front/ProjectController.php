@@ -64,27 +64,12 @@ class ProjectController extends Controller
             ))
             ->latest('project_date');
 
-        $projects = $query->paginate(12)->withQueryString();
-
-        $publishedFilter = fn ($q) => $q->where('status', 'published');
-
-        $categories = Category::withCount(['projects' => $publishedFilter])->orderBy('id')->get();
-        $courses = Course::with('category')->withCount(['projects' => $publishedFilter])->orderBy('course_code')->get();
-        $tags = Tag::withCount(['projects' => $publishedFilter])->orderBy('id')->get();
-
-        $recentProjects = Project::where('status', 'published')
-            ->latest('project_date')
-            ->take(5)
-            ->get(['id', 'slug', 'title', 'project_date']);
+        $projects = $query->paginate(9)->withQueryString();
 
         return view('front.projects', compact(
             'projects',
-            'categories',
-            'courses',
-            'tags',
             'activeType',
             'activeModel',
-            'recentProjects',
         ));
     }
 }
