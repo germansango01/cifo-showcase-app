@@ -45,7 +45,7 @@
                             <span class="badge" data-type="category">{{ $categoryName }}</span>
                         @endif
                         @if ($courseCode)
-                            <span class="badge" data-cycle="{{ strtolower($courseCode) }}">{{ $courseName }}</span>
+                            <span class="badge" data-type="course">{{ $courseName }}</span>
                         @endif
                         @if ($year)
                             <span class="badge" data-type="year">{{ $year }}</span>
@@ -128,7 +128,7 @@
                                 <dt>{{ __('front.project.meta_course') }}</dt>
                                 <dd>
                                     <a href="{{ route('projects.course', ['course' => $courseCode]) }}"
-                                       class="badge" data-cycle="{{ strtolower($courseCode) }}">
+                                       class="badge" data-type="course">
                                         {{ $courseName }}
                                     </a>
                                 </dd>

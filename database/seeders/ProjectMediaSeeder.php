@@ -19,11 +19,15 @@ class ProjectMediaSeeder extends Seeder
 
         $total = $images->count();
 
-        Project::all()->each(function (Project $project) use ($images, $total) {
+        $projectIndex = 0;
+
+        Project::all()->each(function (Project $project) use ($images, $total, &$projectIndex) {
             $count = rand(3, 5);
+            $offset = $projectIndex * $count;
+            $projectIndex++;
 
             for ($i = 0; $i < $count; $i++) {
-                $imagePath = $images[$i % $total];
+                $imagePath = $images[($offset + $i) % $total];
                 $ext = pathinfo($imagePath, PATHINFO_EXTENSION);
                 $filename = "project-{$project->id}-" . ($i + 1) . ".{$ext}";
 

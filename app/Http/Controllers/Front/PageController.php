@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Project;
 use App\Models\Student;
 use App\Models\Teacher;
@@ -32,6 +33,8 @@ class PageController extends Controller
 
     public function about(): View
     {
-        return view('front.about');
+        $categories = Category::orderBy('id')->get();
+
+        return view('front.about', compact('categories'));
     }
 }
