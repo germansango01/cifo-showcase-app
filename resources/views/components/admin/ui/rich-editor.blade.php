@@ -55,11 +55,6 @@
                 :class="isBlock('blockquote') ? 'btn-active' : ''"
                 class="btn btn-ghost btn-xs font-serif text-base leading-none">&ldquo;</button>
 
-            <button type="button" title="Bloque de código"
-                @click="formatBlock('pre')"
-                :class="isBlock('pre') ? 'btn-active' : ''"
-                class="btn btn-ghost btn-xs font-mono text-xs">&lt;/&gt;</button>
-
             <div class="w-px bg-base-300 mx-1 self-stretch"></div>
 
             <button type="button" title="Lista sin orden"
@@ -78,11 +73,35 @@
 
             <div class="w-px bg-base-300 mx-1 self-stretch"></div>
 
-            <button type="button" title="Insertar enlace"
-                @click="insertLink()"
+            <button type="button" title="Alinear izquierda"
+                @click="exec('justifyLeft')"
+                :class="isActive('justifyLeft') ? 'btn-active' : ''"
                 class="btn btn-ghost btn-xs">
-                <i class="icofont-link" aria-hidden="true"></i>
+                <i class="icofont-align-left" aria-hidden="true"></i>
             </button>
+
+            <button type="button" title="Centrar"
+                @click="exec('justifyCenter')"
+                :class="isActive('justifyCenter') ? 'btn-active' : ''"
+                class="btn btn-ghost btn-xs">
+                <i class="icofont-align-center" aria-hidden="true"></i>
+            </button>
+
+            <button type="button" title="Alinear derecha"
+                @click="exec('justifyRight')"
+                :class="isActive('justifyRight') ? 'btn-active' : ''"
+                class="btn btn-ghost btn-xs">
+                <i class="icofont-align-right" aria-hidden="true"></i>
+            </button>
+
+            <button type="button" title="Justificar"
+                @click="exec('justifyFull')"
+                :class="isActive('justifyFull') ? 'btn-active' : ''"
+                class="btn btn-ghost btn-xs">
+                <i class="icofont-justify-all" aria-hidden="true"></i>
+            </button>
+
+            <div class="w-px bg-base-300 mx-1 self-stretch"></div>
 
             <button type="button" title="Limpiar formato"
                 @click="clearFormat()"

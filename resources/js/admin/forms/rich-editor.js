@@ -48,11 +48,6 @@ export default function richEditor(initialValue = '', inputId = '') {
             return document.queryCommandValue('formatBlock').toLowerCase() === tag;
         },
 
-        insertLink() {
-            const url = window.prompt('URL:');
-            if (url) this.exec('createLink', url);
-        },
-
         clearFormat() {
             this.exec('removeFormat');
             this.exec('unlink');

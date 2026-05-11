@@ -11,32 +11,32 @@
     </div>
 
     <x-admin.ui.card>
-        <form method="POST" action="{{ route('roles.store') }}" x-data="{
-            permissions: [],
-            get selectedCount() { return this.permissions.length; },
-            totalPermissions: {{ $permissions->flatten()->count() }},
+        <form method="POST" action="{{ route('roles.store') }}" novalidate x-data="{
+            form: $form('post', '{{ route('roles.store') }}', { name: '', permissions: [] }),
+            get selectedCount() { return this.form.permissions.length; },
             toggleModule(modulePerms) {
-                const all = modulePerms.every(p => this.permissions.includes(p));
+                const all = modulePerms.every(p => this.form.permissions.includes(p));
                 if (all) {
-                    this.permissions = this.permissions.filter(p => !modulePerms.includes(p));
+                    this.form.permissions = this.form.permissions.filter(p => !modulePerms.includes(p));
                 } else {
-                    modulePerms.forEach(p => { if (!this.permissions.includes(p)) this.permissions.push(p); });
+                    modulePerms.forEach(p => { if (!this.form.permissions.includes(p)) this.form.permissions.push(p); });
                 }
             },
             isModuleChecked(modulePerms) {
-                return modulePerms.every(p => this.permissions.includes(p));
+                return modulePerms.every(p => this.form.permissions.includes(p));
             },
             isModuleIndeterminate(modulePerms) {
-                const some = modulePerms.some(p => this.permissions.includes(p));
+                const some = modulePerms.some(p => this.form.permissions.includes(p));
                 return some && !this.isModuleChecked(modulePerms);
             }
-        }">
+        }" @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('roles.index') }}' })">
             @csrf
 
             {{-- Nombre del rol --}}
             <div class="max-w-sm mb-8">
                 <x-admin.ui.input name="name" :label="__('admin.roles.name')" icon="icofont-shield"
-                    :placeholder="__('admin.roles.name_placeholder')" required />
+                    :placeholder="__('admin.roles.name_placeholder')" :required="true"
+                    x-model="form.name" @change="form.validate('name')" />
             </div>
 
             {{-- Contador en vivo --}}
@@ -81,7 +81,7 @@
                                 @foreach ($modulePerms as $permission)
                                     <label class="flex items-center gap-2 cursor-pointer group">
                                         <input type="checkbox" name="permissions[]" value="{{ $permission->name }}"
-                                            class="checkbox checkbox-primary checkbox-sm" x-model="permissions"
+                                            class="checkbox checkbox-primary checkbox-sm" x-model="form.permissions"
                                             :value="'{{ $permission->name }}'" />
                                         <span class="text-sm group-hover:text-primary transition-colors">
                                             {{ $permission->name }}

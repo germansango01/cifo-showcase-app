@@ -69,7 +69,8 @@
                             icon="icofont-students-alt"
                             :options="$students->pluck('name', 'id')->all()"
                             :search-placeholder="__('admin.students.search_placeholder')"
-                            :help="__('admin.projects.section_students_sub')" />
+                            :help="__('admin.projects.section_students_sub')"
+                            :required="true" />
                     </div>
                 @endif
 
@@ -94,7 +95,9 @@
 
                 @if ($tags->count())
                     <fieldset class="fieldset w-full">
-                        <legend class="fieldset-legend">{{ __('admin.projects.tags') }}</legend>
+                        <legend class="fieldset-legend">
+                            {{ __('admin.projects.tags') }}<span class="text-error">*</span>
+                        </legend>
                         <div class="flex flex-wrap gap-2 mt-2">
                             @foreach ($tags as $tag)
                                 <label class="cursor-pointer">
@@ -108,6 +111,11 @@
                                 </label>
                             @endforeach
                         </div>
+                        @error('tags')
+                            <span class="text-error text-sm flex items-center gap-1 mt-1">
+                                <i class="icofont-warning-alt" aria-hidden="true"></i> {{ $message }}
+                            </span>
+                        @enderror
                     </fieldset>
                 @endif
             </div>

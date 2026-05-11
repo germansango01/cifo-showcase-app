@@ -11,6 +11,7 @@ use App\Models\Student;
 use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
@@ -60,7 +61,9 @@ class ProjectController extends Controller
         Gate::authorize('projects.create');
 
         $locale = app()->getLocale();
-        $courseOptions = Course::orderBy("name->{$locale}")->get()->pluck('name', 'id')->toArray();
+        $courseOptions = Course::orderBy("name->{$locale}")->get()
+            ->mapWithKeys(fn ($c) => [$c->id => "[{$c->course_code}] {$c->name}"])
+            ->toArray();
         $tags = Tag::orderBy("name->{$locale}")->get();
         $students = Student::orderBy('name')->get();
 
@@ -77,7 +80,7 @@ class ProjectController extends Controller
         $filesData = $validated['files'] ?? [];
         $featuredValue = $validated['featured_media'] ?? null;
         $validated['featured'] = $request->boolean('featured');
-        $validated['project_date'] = $validated['project_date'] . '-01';
+        $validated['project_date'] = $validated['project_date'].'-01';
         unset($validated['tags'], $validated['students'], $validated['images'], $validated['featured_media'], $validated['files']);
 
         $project = DB::transaction(function () use ($validated, $tags, $students, $filesData, $request, $featuredValue) {
@@ -107,7 +110,9 @@ class ProjectController extends Controller
         Gate::authorize('projects.update');
 
         $locale = app()->getLocale();
-        $courseOptions = Course::orderBy("name->{$locale}")->get()->pluck('name', 'id')->toArray();
+        $courseOptions = Course::orderBy("name->{$locale}")->get()
+            ->mapWithKeys(fn ($c) => [$c->id => "[{$c->course_code}] {$c->name}"])
+            ->toArray();
         $tags = Tag::orderBy("name->{$locale}")->get();
         $selectedTags = $project->tags->pluck('id')->toArray();
         $students = Student::orderBy('name')->get();
@@ -128,7 +133,7 @@ class ProjectController extends Controller
         $mediaOrder = $validated['media_order'] ?? [];
         $featuredValue = $validated['featured_media'] ?? null;
         $validated['featured'] = $request->boolean('featured');
-        $validated['project_date'] = $validated['project_date'] . '-01';
+        $validated['project_date'] = $validated['project_date'].'-01';
         unset($validated['tags'], $validated['students'], $validated['images'], $validated['delete_media'],
             $validated['media_order'], $validated['featured_media'], $validated['files']);
 
@@ -158,7 +163,7 @@ class ProjectController extends Controller
             $this->syncFiles($project, $filesData, existing: true);
         });
 
-        return redirect()->route('admin.projects.edit', $project)->with('success', __('admin.projects.updated'));
+        return redirect()->route('admin.projects.index')->with('success', __('admin.projects.updated'));
     }
 
     public function destroy(Project $project): RedirectResponse
@@ -173,8 +178,7 @@ class ProjectController extends Controller
     /**
      * Add newly uploaded image files to a project's media collection.
      *
-     * @param  Project  $project
-     * @param  array<int,\Illuminate\Http\UploadedFile>  $files
+     * @param  array<int,UploadedFile>  $files
      * @param  string|null  $featuredValue  e.g. "new:0" or numeric media id
      */
     private function syncMedia(Project $project, array $files, ?string $featuredValue): void
@@ -197,7 +201,6 @@ class ProjectController extends Controller
     /**
      * Sync the project_files rows from submitted form data.
      *
-     * @param  Project  $project
      * @param  array<int,array<string,mixed>>  $filesData
      * @param  bool  $existing  When true, delete rows not present in submission.
      */
