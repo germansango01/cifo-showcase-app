@@ -1,20 +1,20 @@
-{{--
- * resources/views/front/project-detail.blade.php
- * Individual project detail page.
- *
- * @var \App\Models\Project $project
- --}}
-
 @php
-    $title = $project->title;
-    $desc = $project->description;
-    $cycleCode = $project->course?->course_code ?? '';
-    $cycleName = $project->course?->category?->name ?? $cycleCode;
-    $year = $project->project_date?->year;
+    $title        = $project->title;
+    $desc         = $project->description;
+    $courseCode   = $project->course?->course_code ?? '';
+    $courseName   = $project->course?->name ?? $courseCode;
+    $categoryName = $project->course?->category?->name ?? '';
+    $year         = $project->project_date?->year;
+    $heroMedia    = $project->getFeaturedImage();
+    $heroUrl      = $heroMedia?->getUrl() ?? asset('images/placeholder.webp');
+    $allMedia     = $project->getMedia('images');
+    $galleryData  = $allMedia->values()->map(fn ($m, $i) => [
+        'src' => $m->getUrl(),
+        'alt' => $m->getCustomProperty('alt_text') ?: ($title . ' — ' . ($i + 1)),
+    ])->toArray();
 @endphp
 
-@php($thumbnailUrl = $project->getFeaturedImage()?->getUrl() ?? asset('images/placeholder.webp'))
-<x-layouts.app :title="$title" :description="$desc" ogType="article" :ogImage="$thumbnailUrl">
+<x-layouts.app :title="$title" :description="$desc" ogType="article" :ogImage="$heroUrl">
 
     <article class="project-detail" aria-labelledby="detail-title">
 
@@ -34,15 +34,18 @@
         {{-- ── HERO IMAGE ─────────────────────────────────── --}}
         <header class="project-detail-hero">
             <figure>
-                <img src="{{ $thumbnailUrl }}" alt="{{ __('front.project.thumbnail_alt') }} {{ $title }}"
+                <img src="{{ $heroUrl }}" alt="{{ __('front.project.thumbnail_alt') }} {{ $title }}"
                     width="1200" height="800">
             </figure>
 
             <div class="project-detail-hero-overlay">
                 <div class="container">
                     <div class="project-detail-hero-badges">
-                        @if ($cycleCode)
-                            <span class="badge" data-cycle="{{ strtolower($cycleCode) }}">{{ $cycleName }}</span>
+                        @if ($categoryName)
+                            <span class="badge" data-type="category">{{ $categoryName }}</span>
+                        @endif
+                        @if ($courseCode)
+                            <span class="badge" data-cycle="{{ strtolower($courseCode) }}">{{ $courseName }}</span>
                         @endif
                         @if ($year)
                             <span class="badge" data-type="year">{{ $year }}</span>
@@ -67,27 +70,25 @@
                     </section>
 
                     {{-- Gallery --}}
-                    @if ($project->externalMedia->count())
+                    @if ($allMedia->isNotEmpty())
                         <section class="project-detail-section" aria-labelledby="section-gallery">
                             <h2 id="section-gallery">{{ __('front.project.section_gallery') }}</h2>
                             <figure class="project-detail-gallery">
                                 <div class="carousel project-detail-carousel" id="detail-carousel" role="region"
                                     aria-label="{{ __('front.project.gallery_aria') }}"
-                                    data-images="{{ json_encode($project->externalMedia->map(fn($m) => ['src' => $m->path, 'alt' => $m->alt_text])->values()) }}">
+                                    data-images="{{ json_encode($galleryData) }}">
                                     <div class="carousel-track"></div>
 
                                     <button class="carousel-btn" data-direction="prev"
                                         aria-label="{{ __('front.project.carousel_prev') }}">
-                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                            aria-hidden="true">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                                             <path d="M12 4L6 10l6 6" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" />
                                         </svg>
                                     </button>
                                     <button class="carousel-btn" data-direction="next"
                                         aria-label="{{ __('front.project.carousel_next') }}">
-                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                            aria-hidden="true">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                                             <path d="M8 4l6 6-6 6" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" />
                                         </svg>
@@ -113,16 +114,25 @@
                             <dt>{{ __('front.project.meta_student') }}</dt>
                             <dd>{{ $project->students->pluck('name')->join(', ') ?: '—' }}</dd>
 
-                            <dt>{{ __('front.project.meta_cycle') }}</dt>
-                            <dd>
-                                @if ($cycleCode)
-                                    <span class="badge" data-cycle="{{ strtolower($cycleCode) }}">
-                                        {{ $cycleName }}
-                                    </span>
-                                @else
-                                    —
-                                @endif
-                            </dd>
+                            @if ($categoryName)
+                                <dt>{{ __('front.project.meta_category') }}</dt>
+                                <dd>
+                                    <a href="{{ route('projects.category', ['category' => $project->course->category->slug]) }}"
+                                       class="badge" data-type="category">
+                                        {{ $categoryName }}
+                                    </a>
+                                </dd>
+                            @endif
+
+                            @if ($courseCode)
+                                <dt>{{ __('front.project.meta_course') }}</dt>
+                                <dd>
+                                    <a href="{{ route('projects.course', ['course' => $courseCode]) }}"
+                                       class="badge" data-cycle="{{ strtolower($courseCode) }}">
+                                        {{ $courseName }}
+                                    </a>
+                                </dd>
+                            @endif
 
                             <dt>{{ __('front.project.meta_year') }}</dt>
                             <dd>{{ $year ?? '—' }}</dd>
@@ -156,8 +166,8 @@
                             <h3>{{ __('front.project.tags_title') }}</h3>
                             <div class="project-detail-tags-list">
                                 @foreach ($project->tags as $tag)
-                                    <a href="{{ route('projects', ['tag' => $tag->slug]) }}" class="badge"
-                                        data-type="tag">{{ $tag->name }}</a>
+                                    <a href="{{ route('projects.tag', ['tag' => $tag->slug]) }}"
+                                       class="badge" data-type="tag">{{ $tag->name }}</a>
                                 @endforeach
                             </div>
                         </div>

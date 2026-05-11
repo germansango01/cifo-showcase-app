@@ -28,6 +28,9 @@ Route::prefix('{locale}')
     ->group(function () {
         Route::get('/', [PageController::class, 'index'])->name('home');
         Route::get('/projects', [ProjectController::class, 'index'])->name('projects');
+        Route::get('/projects/category/{category:slug}', [ProjectController::class, 'byCategory'])->name('projects.category');
+        Route::get('/projects/course/{course:course_code}', [ProjectController::class, 'byCourse'])->name('projects.course');
+        Route::get('/projects/tag/{tag:slug}', [ProjectController::class, 'byTag'])->name('projects.tag');
         Route::get('/projects/{project:slug}', [ProjectController::class, 'show'])->name('projects.show');
         Route::get('/about', [PageController::class, 'about'])->name('about');
     });

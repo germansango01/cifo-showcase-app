@@ -49,22 +49,123 @@
 }
 
 /* ─────────────────────────────────────────
-   CONTENT AREA
+   MAIN LAYOUT — content + sidebar right
    ───────────────────────────────────────── */
-.projects-content {
+.projects-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
     padding-block: var(--space-12);
+    align-items: start;
+}
+
+@media (min-width: 1024px) {
+    .projects-layout {
+        /* sidebar fixed 280px on the right; main takes remaining space */
+        grid-template-columns: 1fr 280px;
+        grid-template-areas: "main sidebar";
+    }
 }
 
 /* ─────────────────────────────────────────
-   HIDDEN CARD STATE (filter result)
+   MAIN — project grid area
    ───────────────────────────────────────── */
-.card.is-hidden {
-    display: none;
+.projects-main {
+    min-width: 0; /* prevent grid blowout */
 }
 
-/* Empty state — when all cards are filtered out */
+@media (min-width: 1024px) {
+    .projects-main {
+        grid-area: main;
+    }
+}
+
+/* ─────────────────────────────────────────
+   ASIDE — sticky on desktop, right column
+   ───────────────────────────────────────── */
+.projects-aside {
+    /* mobile: renders after main (DOM order) */
+}
+
+@media (min-width: 1024px) {
+    .projects-aside {
+        grid-area: sidebar;
+        align-self: start;
+        position: sticky;
+        top: calc(var(--header-height, 64px) + var(--space-6));
+        /* scroll only if sidebar taller than viewport */
+        max-height: calc(100vh - var(--header-height, 64px) - var(--space-12));
+        overflow-y: auto;
+        border-left: 1px solid var(--color-border);
+        padding-left: var(--space-6);
+    }
+}
+
+/* ─────────────────────────────────────────
+   PROJECT GRID — cards
+   ───────────────────────────────────────── */
+.projects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+}
+
+@media (min-width: 640px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1280px) {
+    .projects-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* ─────────────────────────────────────────
+   TOOLBAR — context title + count
+   ───────────────────────────────────────── */
+.projects-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-8);
+}
+
+.projects-context-title {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0;
+    flex: 1 1 100%;
+}
+
+@media (min-width: 640px) {
+    .projects-context-title {
+        flex: 1 1 auto;
+    }
+}
+
+.projects-toolbar-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+}
+
+.projects-count {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    white-space: nowrap;
+}
+
+/* ─────────────────────────────────────────
+   EMPTY STATE
+   ───────────────────────────────────────── */
 .projects-empty {
-    display: none;
+    grid-column: 1 / -1;
+    display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--space-4);
@@ -73,11 +174,14 @@
     color: var(--color-text-muted);
 }
 
-.projects-empty.is-visible {
-    display: flex;
-}
-
 .projects-empty p {
     font-size: var(--text-lg);
     max-width: 36ch;
+}
+
+/* ─────────────────────────────────────────
+   PAGINATION
+   ───────────────────────────────────────── */
+.pagination-wrapper {
+    margin-top: var(--space-10);
 }

@@ -254,7 +254,8 @@
 @media (min-width: 64em) {
     .project-detail-sidebar {
         position: sticky;
-        top: calc(var(--space-16) + var(--space-4));
+        top: calc(var(--header-height, 64px) + var(--space-6));
+        align-self: start;
     }
 }
 
