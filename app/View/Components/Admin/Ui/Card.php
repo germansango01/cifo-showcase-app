@@ -14,7 +14,8 @@ class Card extends Component
     public function __construct(
         public bool $padding = true,
         public bool $shadow = true,
-    ) {}
+    ) {
+    }
 
     /**
      * Get the view / contents that represent the component.

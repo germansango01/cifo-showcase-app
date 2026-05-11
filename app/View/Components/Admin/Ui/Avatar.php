@@ -16,7 +16,8 @@ class Avatar extends Component
         public ?string $src = null,
         public string $size = 'md',   // xs | sm | md | lg
         public bool $ring = false,
-    ) {}
+    ) {
+    }
 
     public function initials(): string
     {

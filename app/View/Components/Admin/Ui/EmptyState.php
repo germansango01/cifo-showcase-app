@@ -14,7 +14,8 @@ class EmptyState extends Component
         public string $message,
         public ?string $actionLabel = null,
         public ?string $actionHref = null,
-    ) {}
+    ) {
+    }
 
     public function render(): View|Closure|string
     {

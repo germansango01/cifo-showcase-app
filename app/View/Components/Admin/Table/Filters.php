@@ -14,7 +14,8 @@ class Filters extends Component
     public function __construct(
         public string $action,
         public string $searchPlaceholder = 'Buscar…',
-    ) {}
+    ) {
+    }
 
     /**
      * Query params to preserve as hidden inputs (exclude 'search' and 'page').

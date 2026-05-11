@@ -16,7 +16,8 @@ class Badge extends Component
         public string $color = 'primary',
         public string $size = 'md',
         public bool $outline = false,
-    ) {}
+    ) {
+    }
 
     public function classes(): string
     {

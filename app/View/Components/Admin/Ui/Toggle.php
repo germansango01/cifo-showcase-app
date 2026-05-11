@@ -16,7 +16,8 @@ class Toggle extends Component
         public bool $disabled = false,
         public ?string $help = null,
         public bool $inline = false,
-    ) {}
+    ) {
+    }
 
     public function render(): View|Closure|string
     {

@@ -25,7 +25,8 @@ class SelectMultiple extends Component
         public ?string $icon = null,
         public ?string $help = null,
         public ?string $searchPlaceholder = null,
-    ) {}
+    ) {
+    }
 
     /**
      * Get the view / contents that represent the component.

@@ -23,7 +23,8 @@ class TranslatableInput extends Component
         public bool $required = false,
         public bool $disabled = false,
         public ?string $formVar = null,
-    ) {}
+    ) {
+    }
 
     /**
      * Get the view / contents that represent the component.
