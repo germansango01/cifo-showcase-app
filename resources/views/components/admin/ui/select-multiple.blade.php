@@ -20,14 +20,10 @@
     @endif
 
     <div x-data="selectMultiple({
-            options: @js($normalizedOptions),
-            selected: @js($selectedValues),
-            name: '{{ $name }}',
-        })"
-        x-cloak
-        class="relative w-full"
-        @click.outside="close()"
-        @keydown.escape.window="close()">
+        options: @js($normalizedOptions),
+        selected: @js($selectedValues),
+        name: '{{ $name }}',
+    })" x-cloak class="relative w-full" @click.outside="close()" @keydown.escape.window="close()">
 
         {{-- Hidden inputs reflecting current selection --}}
         <template x-for="value in selected" :key="value">
@@ -35,13 +31,8 @@
         </template>
 
         {{-- Trigger / chips area --}}
-        <div role="combobox"
-            tabindex="0"
-            :aria-expanded="open"
-            aria-haspopup="listbox"
-            aria-describedby="{{ $name }}-help"
-            @click="toggle()"
-            @keydown.enter.prevent="toggle()"
+        <div role="combobox" tabindex="0" :aria-expanded="open" aria-haspopup="listbox"
+            aria-describedby="{{ $name }}-help" @click="toggle()" @keydown.enter.prevent="toggle()"
             @keydown.space.prevent="toggle()"
             class="input input-bordered w-full flex flex-wrap items-center gap-1.5 h-auto min-h-12 py-2 cursor-pointer"
             :class="{ 'input-error': {{ $hasError ? 'true' : 'false' }}, 'pointer-events-none opacity-60': {{ $disabled ? 'true' : 'false' }} }">
@@ -53,9 +44,7 @@
             <template x-for="value in selected" :key="value">
                 <span class="badge badge-primary gap-1 py-3">
                     <span x-text="labelFor(value)"></span>
-                    <button type="button"
-                        @click.stop="remove(value)"
-                        class="opacity-80 hover:opacity-100"
+                    <button type="button" @click.stop="remove(value)" class="opacity-80 hover:opacity-100"
                         :aria-label="`{{ __('admin.common.remove') }} ${labelFor(value)}`">
                         <i class="icofont-close-line"></i>
                     </button>
@@ -67,10 +56,7 @@
             </span>
 
             <span class="ml-auto flex items-center gap-1 shrink-0">
-                <button type="button"
-                    x-show="hasSelection"
-                    @click.stop="clear()"
-                    class="opacity-60 hover:opacity-100"
+                <button type="button" x-show="hasSelection" @click.stop="clear()" class="opacity-60 hover:opacity-100"
                     aria-label="{{ __('admin.common.clear') }}">
                     <i class="icofont-close-circled"></i>
                 </button>
@@ -79,26 +65,19 @@
         </div>
 
         {{-- Dropdown --}}
-        <div x-show="open"
-            x-transition.opacity.duration.150ms
+        <div x-show="open" x-transition.opacity.duration.150ms
             class="absolute z-50 mt-1 w-full rounded-box border border-base-300 bg-base-100 shadow-lg overflow-hidden">
             <div class="p-2 border-b border-base-300">
                 <label class="input input-sm input-bordered flex items-center gap-2 w-full">
                     <i class="icofont-search-1 opacity-60"></i>
-                    <input type="text"
-                        x-model="search"
-                        x-ref="search"
-                        @keydown.escape.stop="close()"
-                        placeholder="{{ $resolvedSearchPlaceholder }}"
-                        class="grow">
+                    <input type="text" x-model="search" x-ref="search" @keydown.escape.stop="close()"
+                        placeholder="{{ $resolvedSearchPlaceholder }}" class="grow">
                 </label>
             </div>
             <ul role="listbox" class="max-h-56 overflow-y-auto py-1">
                 <template x-for="option in filteredOptions" :key="option.value">
                     <li>
-                        <button type="button"
-                            role="option"
-                            :aria-selected="isSelected(option.value)"
+                        <button type="button" role="option" :aria-selected="isSelected(option.value)"
                             @click="toggleOption(option.value)"
                             class="w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-base-200 text-left transition-colors"
                             :class="{ 'bg-primary/10 text-primary': isSelected(option.value) }">

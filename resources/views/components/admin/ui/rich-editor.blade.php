@@ -1,14 +1,7 @@
-@props([
-    'name',
-    'value'  => '',
-    'id'     => null,
-    'error'  => null,
-    'rows'   => 6,
-    'label'  => null,
-])
+@props(['name', 'value' => '', 'id' => null, 'error' => null, 'rows' => 6, 'label' => null])
 
 @php
-    $inputId  = $id ?? 'rich_' . str_replace(['[', ']'], ['_', ''], $name);
+    $inputId = $id ?? 'rich_' . str_replace(['[', ']'], ['_', ''], $name);
     $hasError = $error || $errors->has(str_replace(['[', ']', '.'], ['.', '', '.'], $name));
 @endphp
 
@@ -17,90 +10,76 @@
         <p class="fieldset-legend">{{ $label }}</p>
     @endif
 
-    <div
-        x-data="richEditor(@js($value), '{{ $inputId }}')"
-        class="border rounded-btn {{ $hasError ? 'border-error' : 'border-base-300' }} bg-base-100 focus-within:outline focus-within:outline-2 focus-within:outline-primary"
-    >
+    <div x-data="richEditor(@js($value), '{{ $inputId }}')"
+        class="border rounded-btn {{ $hasError ? 'border-error' : 'border-base-300' }} bg-base-100 focus-within:outline focus-within:outline-primary">
         {{-- toolbar --}}
         <div class="flex flex-wrap gap-0.5 px-2 py-1.5 border-b border-base-300 bg-base-200 rounded-t-btn">
-            <button type="button" title="Negrita"
-                @click="exec('bold')"
-                :class="isActive('bold') ? 'btn-active' : ''"
+            <button type="button" title="Negrita" @click="exec('bold')" :class="isActive('bold') ? 'btn-active' : ''"
                 class="btn btn-ghost btn-xs font-bold">B</button>
 
-            <button type="button" title="Cursiva"
-                @click="exec('italic')"
-                :class="isActive('italic') ? 'btn-active' : ''"
-                class="btn btn-ghost btn-xs italic">I</button>
+            <button type="button" title="Cursiva" @click="exec('italic')"
+                :class="isActive('italic') ? 'btn-active' : ''" class="btn btn-ghost btn-xs italic">I</button>
 
-            <button type="button" title="Subrayado"
-                @click="exec('underline')"
-                :class="isActive('underline') ? 'btn-active' : ''"
-                class="btn btn-ghost btn-xs underline">U</button>
+            <button type="button" title="Subrayado" @click="exec('underline')"
+                :class="isActive('underline') ? 'btn-active' : ''" class="btn btn-ghost btn-xs underline">U</button>
 
             <div class="w-px bg-base-300 mx-1 self-stretch"></div>
 
-            <button type="button" title="Encabezado H2"
-                @click="formatBlock('h2')"
-                :class="isBlock('h2') ? 'btn-active' : ''"
-                class="btn btn-ghost btn-xs font-bold">H2</button>
+            <button type="button" title="Encabezado H2" @click="formatBlock('h2')"
+                :class="isBlock('h2') ? 'btn-active' : ''" class="btn btn-ghost btn-xs font-bold">H2</button>
 
-            <button type="button" title="Encabezado H3"
-                @click="formatBlock('h3')"
-                :class="isBlock('h3') ? 'btn-active' : ''"
-                class="btn btn-ghost btn-xs font-bold">H3</button>
+            <button type="button" title="Encabezado H3" @click="formatBlock('h3')"
+                :class="isBlock('h3') ? 'btn-active' : ''" class="btn btn-ghost btn-xs font-bold">H3</button>
 
-            <button type="button" title="Cita"
-                @click="formatBlock('blockquote')"
+            <button type="button" title="Cita" @click="formatBlock('blockquote')"
                 :class="isBlock('blockquote') ? 'btn-active' : ''"
                 class="btn btn-ghost btn-xs font-serif text-base leading-none">&ldquo;</button>
 
-            <button type="button" title="Bloque de código"
-                @click="formatBlock('pre')"
-                :class="isBlock('pre') ? 'btn-active' : ''"
-                class="btn btn-ghost btn-xs font-mono text-xs">&lt;/&gt;</button>
-
             <div class="w-px bg-base-300 mx-1 self-stretch"></div>
 
-            <button type="button" title="Lista sin orden"
-                @click="exec('insertUnorderedList')"
-                :class="isActive('insertUnorderedList') ? 'btn-active' : ''"
-                class="btn btn-ghost btn-xs">
+            <button type="button" title="Lista sin orden" @click="exec('insertUnorderedList')"
+                :class="isActive('insertUnorderedList') ? 'btn-active' : ''" class="btn btn-ghost btn-xs">
                 <i class="icofont-listing-number" aria-hidden="true"></i>
             </button>
 
-            <button type="button" title="Lista ordenada"
-                @click="exec('insertOrderedList')"
-                :class="isActive('insertOrderedList') ? 'btn-active' : ''"
-                class="btn btn-ghost btn-xs">
+            <button type="button" title="Lista ordenada" @click="exec('insertOrderedList')"
+                :class="isActive('insertOrderedList') ? 'btn-active' : ''" class="btn btn-ghost btn-xs">
                 <i class="icofont-listing-box" aria-hidden="true"></i>
             </button>
 
             <div class="w-px bg-base-300 mx-1 self-stretch"></div>
 
-            <button type="button" title="Insertar enlace"
-                @click="insertLink()"
-                class="btn btn-ghost btn-xs">
-                <i class="icofont-link" aria-hidden="true"></i>
+            <button type="button" title="Alinear izquierda" @click="exec('justifyLeft')"
+                :class="isActive('justifyLeft') ? 'btn-active' : ''" class="btn btn-ghost btn-xs">
+                <i class="icofont-align-left" aria-hidden="true"></i>
             </button>
 
-            <button type="button" title="Limpiar formato"
-                @click="clearFormat()"
+            <button type="button" title="Centrar" @click="exec('justifyCenter')"
+                :class="isActive('justifyCenter') ? 'btn-active' : ''" class="btn btn-ghost btn-xs">
+                <i class="icofont-align-center" aria-hidden="true"></i>
+            </button>
+
+            <button type="button" title="Alinear derecha" @click="exec('justifyRight')"
+                :class="isActive('justifyRight') ? 'btn-active' : ''" class="btn btn-ghost btn-xs">
+                <i class="icofont-align-right" aria-hidden="true"></i>
+            </button>
+
+            <button type="button" title="Justificar" @click="exec('justifyFull')"
+                :class="isActive('justifyFull') ? 'btn-active' : ''" class="btn btn-ghost btn-xs">
+                <i class="icofont-justify-all" aria-hidden="true"></i>
+            </button>
+
+            <div class="w-px bg-base-300 mx-1 self-stretch"></div>
+
+            <button type="button" title="Limpiar formato" @click="clearFormat()"
                 class="btn btn-ghost btn-xs text-error">
                 <i class="icofont-eraser" aria-hidden="true"></i>
             </button>
         </div>
 
         {{-- editable area --}}
-        <div
-            x-ref="editable"
-            contenteditable="true"
-            @input="onInput()"
-            @focus="focused = true"
-            @blur="focused = false"
-            style="min-height: {{ $rows * 1.6 }}rem;"
-            class="px-3 py-2 prose prose-sm max-w-none outline-none"
-        ></div>
+        <div x-ref="editable" contenteditable="true" @input="onInput()" @focus="focused = true" @blur="focused = false"
+            style="min-height: {{ $rows * 1.6 }}rem;" class="px-3 py-2 prose prose-sm max-w-none outline-none"></div>
     </div>
 
     {{-- hidden input sent with the form --}}

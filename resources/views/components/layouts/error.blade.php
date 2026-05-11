@@ -1,12 +1,19 @@
 @props(['title' => 'Error'])
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title }} · CIFO La Violeta</title>
     <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         :root {
             --color-primary: oklch(46.9% 0.152 301.7);
@@ -69,7 +76,9 @@
         }
 
         @media (min-width: 640px) {
-            .error-buttons { flex-direction: row; }
+            .error-buttons {
+                flex-direction: row;
+            }
         }
 
         .btn {
@@ -88,7 +97,9 @@
             flex: 1;
         }
 
-        .btn:hover { opacity: 0.85; }
+        .btn:hover {
+            opacity: 0.85;
+        }
 
         .btn-primary {
             background: var(--color-primary);
@@ -102,9 +113,11 @@
         }
     </style>
 </head>
+
 <body>
     <div class="error-card">
         {{ $slot }}
     </div>
 </body>
+
 </html>

@@ -64,7 +64,7 @@ class DashboardController extends Controller
                 'icon' => 'icofont-ui-user',
                 'color' => 'success',
                 'trend' => null,
-                'trend_label' => 'registros en ' . $now->translatedFormat('F'),
+                'trend_label' => 'registros en '.$now->translatedFormat('F'),
             ],
         ];
 

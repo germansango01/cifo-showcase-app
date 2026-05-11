@@ -13,7 +13,7 @@ class LocaleController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'locale' => ['required', 'string', 'in:' . implode(',', self::SUPPORTED)],
+            'locale' => ['required', 'string', 'in:'.implode(',', self::SUPPORTED)],
         ]);
 
         $request->user()->update(['locale' => $validated['locale']]);

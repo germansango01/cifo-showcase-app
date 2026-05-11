@@ -1,58 +1,472 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📒 SHOWCASE — Plataforma de Portafolios Institucionales
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Curs Confecció i Publicació de Pàgines Web 2026
 
-## About Laravel
+### CIFO Barcelona La Violeta
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🎯 Descripción
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+SHOWCASE es una plataforma web desarrollada para la gestión y publicación de proyectos académicos realizados por alumnos del CIFO.
 
-## Learning Laravel
+![Dashboard WebApp](./images/Dashboard.png)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+La aplicación combina:
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```text
+✔ Portal público institucional
+✔ Repositorio digital de proyectos
+✔ Escaparate profesional para estudiantes
+✔ WebApp administrativa de gestión de contenido
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+El objetivo principal es evitar la pérdida del patrimonio intelectual generado durante cada promoción académica, permitiendo conservar, organizar y publicar los trabajos finales realizados por los alumnos.
 
-## Contributing
+La plataforma busca conectar:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```text
+formación + visibilidad profesional + empleabilidad
+```
 
-## Code of Conduct
+Además, proporciona al centro educativo un sistema centralizado para mantener un histórico digital e institucional de los proyectos desarrollados.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## 🧠 Objetivo del proyecto
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Este proyecto tiene un enfoque académico y formativo, desarrollado como trabajo final del curso:
 
-## License
+```text
+Confecció i Publicació de Pàgines Web
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Realizado en:
+
+```text
+CIFO Barcelona La Violeta
+Barcelona - España
+Dic 2025 → May 2026
+```
+
+El proyecto busca poner en práctica los conocimientos adquiridos durante el curso, integrando tecnologías modernas de desarrollo web y aplicando conceptos utilizados en aplicaciones reales.
+
+---
+
+## 🧩 Tecnologías utilizadas
+
+```text
+Frontend
+```
+
+- HTML5
+- CSS3
+- JavaScript
+- TailwindCSS
+- DaisyUI
+
+```text
+Backend
+```
+
+- PHP
+- Laravel
+
+```text
+Base de datos
+```
+
+- MariaDB
+
+---
+
+## ✨ Funcionalidades principales
+
+La plataforma incorpora funcionalidades tanto públicas como administrativas.
+
+### 🌐 Portal público
+
+- navegación multiidioma
+- selector Catalán / Español
+- detección automática del idioma del navegador
+- listado de proyectos
+- filtros y ordenamiento
+- paginación
+- modo día/noche
+- diseño responsive
+- sliders de imágenes
+- modales y componentes UI modernos
+
+---
+
+### 🔐 WebApp administrativa
+
+```text
+✔ Registro de usuarios
+✔ Login
+✔ Confirmación vía correo electrónico
+✔ Gestión de perfiles
+✔ Roles y permisos
+✔ CRUDs completos
+✔ Dashboard administrativo
+✔ Gestión dinámica de contenido
+✔ Subida de imágenes
+✔ Gestión de archivos asociados a proyectos
+✔ Enlaces externos y documentación
+```
+
+---
+
+## 🧠 Arquitectura del proyecto
+
+La aplicación utiliza arquitectura:
+
+```text
+MVC (Model - View - Controller)
+```
+
+Aplicando principios de:
+
+- separación de responsabilidades
+- reutilización de componentes
+- modularidad
+- mantenimiento escalable
+- organización por capas
+
+---
+
+## 🗂️ Estructura del proyecto
+
+```text
+.
+├── app
+│   ├── Actions
+│   │   └── Fortify
+│   ├── Enums
+│   ├── Http
+│   │   ├── Controllers
+│   │   │   ├── Admin
+│   │   │   └── Front
+│   │   ├── Middleware
+│   │   └── Requests
+│   ├── Models
+│   ├── Providers
+│   └── View
+│       └── Components
+│           └── Admin
+├── database
+│   ├── factories
+│   ├── migrations
+│   └── seeders
+├── lang
+│   ├── ca
+│   └── es
+├── routes
+└── storage
+    ├── app
+    ├── framework
+    ├── logs
+    └── media-library
+```
+
+---
+
+## 🗃️ Base de datos
+
+### Tablas principales
+
+```text
+categories
+course_teacher
+courses
+media
+project_files
+project_student
+project_tag
+projects
+students
+tags
+teachers
+users
+```
+
+---
+
+## 🔗 Relaciones de la base de datos
+
+![CifoBD E-R](./images/cifobd.png)
+
+---
+
+## ⚙️ Instalación
+
+### 1. Preparar entorno
+
+Descargar y descomprimir el proyecto.
+
+Instalar:
+
+- XAMPP (Apache + MySQL/MariaDB)
+- PHP Composer
+- NodeJS
+
+---
+
+### 2. Configurar variables de entorno
+
+Crear archivo:
+
+```text
+.env
+```
+
+A partir de:
+
+```text
+.env.example
+```
+
+Configurar:
+
+- conexión a base de datos
+- parámetros del servidor Apache
+- URL base de la aplicación
+
+---
+
+### 3. Generar dependencias y entorno Laravel
+
+Ejecutar:
+
+```bash
+php artisan key:generate
+composer update
+php artisan migrate:fresh --seed
+php artisan optimize:clear
+php artisan storage:link
+npm run build
+```
+
+---
+
+### 4. Acceder a la aplicación
+
+Abrir en navegador:
+
+```text
+https://localhost:8080/miapp.test/es
+```
+
+---
+
+## 🔐 Acceso por defecto
+
+```text
+Usuario: admin@cifo.com
+Password: admin123
+```
+
+---
+
+# 🧭 Flujo principal de la WebApp
+
+## 🔄 Navegación administrativa
+
+```text
+LOGIN
+   ↓
+DASHBOARD
+   ↓
+MENÚ ADMINISTRATIVO
+```
+
+---
+
+## 📂 Estructura funcional
+
+```text
+Administración
+│
+├── Usuarios
+│   ├── Listado (CRUD)
+│   └── Crear nuevo
+│
+├── Accesos
+│   ├── Roles (CRUD)
+│   └── Permisos (CRUD)
+│
+Contenido
+│
+├── Categorías
+│   ├── Listado (CRUD)
+│   └── Nuevo
+│
+├── Cursos
+│   ├── Listado (CRUD)
+│   └── Nuevo
+│
+├── Etiquetas
+│   ├── Listado (CRUD)
+│   └── Nuevo
+│
+├── Proyectos
+│   ├── Listado (CRUD)
+│   └── Nuevo
+│
+Personas
+│
+├── Estudiantes
+│   ├── Listado (CRUD)
+│   └── Nuevo
+│
+├── Profesores
+│   ├── Listado (CRUD)
+│   └── Nuevo
+│
+Cuenta
+│
+├── Mi perfil
+│
+└── Logout
+```
+
+---
+
+# 🌐 Flujo del portal público
+
+```text
+Inicio
+   ↓
+Explorar proyectos
+   ↓
+Filtrar / Buscar
+   ↓
+Ver detalle del proyecto
+   ↓
+Consultar archivos e información relacionada al CIFO
+```
+
+---
+
+## 🧩 Conceptos trabajados
+
+- arquitectura MVC
+- Laravel
+- Eloquent ORM
+- relaciones many-to-many
+- internacionalización (i18n)
+- autenticación y autorización
+- middleware
+- validaciones
+- CRUD completo
+- paginación
+- filtros dinámicos
+- componentes reutilizables
+- responsive design
+- gestión de archivos
+- organización modular
+- dashboards administrativos
+
+---
+
+## 🌍 Internacionalización
+
+La aplicación incorpora soporte multiidioma:
+
+```text
+✔ Catalán
+✔ Español
+✔ estructura preparada para Inglés
+```
+
+Utilizando:
+
+```text
+/lang
+```
+
+Como sistema centralizado de traducciones.
+
+---
+
+## 📁 Gestión multimedia
+
+La plataforma permite:
+
+- subida de imágenes
+- almacenamiento de archivos asociados a proyectos
+- gestión de recursos multimedia
+- enlaces externos
+- documentación complementaria
+
+---
+
+## 🎨 Interfaz y experiencia de usuario
+
+El frontend fue diseñado utilizando:
+
+- TailwindCSS
+- DaisyUI
+
+Incorporando:
+
+```text
+✔ diseño responsive
+✔ modo oscuro/claro
+✔ componentes modernos
+✔ navegación adaptable
+✔ interfaz administrativa organizada
+```
+
+---
+
+## 👥 Integrantes del proyecto
+
+```text
+Germán Contreras
+Franco Calderón
+```
+
+---
+
+## 👤 Asesor del Proyecto
+
+```text
+Profesor: Manel Plaza
+```
+
+---
+
+## 📸 Capturas del proyecto
+
+![Permisos segun Roles](./images/Permisos_segun_roles.png)
+![CRUD Proyectos](./images/Listado_CRUD_Proyectos.png)
+
+---
+
+## 🧠 Idea principal del proyecto
+
+```text
+SHOWCASE no es solamente una aplicación CRUD.
+
+Es una plataforma diseñada para preservar,
+organizar y visibilizar el trabajo académico
+realizado por los estudiantes del CIFO.
+```
+
+---
+
+## 🚀 Proyección
+
+La plataforma fue desarrollada con una estructura preparada para evolucionar hacia un entorno real de producción, permitiendo futuras mejoras como:
+
+- integración con APIs
+- búsqueda avanzada
+- perfiles públicos
+- analíticas
+- panel institucional
+- sistema de publicación automatizado
+- almacenamiento cloud
+- métricas de empleabilidad
+
+---

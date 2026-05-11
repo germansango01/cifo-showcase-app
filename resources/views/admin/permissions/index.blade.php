@@ -68,16 +68,19 @@
                                         <td>
                                             <div class="flex flex-wrap gap-1">
                                                 @forelse($permission->roles as $role)
-                                                    <x-admin.ui.badge color="primary">{{ $role->name }}</x-admin.ui.badge>
+                                                    <x-admin.ui.badge
+                                                        color="primary">{{ $role->name }}</x-admin.ui.badge>
                                                 @empty
-                                                    <span class="text-sm opacity-40 italic">{{ __('admin.permissions.unassigned') }}</span>
+                                                    <span
+                                                        class="text-sm opacity-40 italic">{{ __('admin.permissions.unassigned') }}</span>
                                                 @endforelse
                                             </div>
                                         </td>
                                         <td class="text-right">
                                             <div class="flex items-center gap-1 justify-end">
                                                 @can('permissions.update')
-                                                    <div class="tooltip tooltip-left" data-tip="{{ __('admin.common.edit') }}">
+                                                    <div class="tooltip tooltip-left"
+                                                        data-tip="{{ __('admin.common.edit') }}">
                                                         <a href="{{ route('permissions.edit', $permission) }}"
                                                             class="btn btn-ghost btn-xs btn-square">
                                                             <i class="icofont-edit text-base text-warning"></i>
@@ -85,13 +88,15 @@
                                                     </div>
                                                 @endcan
                                                 @can('permissions.delete')
-                                                    <div class="tooltip tooltip-left" data-tip="{{ __('admin.common.delete') }}">
+                                                    <div class="tooltip tooltip-left"
+                                                        data-tip="{{ __('admin.common.delete') }}">
                                                         <button type="button" class="btn btn-ghost btn-xs btn-square"
                                                             onclick="document.getElementById('del-perm-{{ $permission->id }}').showModal()">
                                                             <i class="icofont-ui-delete text-base text-error"></i>
                                                         </button>
                                                     </div>
-                                                    <dialog id="del-perm-{{ $permission->id }}" class="modal modal-bottom sm:modal-middle">
+                                                    <dialog id="del-perm-{{ $permission->id }}"
+                                                        class="modal modal-bottom sm:modal-middle">
                                                         <div class="modal-box">
                                                             <h3 class="font-bold text-lg flex items-center gap-2">
                                                                 <i class="icofont-warning-alt text-warning text-2xl"></i>
@@ -102,9 +107,11 @@
                                                             </p>
                                                             <div class="modal-action gap-2">
                                                                 <form method="dialog">
-                                                                    <button class="btn btn-ghost">{{ __('admin.common.cancel') }}</button>
+                                                                    <button
+                                                                        class="btn btn-ghost">{{ __('admin.common.cancel') }}</button>
                                                                 </form>
-                                                                <form method="POST" action="{{ route('permissions.destroy', $permission) }}">
+                                                                <form method="POST"
+                                                                    action="{{ route('permissions.destroy', $permission) }}">
                                                                     @csrf
                                                                     @method('DELETE')
                                                                     <button type="submit" class="btn btn-error gap-2">
@@ -128,8 +135,8 @@
                     </div>
                 </div>
             </details>
-        @empty
-            <x-admin.ui.empty-state icon="icofont-key" :message="__('admin.permissions.empty')" />
-        @endforelse
-    </div>
-</x-layouts.admin>
+            @empty
+                <x-admin.ui.empty-state icon="icofont-key" :message="__('admin.permissions.empty')" />
+            @endforelse
+        </div>
+    </x-layouts.admin>

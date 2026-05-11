@@ -35,10 +35,8 @@
                 <i class="icofont-warning-alt"></i> {{ $message }}
             </span>
         @else
-            <span x-cloak
-                  x-show="$data.form?.invalid('{{ $name }}')"
-                  x-text="$data.form?.errors?.{{ $name }} ?? ''"
-                  class="text-error flex items-center gap-1"></span>
+            <span x-cloak x-show="$data.form?.invalid('{{ $name }}')"
+                x-text="$data.form?.errors?.{{ $name }} ?? ''" class="text-error flex items-center gap-1"></span>
             @if ($help)
                 <span x-show="!($data.form?.invalid('{{ $name }}') ?? false)">{{ $help }}</span>
             @endif

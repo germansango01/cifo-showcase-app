@@ -11,17 +11,15 @@
     </div>
 
     <x-admin.ui.card class="max-w-lg">
-        <form method="POST" action="{{ route('tags.store') }}" novalidate
-            x-data="{
-                form: $form('post', '{{ route('tags.store') }}', {
-                    name: { es: '', ca: '' }
-                })
-            }"
+        <form method="POST" action="{{ route('tags.store') }}" novalidate x-data="{
+            form: $form('post', '{{ route('tags.store') }}', {
+                name: { es: '', ca: '' }
+            })
+        }"
             @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('tags.index') }}' })">
             @csrf
 
-            <x-admin.ui.translatable-input name="name" :label="__('admin.tags.name')"
-                icon="icofont-price" :placeholder="__('admin.tags.name_placeholder')"
+            <x-admin.ui.translatable-input name="name" :label="__('admin.tags.name')" icon="icofont-price" :placeholder="__('admin.tags.name_placeholder')"
                 :required="true" form-var="form" />
 
             <div class="flex justify-end gap-2 mt-8 pt-4 border-t border-base-300">

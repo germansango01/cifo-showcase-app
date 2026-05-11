@@ -24,43 +24,38 @@
         <x-admin.ui.card>
 
             <x-admin.table.filters :action="route('admin.projects.index')" :search-placeholder="__('admin.projects.search_placeholder')">
-                <x-admin.ui.select
-                    name="status"
-                    :options="collect(['draft', 'pending', 'published', 'rejected'])->mapWithKeys(fn ($s) => [$s => __('admin.projects.status_' . $s)])->toArray()"
-                    :selected="request('status')"
-                    :placeholder="__('admin.projects.filter_status_all')"
+                <x-admin.ui.select name="status" :options="collect(['draft', 'pending', 'published', 'rejected'])
+                    ->mapWithKeys(fn($s) => [$s => __('admin.projects.status_' . $s)])
+                    ->toArray()" :selected="request('status')" :placeholder="__('admin.projects.filter_status_all')"
                     onchange="this.form.submit()" />
 
-                <x-admin.ui.select
-                    name="course"
-                    :options="$courses->mapWithKeys(fn ($c) => [$c->id => $c->course_code . ' – ' . $c->name])->toArray()"
-                    :selected="request('course')"
-                    :placeholder="__('admin.projects.filter_course_all')"
+                <x-admin.ui.select name="course" :options="$courses->mapWithKeys(fn($c) => [$c->id => $c->course_code . ' – ' . $c->name])->toArray()" :selected="request('course')" :placeholder="__('admin.projects.filter_course_all')"
                     onchange="this.form.submit()" />
             </x-admin.table.filters>
 
             <x-admin.table.index :items="$projects" :columns="[
-                ['label' => __('admin.projects.col_title'),  'key' => null,           'sortable' => false],
-                ['label' => __('admin.projects.col_course'), 'key' => null,           'sortable' => false],
-                ['label' => __('admin.projects.col_status'), 'key' => 'status',       'sortable' => true],
-                ['label' => __('admin.projects.col_date'),   'key' => 'project_date', 'sortable' => true],
-                ['label' => '',                              'key' => null,           'sortable' => false],
+                ['label' => __('admin.projects.col_title'), 'key' => null, 'sortable' => false],
+                ['label' => __('admin.projects.col_course'), 'key' => null, 'sortable' => false],
+                ['label' => __('admin.projects.col_status'), 'key' => 'status', 'sortable' => true],
+                ['label' => __('admin.projects.col_date'), 'key' => 'project_date', 'sortable' => true],
+                ['label' => '', 'key' => null, 'sortable' => false],
             ]">
 
                 @foreach ($projects as $project)
                     @php
-                        $statusColor = match($project->status) {
+                        $statusColor = match ($project->status) {
                             'published' => 'success',
-                            'pending'   => 'warning',
-                            'rejected'  => 'error',
-                            default     => 'neutral',
+                            'pending' => 'warning',
+                            'rejected' => 'error',
+                            default => 'neutral',
                         };
                     @endphp
                     <tr class="hover">
                         <td>
                             <div class="flex items-center gap-2">
                                 @if ($project->featured)
-                                    <i class="icofont-star text-warning text-sm" title="{{ __('admin.projects.featured') }}"></i>
+                                    <i class="icofont-star text-warning text-sm"
+                                        title="{{ __('admin.projects.featured') }}"></i>
                                 @endif
                                 <span class="font-medium text-sm">{{ $project->title }}</span>
                             </div>
@@ -89,14 +84,15 @@
                         <td class="text-right">
                             <div class="flex justify-end gap-1">
                                 @can('projects.view')
-                                    <a href="{{ route('admin.projects.show', $project) }}" class="btn btn-ghost btn-xs btn-square"
-                                        title="{{ __('admin.common.view') }}">
+                                    <a href="{{ route('admin.projects.show', $project) }}"
+                                        class="btn btn-ghost btn-xs btn-square" title="{{ __('admin.common.view') }}">
                                         <i class="icofont-eye text-info text-base"></i>
                                     </a>
                                 @endcan
 
                                 @can('projects.update')
-                                    <a href="{{ route('admin.projects.edit', $project) }}" class="btn btn-ghost btn-xs btn-square">
+                                    <a href="{{ route('admin.projects.edit', $project) }}"
+                                        class="btn btn-ghost btn-xs btn-square">
                                         <i class="icofont-edit text-warning text-base"></i>
                                     </a>
                                 @endcan

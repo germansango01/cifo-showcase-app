@@ -24,27 +24,24 @@
         <x-admin.ui.card>
 
             <x-admin.table.filters :action="route('courses.index')" :search-placeholder="__('admin.courses.search_placeholder')">
-                <x-admin.ui.select
-                    name="category"
-                    :options="$categories->pluck('name', 'id')->toArray()"
-                    :selected="request('category')"
-                    :placeholder="__('admin.courses.category_placeholder')"
+                <x-admin.ui.select name="category" :options="$categories->pluck('name', 'id')->toArray()" :selected="request('category')" :placeholder="__('admin.courses.category_placeholder')"
                     onchange="this.form.submit()" />
             </x-admin.table.filters>
 
             <x-admin.table.index :items="$courses" :columns="[
-                ['label' => __('admin.courses.col_code'),     'key' => 'course_code', 'sortable' => true],
-                ['label' => __('admin.courses.col_name'),     'key' => null,          'sortable' => false],
-                ['label' => __('admin.courses.col_category'), 'key' => null,          'sortable' => false],
-                ['label' => __('admin.courses.col_projects'), 'key' => null,          'sortable' => false],
-                ['label' => __('admin.common.created_at'),    'key' => 'created_at',  'sortable' => true],
-                ['label' => '',                               'key' => null,          'sortable' => false],
+                ['label' => __('admin.courses.col_code'), 'key' => 'course_code', 'sortable' => true],
+                ['label' => __('admin.courses.col_name'), 'key' => null, 'sortable' => false],
+                ['label' => __('admin.courses.col_category'), 'key' => null, 'sortable' => false],
+                ['label' => __('admin.courses.col_projects'), 'key' => null, 'sortable' => false],
+                ['label' => __('admin.common.created_at'), 'key' => 'created_at', 'sortable' => true],
+                ['label' => '', 'key' => null, 'sortable' => false],
             ]">
 
                 @foreach ($courses as $course)
                     <tr class="hover">
                         <td>
-                            <code class="text-xs font-mono bg-base-200 px-2 py-0.5 rounded">{{ $course->course_code }}</code>
+                            <code
+                                class="text-xs font-mono bg-base-200 px-2 py-0.5 rounded">{{ $course->course_code }}</code>
                         </td>
 
                         <td>

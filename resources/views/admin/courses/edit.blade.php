@@ -1,7 +1,7 @@
 <x-layouts.admin :title="__('admin.courses.edit') . ' · ' . $course->course_code">
     <x-admin.ui.breadcrumb :items="[
-        ['label' => __('admin.nav.dashboard'),  'href' => route('dashboard')],
-        ['label' => __('admin.courses.title'),  'href' => route('courses.index')],
+        ['label' => __('admin.nav.dashboard'), 'href' => route('dashboard')],
+        ['label' => __('admin.courses.title'), 'href' => route('courses.index')],
         ['label' => $course->course_code],
         ['label' => __('admin.common.edit')],
     ]" />
@@ -14,46 +14,29 @@
     </div>
 
     <x-admin.ui.card class="max-w-lg">
-        <form method="POST" action="{{ route('courses.update', $course) }}" novalidate
-            x-data="{
-                form: $form('patch', '{{ route('courses.update', $course) }}', {
-                    category_id: @js($course->category_id),
-                    course_code: @js($course->course_code),
-                    name: {
-                        es: @js($course->getTranslation('name', 'es', false)),
-                        ca: @js($course->getTranslation('name', 'ca', false))
-                    }
-                })
-            }"
+        <form method="POST" action="{{ route('courses.update', $course) }}" novalidate x-data="{
+            form: $form('patch', '{{ route('courses.update', $course) }}', {
+                category_id: @js($course->category_id),
+                course_code: @js($course->course_code),
+                name: {
+                    es: @js($course->getTranslation('name', 'es', false)),
+                    ca: @js($course->getTranslation('name', 'ca', false))
+                }
+            })
+        }"
             @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('courses.index') }}' })">
             @csrf
             @method('PATCH')
 
-            <x-admin.ui.select
-                name="category_id"
-                :label="__('admin.courses.category')"
-                icon="icofont-folder"
-                :options="$categoryOptions"
-                :placeholder="__('admin.courses.category_placeholder')"
-                :selected="$course->category_id"
-                :required="true"
-                x-model="form.category_id"
+            <x-admin.ui.select name="category_id" :label="__('admin.courses.category')" icon="icofont-folder" :options="$categoryOptions"
+                :placeholder="__('admin.courses.category_placeholder')" :selected="$course->category_id" :required="true" x-model="form.category_id"
                 @change="form.validate('category_id')" />
 
-            <x-admin.ui.input
-                name="course_code"
-                :label="__('admin.courses.code')"
-                icon="icofont-tag"
-                :value="$course->course_code"
-                :required="true"
-                x-model="form.course_code"
-                @change="form.validate('course_code')" />
+            <x-admin.ui.input name="course_code" :label="__('admin.courses.code')" icon="icofont-tag" :value="$course->course_code"
+                :required="true" x-model="form.course_code" @change="form.validate('course_code')" />
 
-            <x-admin.ui.translatable-input name="name" :label="__('admin.courses.name')"
-                icon="icofont-book-alt" :required="true"
-                :value-es="old('name.es', $course->getTranslation('name', 'es', false))"
-                :value-ca="old('name.ca', $course->getTranslation('name', 'ca', false))"
-                form-var="form" />
+            <x-admin.ui.translatable-input name="name" :label="__('admin.courses.name')" icon="icofont-book-alt" :required="true"
+                :value-es="old('name.es', $course->getTranslation('name', 'es', false))" :value-ca="old('name.ca', $course->getTranslation('name', 'ca', false))" form-var="form" />
 
             <div class="mt-4 flex flex-wrap gap-x-6 gap-y-1 text-xs opacity-50">
                 <span><i class="icofont-calendar"></i> {{ __('admin.common.created_at') }}:

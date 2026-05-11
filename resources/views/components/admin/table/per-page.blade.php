@@ -16,10 +16,9 @@
         @endif
     @endforeach
 
-    <label for="per_page_select" class="text-sm opacity-70 whitespace-nowrap shrink-0">{{ __('admin.common.per_page') }}:</label>
-    <select id="per_page_select" name="per_page"
-            class="select select-sm select-bordered"
-            onchange="this.form.submit()">
+    <label for="per_page_select"
+        class="text-sm opacity-70 whitespace-nowrap shrink-0">{{ __('admin.common.per_page') }}:</label>
+    <select id="per_page_select" name="per_page" class="select select-sm select-bordered" onchange="this.form.submit()">
         @foreach ($options as $option)
             <option value="{{ $option }}" @selected((int) $current === $option)>{{ $option }}</option>
         @endforeach

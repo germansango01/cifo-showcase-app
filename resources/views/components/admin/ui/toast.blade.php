@@ -1,5 +1,4 @@
-<div class="toast toast-end toast-bottom z-9999 fixed pointer-events-none"
-    x-data="{ toasts: [] }"
+<div class="toast toast-end toast-bottom z-9999 fixed pointer-events-none" x-data="{ toasts: [] }"
     @toast.window="
         const t = $event.detail;
         toasts.push(t);

@@ -22,7 +22,7 @@ class Actions extends Component
     /** Unique modal ID derived from deleteId or a random fallback. */
     public function modalId(): string
     {
-        return 'delete-modal-' . ($this->deleteId ?? uniqid());
+        return 'delete-modal-'.($this->deleteId ?? uniqid());
     }
 
     /**

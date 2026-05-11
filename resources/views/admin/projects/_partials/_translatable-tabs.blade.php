@@ -11,8 +11,8 @@
 @php
     $titleEs ??= old('title.es', $model?->getTranslation('title', 'es', false) ?? '');
     $titleCa ??= old('title.ca', $model?->getTranslation('title', 'ca', false) ?? '');
-    $descEs  ??= old('description.es', $model?->getTranslation('description', 'es', false) ?? '');
-    $descCa  ??= old('description.ca', $model?->getTranslation('description', 'ca', false) ?? '');
+    $descEs ??= old('description.es', $model?->getTranslation('description', 'es', false) ?? '');
+    $descCa ??= old('description.ca', $model?->getTranslation('description', 'ca', false) ?? '');
 
     $hasEsError = $errors->hasAny(['title.es', 'description.es']);
     $hasCaError = $errors->hasAny(['title.ca', 'description.ca']);
@@ -35,8 +35,8 @@
             </legend>
             <label class="input input-bordered w-full flex items-center gap-2 @error('title.es') input-error @enderror">
                 <i class="icofont-heading opacity-60"></i>
-                <input type="text" name="title[es]" id="title_es"
-                    value="{{ $titleEs }}" required class="grow" />
+                <input type="text" name="title[es]" id="title_es" value="{{ $titleEs }}" required
+                    class="grow" />
             </label>
             @error('title.es')
                 <p class="fieldset-label text-error flex items-center gap-1">
@@ -45,11 +45,7 @@
             @enderror
         </fieldset>
 
-        <x-admin.ui.rich-editor
-            name="description[es]"
-            id="description_es"
-            :value="$descEs"
-            :label="__('admin.projects.description')"
+        <x-admin.ui.rich-editor name="description[es]" id="description_es" :value="$descEs" :label="__('admin.projects.description')"
             :rows="8" />
     </div>
 
@@ -68,8 +64,8 @@
             </legend>
             <label class="input input-bordered w-full flex items-center gap-2 @error('title.ca') input-error @enderror">
                 <i class="icofont-heading opacity-60"></i>
-                <input type="text" name="title[ca]" id="title_ca"
-                    value="{{ $titleCa }}" required class="grow" />
+                <input type="text" name="title[ca]" id="title_ca" value="{{ $titleCa }}" required
+                    class="grow" />
             </label>
             @error('title.ca')
                 <p class="fieldset-label text-error flex items-center gap-1">
@@ -78,11 +74,7 @@
             @enderror
         </fieldset>
 
-        <x-admin.ui.rich-editor
-            name="description[ca]"
-            id="description_ca"
-            :value="$descCa"
-            :label="__('admin.projects.description')"
+        <x-admin.ui.rich-editor name="description[ca]" id="description_ca" :value="$descCa" :label="__('admin.projects.description')"
             :rows="8" />
     </div>
 

@@ -26,11 +26,11 @@
             <x-admin.table.filters :action="route('tags.index')" :search-placeholder="__('admin.tags.search_placeholder')" />
 
             <x-admin.table.index :items="$tags" :columns="[
-                ['label' => __('admin.tags.col_name'),     'key' => null,        'sortable' => false],
-                ['label' => __('admin.tags.col_slug'),     'key' => null,        'sortable' => false],
-                ['label' => __('admin.tags.col_projects'), 'key' => null,        'sortable' => false],
-                ['label' => __('admin.common.created_at'), 'key' => 'created_at','sortable' => true],
-                ['label' => '',                            'key' => null,        'sortable' => false],
+                ['label' => __('admin.tags.col_name'), 'key' => null, 'sortable' => false],
+                ['label' => __('admin.tags.col_slug'), 'key' => null, 'sortable' => false],
+                ['label' => __('admin.tags.col_projects'), 'key' => null, 'sortable' => false],
+                ['label' => __('admin.common.created_at'), 'key' => 'created_at', 'sortable' => true],
+                ['label' => '', 'key' => null, 'sortable' => false],
             ]">
 
                 @foreach ($tags as $tag)

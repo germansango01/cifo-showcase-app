@@ -4,7 +4,7 @@
  * Adds .is-visible to elements with .reveal or .stagger > children.
  */
 
-const REVEAL_SELECTOR  = '.reveal';
+const REVEAL_SELECTOR = '.reveal';
 const STAGGER_SELECTOR = '.stagger > *';
 
 const observer = new IntersectionObserver(

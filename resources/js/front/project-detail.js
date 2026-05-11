@@ -14,10 +14,10 @@ if (carousel) {
     if (images && images.length) {
         // ── Self-contained carousel for the detail page ───────────────
 
-        const track     = carousel.querySelector('.carousel-track');
-        const dots      = carousel.querySelector('.carousel-dots');
-        const btnPrev   = carousel.querySelector('[data-direction="prev"]');
-        const btnNext   = carousel.querySelector('[data-direction="next"]');
+        const track = carousel.querySelector('.carousel-track');
+        const dots = carousel.querySelector('.carousel-dots');
+        const btnPrev = carousel.querySelector('[data-direction="prev"]');
+        const btnNext = carousel.querySelector('[data-direction="next"]');
 
         let current = 0;
         const total = images.length;

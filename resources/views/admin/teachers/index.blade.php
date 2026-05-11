@@ -26,11 +26,11 @@
             <x-admin.table.filters :action="route('teachers.index')" :search-placeholder="__('admin.teachers.search_placeholder')" />
 
             <x-admin.table.index :items="$teachers" :columns="[
-                ['label' => __('admin.teachers.col_name'),    'key' => 'name',       'sortable' => true],
-                ['label' => __('admin.teachers.col_email'),   'key' => 'email',      'sortable' => true],
-                ['label' => __('admin.teachers.col_courses'), 'key' => null,         'sortable' => false],
-                ['label' => __('admin.common.created_at'),    'key' => 'created_at', 'sortable' => true],
-                ['label' => '',                               'key' => null,         'sortable' => false],
+                ['label' => __('admin.teachers.col_name'), 'key' => 'name', 'sortable' => true],
+                ['label' => __('admin.teachers.col_email'), 'key' => 'email', 'sortable' => true],
+                ['label' => __('admin.teachers.col_courses'), 'key' => null, 'sortable' => false],
+                ['label' => __('admin.common.created_at'), 'key' => 'created_at', 'sortable' => true],
+                ['label' => '', 'key' => null, 'sortable' => false],
             ]">
 
                 @foreach ($teachers as $teacher)
@@ -56,7 +56,8 @@
                         <td class="text-right">
                             <div class="flex justify-end gap-1">
                                 @can('teachers.update')
-                                    <a href="{{ route('teachers.edit', $teacher) }}" class="btn btn-ghost btn-xs btn-square">
+                                    <a href="{{ route('teachers.edit', $teacher) }}"
+                                        class="btn btn-ghost btn-xs btn-square">
                                         <i class="icofont-edit text-warning text-base"></i>
                                     </a>
                                 @endcan

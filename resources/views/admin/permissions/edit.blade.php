@@ -13,18 +13,15 @@
     </div>
 
     <x-admin.ui.card class="max-w-lg">
-        <form method="POST" action="{{ route('permissions.update', $permission) }}">
+        <form method="POST" action="{{ route('permissions.update', $permission) }}" novalidate x-data="{
+            form: $form('patch', '{{ route('permissions.update', $permission) }}', { name: @js($permission->name) })
+        }"
+            @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('permissions.index') }}' })">
             @csrf
-            @method('PUT')
+            @method('PATCH')
 
-            <x-admin.ui.input
-                name="name"
-                :label="__('admin.permissions.name')"
-                icon="icofont-key"
-                :placeholder="__('admin.permissions.name_placeholder')"
-                :value="old('name', $permission->name)"
-                :required="true"
-                :help="__('admin.permissions.name_help')" />
+            <x-admin.ui.input name="name" :label="__('admin.permissions.name')" icon="icofont-key" :placeholder="__('admin.permissions.name_placeholder')" :value="$permission->name"
+                :required="true" :help="__('admin.permissions.name_help')" x-model="form.name" @change="form.validate('name')" />
 
             <div class="flex justify-end gap-2 mt-6">
                 <x-admin.ui.button :ghost="true" :href="route('permissions.index')">

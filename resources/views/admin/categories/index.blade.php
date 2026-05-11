@@ -27,11 +27,11 @@
             <x-admin.table.filters :action="route('categories.index')" :search-placeholder="__('admin.categories.search_placeholder')" />
 
             <x-admin.table.index :items="$categories" :columns="[
-                ['label' => __('admin.categories.col_name'),    'key' => null,         'sortable' => false],
+                ['label' => __('admin.categories.col_name'), 'key' => null, 'sortable' => false],
                 // ['label' => __('admin.categories.col_icon'),    'key' => null,         'sortable' => false],
-                ['label' => __('admin.categories.col_courses'), 'key' => null,         'sortable' => false],
-                ['label' => __('admin.common.created_at'),      'key' => 'created_at', 'sortable' => true],
-                ['label' => '',                                 'key' => null,         'sortable' => false],
+                ['label' => __('admin.categories.col_courses'), 'key' => null, 'sortable' => false],
+                ['label' => __('admin.common.created_at'), 'key' => 'created_at', 'sortable' => true],
+                ['label' => '', 'key' => null, 'sortable' => false],
             ]">
 
                 @foreach ($categories as $category)
@@ -56,7 +56,8 @@
                         <td class="text-right">
                             <div class="flex justify-end gap-1">
                                 @can('categories.update')
-                                    <a href="{{ route('categories.edit', $category) }}" class="btn btn-ghost btn-xs btn-square">
+                                    <a href="{{ route('categories.edit', $category) }}"
+                                        class="btn btn-ghost btn-xs btn-square">
                                         <i class="icofont-edit text-warning text-base"></i>
                                     </a>
                                 @endcan

@@ -12,8 +12,8 @@ class UserSeeder extends Seeder
     {
         // Crear usuario como Administrador
         $adminUser = User::factory()->create([
-            'name' => "Administrador",
-            'email' => "admin@cifo.com",
+            'name' => 'Administrador',
+            'email' => 'admin@cifo.com',
             'password' => Hash::make('admin123'),
             'locale' => 'es',
             'email_verified_at' => now(),
@@ -22,8 +22,8 @@ class UserSeeder extends Seeder
 
         // Crear usuario como Editor
         $editUser = User::factory()->create([
-            'name' => "Editor",
-            'email' => "editor@cifo.com",
+            'name' => 'Editor',
+            'email' => 'editor@cifo.com',
             'password' => Hash::make('editor123'),
             'locale' => 'ca',
         ]);

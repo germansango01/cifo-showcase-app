@@ -11,12 +11,11 @@ class Permission extends SpatiePermission
 
     /**
      * Los atributos que se pueden asignar masivamente.
+     *
      * * @var array<int, string>
      */
     protected $fillable = [
         'name',
         'guard_name',
     ];
-
-
 }

@@ -4,8 +4,8 @@
  */
 
 const toggle = document.querySelector('.menu-toggle');
-const nav    = document.getElementById('mobile-nav');
-const close  = document.querySelector('.mobile-close-btn');
+const nav = document.getElementById('mobile-nav');
+const close = document.querySelector('.mobile-close-btn');
 
 if (toggle && nav) {
     function openNav() {

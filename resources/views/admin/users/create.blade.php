@@ -19,7 +19,8 @@
                 password_confirmation: '',
                 roles: []
             })
-        }" @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('users.index') }}' })">
+        }"
+            @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('users.index') }}' })">
             @csrf
 
             {{-- Datos personales --}}
@@ -27,16 +28,14 @@
                 <x-admin.ui.input name="name" :label="__('admin.users.full_name')" icon="icofont-ui-user" :placeholder="__('admin.users.full_name')"
                     :required="true" x-model="form.name" @change="form.validate('name')" />
 
-                <x-admin.ui.input name="email" :label="__('admin.common.email')" type="email" icon="icofont-email"
-                    :placeholder="__('admin.users.email_placeholder')" :required="true" x-model="form.email"
-                    @change="form.validate('email')" />
+                <x-admin.ui.input name="email" :label="__('admin.common.email')" type="email" icon="icofont-email" :placeholder="__('admin.users.email_placeholder')"
+                    :required="true" x-model="form.email" @change="form.validate('email')" />
             </div>
 
             {{-- Contraseña --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                 <x-admin.ui.input name="password" :label="__('admin.common.password')" type="password" icon="icofont-lock"
-                    :placeholder="__('admin.users.password_placeholder')" :required="true" x-model="form.password"
-                    @change="form.validate('password')" />
+                    :placeholder="__('admin.users.password_placeholder')" :required="true" x-model="form.password" @change="form.validate('password')" />
 
                 <x-admin.ui.input name="password_confirmation" :label="__('admin.common.password_confirm')" type="password" icon="icofont-lock"
                     :placeholder="__('admin.users.password_confirm_placeholder')" :required="true" x-model="form.password_confirmation"

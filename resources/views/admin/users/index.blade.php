@@ -24,21 +24,16 @@
         <x-admin.ui.card>
 
             <x-admin.table.filters :action="route('users.index')" :search-placeholder="__('admin.users.search_placeholder')">
-                <x-admin.ui.select
-                    name="role"
-                    :options="$roles->pluck('name', 'name')->toArray()"
-                    :selected="request('role')"
-                    :placeholder="__('admin.users.all_roles')"
-                    class="w-full"
+                <x-admin.ui.select name="role" :options="$roles->pluck('name', 'name')->toArray()" :selected="request('role')" :placeholder="__('admin.users.all_roles')" class="w-full"
                     onchange="this.form.submit()" />
             </x-admin.table.filters>
 
             <x-admin.table.index :items="$users" :columns="[
-                ['label' => __('admin.users.col_user'),       'key' => 'name',       'sortable' => true],
-                ['label' => __('admin.users.col_email'),      'key' => 'email',      'sortable' => true],
-                ['label' => __('admin.users.col_roles'),      'key' => null,         'sortable' => false],
+                ['label' => __('admin.users.col_user'), 'key' => 'name', 'sortable' => true],
+                ['label' => __('admin.users.col_email'), 'key' => 'email', 'sortable' => true],
+                ['label' => __('admin.users.col_roles'), 'key' => null, 'sortable' => false],
                 ['label' => __('admin.users.col_registered'), 'key' => 'created_at', 'sortable' => true],
-                ['label' => '',                               'key' => null,         'sortable' => false],
+                ['label' => '', 'key' => null, 'sortable' => false],
             ]">
 
                 @foreach ($users as $user)
