@@ -25,20 +25,36 @@ if (modal) {
     function populateModal(project) {
         const cycleSlug = (project.cycle ?? '').toLowerCase();
 
-        elBadges.innerHTML = `
-        <span class="badge" data-cycle="${cycleSlug}">${project.cycleName || project.cycle || ''}</span>
-        <span class="badge" data-type="year">${project.year || ''}</span>`;
+        const categoryBadge = project.categoryName
+            ? `<span class="badge" data-type="category">${project.categoryName}</span>`
+            : '';
+        const courseBadge = project.cycleName || project.cycle
+            ? `<span class="badge" data-cycle="${cycleSlug}">${project.cycleName || project.cycle}</span>`
+            : '';
+        const yearBadge = project.year
+            ? `<span class="badge" data-type="year">${project.year}</span>`
+            : '';
+
+        elBadges.innerHTML = categoryBadge + courseBadge + yearBadge;
 
         elTitle.textContent = project.title ?? '';
         elDesc.textContent = project.description ?? '';
+
+        const categoryMeta = project.categoryName
+            ? `<div class="modal-meta-item">
+            <span class="modal-meta-label">Categoría</span>
+            <span class="modal-meta-value">${project.categoryName}</span>
+        </div>`
+            : '';
 
         elMeta.innerHTML = `
         <div class="modal-meta-item">
             <span class="modal-meta-label">Alumno/a</span>
             <span class="modal-meta-value">${(project.students ?? []).join(', ') || '—'}</span>
         </div>
+        ${categoryMeta}
         <div class="modal-meta-item">
-            <span class="modal-meta-label">Ciclo</span>
+            <span class="modal-meta-label">Curso</span>
             <span class="modal-meta-value">${project.cycleName || project.cycle || '—'}</span>
         </div>
         <div class="modal-meta-item">
@@ -66,7 +82,8 @@ if (modal) {
         const project = JSON.parse(article.dataset.project);
         populateModal(project);
 
-        const images = project.thumbnail ? [project.thumbnail] : [];
+        const images = (project.images?.length ? project.images : null)
+            ?? (project.thumbnail ? [project.thumbnail] : []);
         initCarousel(images);
 
         modal.setAttribute('aria-hidden', 'false');

@@ -49,22 +49,57 @@
 }
 
 /* ─────────────────────────────────────────
-   CONTENT AREA
+   PAGE WRAPPER — vertical rhythm
+   Grid styles live in layout/grid.css
    ───────────────────────────────────────── */
-.projects-content {
+.projects-page {
     padding-block: var(--space-12);
 }
 
 /* ─────────────────────────────────────────
-   HIDDEN CARD STATE (filter result)
+   TOOLBAR — context title + count
    ───────────────────────────────────────── */
-.card.is-hidden {
-    display: none;
+.projects-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-8);
 }
 
-/* Empty state — when all cards are filtered out */
+.projects-context-title {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0;
+    flex: 1 1 100%;
+}
+
+@media (min-width: 640px) {
+    .projects-context-title {
+        flex: 1 1 auto;
+    }
+}
+
+.projects-toolbar-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+}
+
+.projects-count {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    white-space: nowrap;
+}
+
+/* ─────────────────────────────────────────
+   EMPTY STATE
+   ───────────────────────────────────────── */
 .projects-empty {
-    display: none;
+    grid-column: 1 / -1;
+    display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--space-4);
@@ -73,11 +108,14 @@
     color: var(--color-text-muted);
 }
 
-.projects-empty.is-visible {
-    display: flex;
-}
-
 .projects-empty p {
     font-size: var(--text-lg);
     max-width: 36ch;
+}
+
+/* ─────────────────────────────────────────
+   PAGINATION
+   ───────────────────────────────────────── */
+.pagination-wrapper {
+    margin-top: var(--space-10);
 }

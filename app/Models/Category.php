@@ -28,8 +28,32 @@ class Category extends Model
             ->doNotGenerateSlugsOnUpdate();
     }
 
+    /**
+     * SubstituteBindings runs before the `locale` middleware, so getLocale() still returns
+     * the app default. Search across all translatable locales to find the correct model.
+     */
+    public function resolveRouteBinding($value, $field = null): ?static
+    {
+        $slugField = $this->getSlugOptions()->slugField;
+
+        if (($field ?? $slugField) === $slugField) {
+            return $this->where(function ($q) use ($slugField, $value) {
+                foreach (['es', 'ca'] as $locale) {
+                    $q->orWhere("{$slugField}->{$locale}", $value);
+                }
+            })->first();
+        }
+
+        return parent::resolveRouteBinding($value, $field);
+    }
+
     public function courses()
     {
         return $this->hasMany(Course::class);
+    }
+
+    public function projects()
+    {
+        return $this->hasManyThrough(Project::class, Course::class);
     }
 }

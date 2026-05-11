@@ -1,6 +1,6 @@
 {{--
  * resources/views/front/about.blade.php
- * About page — hero, mission/vision, stats, cycles.
+ * About page — hero, mission/vision, stats, course categories.
  --}}
 
 <x-layouts.app :title="__('front.about.page_title')" :description="__('front.about.page_desc')">
@@ -128,69 +128,69 @@
                 <p class="about-programs-intro">{{ __('front.about.programs_intro') }}</p>
             </header>
 
-            {{-- DAW --}}
-            <div class="about-split reveal" aria-labelledby="program-daw-title">
+            {{-- Programación y Desarrollo --}}
+            <div class="about-split reveal" aria-labelledby="program-pd-title">
                 <div class="about-split-media">
-                    <img src="https://picsum.photos/seed/cifo-daw/800/600"
+                    <img src="https://picsum.photos/seed/cifo-pd/800/600"
                         alt="{{ __('front.about.program_daw_img_alt') }}" width="800" height="600"
                         loading="lazy">
                 </div>
                 <div class="about-split-content">
-                    <span class="badge" data-cycle="daw">DAW</span>
-                    <h3 id="program-daw-title">{{ __('front.about.program_daw_title') }}</h3>
+                    <span class="badge" data-type="category">P&amp;D</span>
+                    <h3 id="program-pd-title">{{ __('front.about.program_daw_title') }}</h3>
                     <p>{{ __('front.about.program_daw_desc') }}</p>
-                    <a href="{{ route('projects', ['cycle' => 'DAW']) }}" class="btn" data-variant="ghost">
+                    <a href="{{ route('projects.category', ['category' => $categories->get(0)?->slug]) }}" class="btn" data-variant="ghost">
                         {{ __('front.about.program_daw_link') }}
                     </a>
                 </div>
             </div>
 
-            {{-- DAM --}}
-            <div class="about-split reveal" data-reverse aria-labelledby="program-dam-title">
+            {{-- Ciberseguridad --}}
+            <div class="about-split reveal" data-reverse aria-labelledby="program-cs-title">
                 <div class="about-split-media">
-                    <img src="https://picsum.photos/seed/cifo-dam/800/600"
+                    <img src="https://picsum.photos/seed/cifo-cs/800/600"
                         alt="{{ __('front.about.program_dam_img_alt') }}" width="800" height="600"
                         loading="lazy">
                 </div>
                 <div class="about-split-content">
-                    <span class="badge" data-cycle="dam">DAM</span>
-                    <h3 id="program-dam-title">{{ __('front.about.program_dam_title') }}</h3>
+                    <span class="badge" data-type="category">CS</span>
+                    <h3 id="program-cs-title">{{ __('front.about.program_dam_title') }}</h3>
                     <p>{{ __('front.about.program_dam_desc') }}</p>
-                    <a href="{{ route('projects', ['cycle' => 'DAM']) }}" class="btn" data-variant="ghost">
+                    <a href="{{ route('projects.category', ['category' => $categories->get(1)?->slug]) }}" class="btn" data-variant="ghost">
                         {{ __('front.about.program_dam_link') }}
                     </a>
                 </div>
             </div>
 
-            {{-- ASIR --}}
-            <div class="about-split reveal" aria-labelledby="program-asir-title">
+            {{-- Tecnologías Emergentes --}}
+            <div class="about-split reveal" aria-labelledby="program-te-title">
                 <div class="about-split-media">
-                    <img src="https://picsum.photos/seed/cifo-asir/800/600"
+                    <img src="https://picsum.photos/seed/cifo-te/800/600"
                         alt="{{ __('front.about.program_asir_img_alt') }}" width="800" height="600"
                         loading="lazy">
                 </div>
                 <div class="about-split-content">
-                    <span class="badge" data-cycle="asir">ASIR</span>
-                    <h3 id="program-asir-title">{{ __('front.about.program_asir_title') }}</h3>
+                    <span class="badge" data-type="category">TE</span>
+                    <h3 id="program-te-title">{{ __('front.about.program_asir_title') }}</h3>
                     <p>{{ __('front.about.program_asir_desc') }}</p>
-                    <a href="{{ route('projects', ['cycle' => 'ASIR']) }}" class="btn" data-variant="ghost">
+                    <a href="{{ route('projects.category', ['category' => $categories->get(2)?->slug]) }}" class="btn" data-variant="ghost">
                         {{ __('front.about.program_asir_link') }}
                     </a>
                 </div>
             </div>
 
-            {{-- SMX --}}
-            <div class="about-split reveal" data-reverse aria-labelledby="program-smx-title">
+            {{-- Competencias Digitales --}}
+            <div class="about-split reveal" data-reverse aria-labelledby="program-cd-title">
                 <div class="about-split-media">
-                    <img src="https://picsum.photos/seed/cifo-smx/800/600"
+                    <img src="https://picsum.photos/seed/cifo-cd/800/600"
                         alt="{{ __('front.about.program_smx_img_alt') }}" width="800" height="600"
                         loading="lazy">
                 </div>
                 <div class="about-split-content">
-                    <span class="badge" data-cycle="smx">SMX</span>
-                    <h3 id="program-smx-title">{{ __('front.about.program_smx_title') }}</h3>
+                    <span class="badge" data-type="category">CD</span>
+                    <h3 id="program-cd-title">{{ __('front.about.program_smx_title') }}</h3>
                     <p>{{ __('front.about.program_smx_desc') }}</p>
-                    <a href="{{ route('projects', ['cycle' => 'SMX']) }}" class="btn" data-variant="ghost">
+                    <a href="{{ route('projects.category', ['category' => $categories->get(3)?->slug]) }}" class="btn" data-variant="ghost">
                         {{ __('front.about.program_smx_link') }}
                     </a>
                 </div>

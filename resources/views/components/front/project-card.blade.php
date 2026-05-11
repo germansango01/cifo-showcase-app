@@ -9,29 +9,35 @@
 @props(['project'])
 
 @php
-    $title = $project->title;
-    $desc = $project->description;
-    $year = $project->project_date?->year;
-    $cycleCode = $project->course?->course_code ?? '';
-    $cycleName = $project->course?->category?->name ?? $cycleCode;
-    $students = $project->relationLoaded('students') ? $project->students->pluck('name')->join(', ') : '';
+    $title        = $project->title;
+    $desc         = $project->description;
+    $year         = $project->project_date?->year;
+    $courseCode   = $project->course?->course_code ?? '';
+    $courseName   = $project->course?->name ?? $courseCode;
+    $categoryName = $project->course?->category?->name ?? '';
+    $students     = $project->relationLoaded('students') ? $project->students->pluck('name')->join(', ') : '';
     $featuredMedia = $project->getFeaturedImage();
-    $thumbnailUrl = $featuredMedia?->getUrl('thumb') ?? asset('images/placeholder.webp');
+    $thumbnailUrl  = $featuredMedia?->getUrl('card') ?? asset('images/placeholder.webp');
+    $allImages     = $project->relationLoaded('media')
+        ? $project->getMedia('images')->map(fn ($m) => $m->getUrl())->values()->all()
+        : [$thumbnailUrl];
     $projectJson = json_encode([
-        'title' => $title,
-        'description' => $desc,
-        'thumbnail' => $thumbnailUrl,
-        'cycle' => $cycleCode,
-        'cycleName' => $cycleName,
-        'year' => $year,
-        'students' => $project->relationLoaded('students') ? $project->students->pluck('name')->all() : [],
-        'tags' => $project->relationLoaded('tags') ? $project->tags->pluck('name')->all() : [],
-        'detailUrl' => route('projects.show', $project->slug),
+        'title'        => $title,
+        'description'  => $desc,
+        'thumbnail'    => $thumbnailUrl,
+        'images'       => $allImages,
+        'cycle'        => $courseCode,
+        'cycleName'    => $courseName,
+        'categoryName' => $categoryName,
+        'year'         => $year,
+        'students'     => $project->relationLoaded('students') ? $project->students->pluck('name')->all() : [],
+        'tags'         => $project->relationLoaded('tags') ? $project->tags->pluck('name')->all() : [],
+        'detailUrl'    => route('projects.show', $project->slug),
     ]);
 @endphp
 
 <article {{ $attributes->merge(['class' => 'card']) }} data-project-id="{{ $project->id }}"
-    data-course="{{ $cycleCode }}" data-year="{{ $year }}" data-project="{{ $projectJson }}">
+    data-course="{{ $courseCode }}" data-year="{{ $year }}" data-project="{{ $projectJson }}">
     <div class="card-surface">
 
         <div class="card-media">
@@ -45,8 +51,11 @@
 
         <div class="card-body">
             <div class="card-badges">
-                @if ($cycleName)
-                    <span class="badge" data-cycle="{{ strtolower($cycleCode) }}">{{ $cycleName }}</span>
+                @if ($categoryName)
+                    <span class="badge" data-type="category">{{ $categoryName }}</span>
+                @endif
+                @if ($courseName)
+                    <span class="badge" data-cycle="{{ strtolower($courseCode) }}">{{ $courseName }}</span>
                 @endif
                 @if ($year)
                     <span class="badge" data-type="year">{{ $year }}</span>

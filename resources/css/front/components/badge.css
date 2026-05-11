@@ -56,6 +56,31 @@
 }
 
 /* ─────────────────────────────────────────
+   CATEGORY / COURSE / TAG
+   ───────────────────────────────────────── */
+.badge[data-type="category"] {
+    background-color: var(--color-primary-100);
+    color: var(--color-primary-700);
+}
+
+.badge[data-type="course"] {
+    background-color: var(--color-primary-200);
+    color: var(--color-primary-800);
+}
+
+.badge[data-type="tag"] {
+    background-color: var(--color-primary-50);
+    color: var(--color-primary-600);
+}
+
+a.badge[data-type="category"]:hover,
+a.badge[data-type="course"]:hover,
+a.badge[data-type="tag"]:hover {
+    background-color: var(--color-primary-200);
+    color: var(--color-primary-800);
+}
+
+/* ─────────────────────────────────────────
    TECH TAG (for project detail)
    ───────────────────────────────────────── */
 .badge[data-type="tech"] {

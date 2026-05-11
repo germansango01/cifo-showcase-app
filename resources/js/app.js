@@ -13,6 +13,5 @@ import './front/carousel';
 import './front/modal';
 import './front/stats-counter';
 import './front/back-to-top';
-import './front/projects-filter';
 import './front/language-switcher';
 import './front/project-detail';

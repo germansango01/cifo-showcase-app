@@ -34,6 +34,7 @@
 @import "./front/components/back-to-top.css";
 @import "./front/components/pagination.css";
 @import "./front/components/select-filter.css";
+@import "./front/components/sidebar.css";
 
 /* ── Pages ────────────────────────────────────────────────── */
 @import "./front/pages/home.css";

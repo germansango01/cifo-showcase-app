@@ -42,6 +42,27 @@ class Project extends Model implements HasMedia
             ->doNotGenerateSlugsOnUpdate();
     }
 
+    /**
+     * SubstituteBindings runs before the `locale` middleware, so the app locale
+     * is still the config default when the slug query is built. Searching across
+     * all translatable locales ensures the correct model is found regardless of
+     * which locale prefix the URL carries.
+     */
+    public function resolveRouteBinding($value, $field = null): ?static
+    {
+        $slugField = $this->getSlugOptions()->slugField;
+
+        if (($field ?? $slugField) === $slugField) {
+            return $this->where(function ($q) use ($slugField, $value) {
+                foreach (['es', 'ca'] as $locale) {
+                    $q->orWhere("{$slugField}->{$locale}", $value);
+                }
+            })->first();
+        }
+
+        return parent::resolveRouteBinding($value, $field);
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('images')
