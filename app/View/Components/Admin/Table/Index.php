@@ -15,8 +15,7 @@ class Index extends Component
     public function __construct(
         public mixed $items,
         public array $columns = [],
-    ) {
-    }
+    ) {}
 
     public function isPaginated(): bool
     {

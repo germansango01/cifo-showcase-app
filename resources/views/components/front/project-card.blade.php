@@ -30,14 +30,13 @@
     ]);
 @endphp
 
-<article {{ $attributes->merge(['class' => 'card']) }} data-project-id="{{ $project->id }}" data-course="{{ $cycleCode }}"
-    data-year="{{ $year }}" data-project="{{ $projectJson }}">
+<article {{ $attributes->merge(['class' => 'card']) }} data-project-id="{{ $project->id }}"
+    data-course="{{ $cycleCode }}" data-year="{{ $year }}" data-project="{{ $projectJson }}">
     <div class="card-surface">
 
         <div class="card-media">
-            <img class="card-image" src="{{ $thumbnailUrl }}"
-                alt="{{ __('Captura de pantalla de') }} {{ $title }}" width="600" height="400"
-                loading="lazy">
+            <img class="card-image" src="{{ $thumbnailUrl }}" alt="{{ __('Captura de pantalla de') }} {{ $title }}"
+                width="600" height="400" loading="lazy">
             <button class="card-quick-view" aria-label="{{ __('Vista rápida') }}: {{ $title }}"
                 data-open-modal="{{ $project->id }}">
                 {{ __('Vista rápida') }}

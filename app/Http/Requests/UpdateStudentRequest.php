@@ -16,10 +16,10 @@ class UpdateStudentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:100','min:3'],
+            'name' => ['required', 'string', 'max:100', 'min:3'],
             'email' => [
                 'required',
-                 'regex:/^[A-Za-z0-9._%+-]{3,}@[A-Za-z0-9]{2,}(\.[A-Za-z]{2,})+$/',
+                'regex:/^[A-Za-z0-9._%+-]{3,}@[A-Za-z0-9]{2,}(\.[A-Za-z]{2,})+$/',
                 'max:150',
                 Rule::unique('students', 'email')->ignore($this->student->id),
             ],

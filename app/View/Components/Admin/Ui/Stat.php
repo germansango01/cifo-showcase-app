@@ -18,8 +18,7 @@ class Stat extends Component
         public ?string $trend = null,   // 'positive' | 'negative' | null
         public ?string $trendValue = null,
         public string $color = 'primary',
-    ) {
-    }
+    ) {}
 
     public function trendClass(): string
     {

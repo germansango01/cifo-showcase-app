@@ -29,14 +29,14 @@
                 const some = modulePerms.some(p => this.form.permissions.includes(p));
                 return some && !this.isModuleChecked(modulePerms);
             }
-        }" @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('roles.index') }}' })">
+        }"
+            @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('roles.index') }}' })">
             @csrf
 
             {{-- Nombre del rol --}}
             <div class="max-w-sm mb-8">
-                <x-admin.ui.input name="name" :label="__('admin.roles.name')" icon="icofont-shield"
-                    :placeholder="__('admin.roles.name_placeholder')" :required="true"
-                    x-model="form.name" @change="form.validate('name')" />
+                <x-admin.ui.input name="name" :label="__('admin.roles.name')" icon="icofont-shield" :placeholder="__('admin.roles.name_placeholder')"
+                    :required="true" x-model="form.name" @change="form.validate('name')" />
             </div>
 
             {{-- Contador en vivo --}}

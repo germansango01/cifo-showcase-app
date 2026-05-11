@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 class SetAdminLocale
 {
     private const SUPPORTED = ['es', 'ca'];
+
     private const DEFAULT = 'es';
 
     /**

@@ -31,7 +31,8 @@
                 const some = modulePerms.some(p => this.form.permissions.includes(p));
                 return some && !this.isModuleChecked(modulePerms);
             }
-        }" @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('roles.index') }}' })">
+        }"
+            @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('roles.index') }}' })">
             @csrf
             @method('PATCH')
 

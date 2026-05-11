@@ -16,8 +16,7 @@ class EmptyState extends Component
         public string $icon = 'icofont-search-1',
         public ?string $actionLabel = null,
         public ?string $actionHref = null,
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

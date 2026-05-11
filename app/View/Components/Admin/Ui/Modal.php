@@ -15,8 +15,7 @@ class Modal extends Component
         public string $id,
         public ?string $title = null,
         public string $size = 'md',
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

@@ -12,17 +12,15 @@
     </div>
 
     <x-admin.ui.card class="max-w-lg">
-        <form method="POST" action="{{ route('categories.store') }}" novalidate
-            x-data="{
-                form: $form('post', '{{ route('categories.store') }}', {
-                    name: { es: '', ca: '' }
-                })
-            }"
+        <form method="POST" action="{{ route('categories.store') }}" novalidate x-data="{
+            form: $form('post', '{{ route('categories.store') }}', {
+                name: { es: '', ca: '' }
+            })
+        }"
             @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('categories.index') }}' })">
             @csrf
 
-            <x-admin.ui.translatable-input name="name" :label="__('admin.categories.col_name')"
-                icon="icofont-sub-listing" :placeholder="__('admin.categories.name_placeholder')"
+            <x-admin.ui.translatable-input name="name" :label="__('admin.categories.col_name')" icon="icofont-sub-listing" :placeholder="__('admin.categories.name_placeholder')"
                 :required="true" form-var="form" />
 
             <div class="flex justify-end gap-2 mt-8 pt-4 border-t border-base-300">

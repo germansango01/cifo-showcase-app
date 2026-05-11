@@ -37,7 +37,7 @@ class CourseController extends Controller
             ->withCount('projects')
             ->when($search, fn ($q) => $q->where(function ($q) use ($search, $locale) {
                 $q->whereRaw("LOWER(`name`->>'$.{$locale}') LIKE ?", [mb_strtolower("%{$search}%")])
-                  ->orWhere('course_code', 'like', mb_strtolower("%{$search}%"));
+                    ->orWhere('course_code', 'like', mb_strtolower("%{$search}%"));
             }))
             ->when($categoryId, fn ($q) => $q->where('category_id', $categoryId))
             ->orderBy($sort, $direction)
@@ -53,7 +53,7 @@ class CourseController extends Controller
     {
         Gate::authorize('courses.create');
 
-        $categoryOptions = Category::orderBy('name->' . app()->getLocale())->get()->pluck('name', 'id')->toArray();
+        $categoryOptions = Category::orderBy('name->'.app()->getLocale())->get()->pluck('name', 'id')->toArray();
 
         return view('admin.courses.create', compact('categoryOptions'));
     }
@@ -77,7 +77,7 @@ class CourseController extends Controller
     {
         Gate::authorize('courses.update');
 
-        $categoryOptions = Category::orderBy('name->' . app()->getLocale())->get()->pluck('name', 'id')->toArray();
+        $categoryOptions = Category::orderBy('name->'.app()->getLocale())->get()->pluck('name', 'id')->toArray();
 
         return view('admin.courses.edit', compact('course', 'categoryOptions'));
     }

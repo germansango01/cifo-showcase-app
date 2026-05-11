@@ -19,8 +19,7 @@ class Checkbox extends Component
         public bool $disabled = false,
         public ?string $help = null,
         public bool $inline = false,
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

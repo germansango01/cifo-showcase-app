@@ -20,7 +20,7 @@ class ProjectFactory extends Factory
         return [
             'course_id' => Course::inRandomOrder()->first()?->id ?? Course::factory(),
             'project_date' => $this->faker->dateTimeBetween('-2 years', 'now'),
-            'title' => ['es' => ucfirst($title) . ' (ES)', 'ca' => ucfirst($title) . ' (CA)'],
+            'title' => ['es' => ucfirst($title).' (ES)', 'ca' => ucfirst($title).' (CA)'],
             'description' => ['es' => $this->faker->paragraph(), 'ca' => $this->faker->paragraph()],
             'repo_url' => $this->faker->optional()->url(),
             'live_url' => $this->faker->optional()->url(),

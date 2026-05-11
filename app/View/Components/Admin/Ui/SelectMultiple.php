@@ -12,7 +12,7 @@ class SelectMultiple extends Component
      * Create a new component instance.
      *
      * @param  array<int|string, string>  $options  Associative map value => label.
-     * @param  array<int, int|string>     $selected Pre-selected values (server side default).
+     * @param  array<int, int|string>  $selected  Pre-selected values (server side default).
      */
     public function __construct(
         public string $name,
@@ -25,8 +25,7 @@ class SelectMultiple extends Component
         public ?string $icon = null,
         public ?string $help = null,
         public ?string $searchPlaceholder = null,
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

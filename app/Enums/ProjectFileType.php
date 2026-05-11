@@ -17,7 +17,7 @@ enum ProjectFileType: string
         return array_combine(
             array_column(self::cases(), 'value'),
             array_map(
-                fn (self $case) => __('admin.projects.file_type_' . $case->value),
+                fn (self $case) => __('admin.projects.file_type_'.$case->value),
                 self::cases()
             )
         );

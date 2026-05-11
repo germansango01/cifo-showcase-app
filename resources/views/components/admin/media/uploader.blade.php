@@ -1,33 +1,39 @@
 @props([
-    'model'      => null,
+    'model' => null,
     'collection' => 'images',
-    'max'        => 8,
-    'min'        => 1,
-    'featured'   => true,
-    'sortable'   => true,
+    'max' => 8,
+    'min' => 1,
+    'featured' => true,
+    'sortable' => true,
 ])
 
 @php
-    $existing = $model ? $model->getMedia($collection)->map(fn ($m) => [
-        'id'         => $m->id,
-        'url'        => $m->getUrl('thumb'),
-        'full_url'   => $m->getUrl(),
-        'name'       => $m->file_name,
-        'is_featured'=> (bool) $m->getCustomProperty('is_featured'),
-        'order'      => $m->order_column,
-    ])->sortBy('order')->values()->toArray() : [];
+    $existing = $model
+        ? $model
+            ->getMedia($collection)
+            ->map(
+                fn($m) => [
+                    'id' => $m->id,
+                    'url' => $m->getUrl('thumb'),
+                    'full_url' => $m->getUrl(),
+                    'name' => $m->file_name,
+                    'is_featured' => (bool) $m->getCustomProperty('is_featured'),
+                    'order' => $m->order_column,
+                ],
+            )
+            ->sortBy('order')
+            ->values()
+            ->toArray()
+        : [];
 @endphp
 
-<div
-    x-data="mediaUploader({
-        existing: {{ Js::from($existing) }},
-        max: {{ $max }},
-        min: {{ $min }},
-        featuredEnabled: {{ Js::from($featured) }},
-        sortableEnabled: {{ Js::from($sortable) }},
-    })"
-    class="space-y-4"
->
+<div x-data="mediaUploader({
+    existing: {{ Js::from($existing) }},
+    max: {{ $max }},
+    min: {{ $min }},
+    featuredEnabled: {{ Js::from($featured) }},
+    sortableEnabled: {{ Js::from($sortable) }},
+})" class="space-y-4">
     {{-- Hidden fields --}}
     <template x-for="id in deleteIds" :key="id">
         <input type="hidden" name="delete_media[]" :value="id">
@@ -38,26 +44,16 @@
     <input type="hidden" name="featured_media" :value="featuredValue">
 
     {{-- Dropzone --}}
-    <div
-        class="border-2 border-dashed border-base-300 rounded-box p-6 text-center transition-colors"
-        :class="{ 'border-primary bg-primary/5': dragging }"
-        @dragover.prevent="dragging = true"
-        @dragleave.prevent="dragging = false"
-        @drop.prevent="onDrop($event)"
-    >
+    <div class="border-2 border-dashed border-base-300 rounded-box p-6 text-center transition-colors"
+        :class="{ 'border-primary bg-primary/5': dragging }" @dragover.prevent="dragging = true"
+        @dragleave.prevent="dragging = false" @drop.prevent="onDrop($event)">
         <i class="icofont-cloud-upload text-4xl text-base-content/40" aria-hidden="true"></i>
         <p class="mt-2 text-sm text-base-content/60">
             {{ __('admin.media.drag_drop') }}
             <label class="link link-primary cursor-pointer">
                 {{ __('admin.media.browse') }}
-                <input
-                    type="file"
-                    name="images[]"
-                    multiple
-                    accept="image/jpeg,image/png,image/webp"
-                    class="sr-only"
-                    @change="onFileInput($event)"
-                >
+                <input type="file" name="images[]" multiple accept="image/jpeg,image/png,image/webp" class="sr-only"
+                    @change="onFileInput($event)">
             </label>
         </p>
         <p class="mt-1 text-xs text-base-content/40">
@@ -77,22 +73,15 @@
     @enderror
 
     {{-- Gallery --}}
-    <div
-        x-show="existing.length > 0 || previews.length > 0"
-        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"
-        id="media-gallery"
-    >
+    <div x-show="existing.length > 0 || previews.length > 0"
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3" id="media-gallery">
         {{-- Existing media --}}
         <template x-for="(item, index) in existing" :key="item.id">
-            <div
-                class="relative group rounded-box overflow-hidden border border-base-300 bg-base-200"
-                :class="{ 'ring-2 ring-primary': item.is_featured }"
-                draggable="true"
+            <div class="relative group rounded-box overflow-hidden border border-base-300 bg-base-200"
+                :class="{ 'ring-2 ring-primary': item.is_featured }" draggable="true"
                 @dragstart="onDragStart($event, index, 'existing')"
                 @dragover.prevent="onDragOver($event, index, 'existing')"
-                @drop.prevent="onDropSort($event, index, 'existing')"
-                @dragend="onDragEnd"
-            >
+                @drop.prevent="onDropSort($event, index, 'existing')" @dragend="onDragEnd">
                 <img :src="item.url" :alt="item.name" class="w-full h-28 object-cover">
 
                 {{-- Featured badge --}}
@@ -103,30 +92,30 @@
                 </template>
 
                 {{-- Actions overlay --}}
-                <div class="absolute inset-0 bg-base-300/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-1">
+                <div
+                    class="absolute inset-0 bg-base-300/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-1">
                     <div class="flex justify-end">
-                        <button
-                            type="button"
-                            class="btn btn-error btn-xs btn-square"
-                            @click="removeExisting(index)"
-                            :title="'{{ __('admin.media.remove') }}'"
-                        >
+                        <button type="button" class="btn btn-error btn-xs btn-square" @click="removeExisting(index)"
+                            :title="'{{ __('admin.media.remove') }}'">
                             <i class="icofont-trash" aria-hidden="true"></i>
                         </button>
                     </div>
                     <div class="flex gap-1 justify-center">
                         <template x-if="sortableEnabled">
-                            <button type="button" class="btn btn-ghost btn-xs" @click="moveExisting(index, -1)" :disabled="index === 0">
+                            <button type="button" class="btn btn-ghost btn-xs" @click="moveExisting(index, -1)"
+                                :disabled="index === 0">
                                 <i class="icofont-arrow-left" aria-hidden="true"></i>
                             </button>
                         </template>
                         <template x-if="featuredEnabled && !item.is_featured">
-                            <button type="button" class="btn btn-primary btn-xs" @click="setFeatured('existing', index)">
+                            <button type="button" class="btn btn-primary btn-xs"
+                                @click="setFeatured('existing', index)">
                                 <i class="icofont-star" aria-hidden="true"></i>
                             </button>
                         </template>
                         <template x-if="sortableEnabled">
-                            <button type="button" class="btn btn-ghost btn-xs" @click="moveExisting(index, 1)" :disabled="index === existing.length - 1">
+                            <button type="button" class="btn btn-ghost btn-xs" @click="moveExisting(index, 1)"
+                                :disabled="index === existing.length - 1">
                                 <i class="icofont-arrow-right" aria-hidden="true"></i>
                             </button>
                         </template>
@@ -137,15 +126,10 @@
 
         {{-- New file previews --}}
         <template x-for="(preview, index) in previews" :key="index">
-            <div
-                class="relative group rounded-box overflow-hidden border border-base-300 bg-base-200"
-                :class="{ 'ring-2 ring-primary': preview.is_featured }"
-                draggable="true"
-                @dragstart="onDragStart($event, index, 'new')"
-                @dragover.prevent="onDragOver($event, index, 'new')"
-                @drop.prevent="onDropSort($event, index, 'new')"
-                @dragend="onDragEnd"
-            >
+            <div class="relative group rounded-box overflow-hidden border border-base-300 bg-base-200"
+                :class="{ 'ring-2 ring-primary': preview.is_featured }" draggable="true"
+                @dragstart="onDragStart($event, index, 'new')" @dragover.prevent="onDragOver($event, index, 'new')"
+                @drop.prevent="onDropSort($event, index, 'new')" @dragend="onDragEnd">
                 <img :src="preview.url" :alt="preview.name" class="w-full h-28 object-cover">
 
                 <span class="badge badge-accent badge-xs absolute top-1 left-1">
@@ -157,20 +141,18 @@
                     </span>
                 </template>
 
-                <div class="absolute inset-0 bg-base-300/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-1">
+                <div
+                    class="absolute inset-0 bg-base-300/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-1">
                     <div class="flex justify-end">
-                        <button
-                            type="button"
-                            class="btn btn-error btn-xs btn-square"
-                            @click="removePreview(index)"
-                            :title="'{{ __('admin.media.remove') }}'"
-                        >
+                        <button type="button" class="btn btn-error btn-xs btn-square" @click="removePreview(index)"
+                            :title="'{{ __('admin.media.remove') }}'">
                             <i class="icofont-trash" aria-hidden="true"></i>
                         </button>
                     </div>
                     <div class="flex gap-1 justify-center">
                         <template x-if="sortableEnabled">
-                            <button type="button" class="btn btn-ghost btn-xs" @click="movePreview(index, -1)" :disabled="index === 0">
+                            <button type="button" class="btn btn-ghost btn-xs" @click="movePreview(index, -1)"
+                                :disabled="index === 0">
                                 <i class="icofont-arrow-left" aria-hidden="true"></i>
                             </button>
                         </template>
@@ -180,7 +162,8 @@
                             </button>
                         </template>
                         <template x-if="sortableEnabled">
-                            <button type="button" class="btn btn-ghost btn-xs" @click="movePreview(index, 1)" :disabled="index === previews.length - 1">
+                            <button type="button" class="btn btn-ghost btn-xs" @click="movePreview(index, 1)"
+                                :disabled="index === previews.length - 1">
                                 <i class="icofont-arrow-right" aria-hidden="true"></i>
                             </button>
                         </template>

@@ -8,15 +8,15 @@ import { initCarousel, destroyCarousel } from './carousel.js';
 const modal = document.getElementById('project-modal');
 
 if (modal) {
-    const backdrop  = modal.querySelector('.modal-backdrop');
-    const closeBtn  = document.getElementById('modal-close-btn');
-    const elBadges  = document.getElementById('modal-badges');
-    const elTitle   = document.getElementById('modal-title');
-    const elDesc    = document.getElementById('modal-description');
-    const elMeta    = document.getElementById('modal-meta');
-    const elTech    = document.getElementById('modal-technologies');
-    const elTags    = document.getElementById('modal-tags');
-    const elLink    = document.getElementById('modal-detail-link');
+    const backdrop = modal.querySelector('.modal-backdrop');
+    const closeBtn = document.getElementById('modal-close-btn');
+    const elBadges = document.getElementById('modal-badges');
+    const elTitle = document.getElementById('modal-title');
+    const elDesc = document.getElementById('modal-description');
+    const elMeta = document.getElementById('modal-meta');
+    const elTech = document.getElementById('modal-technologies');
+    const elTags = document.getElementById('modal-tags');
+    const elLink = document.getElementById('modal-detail-link');
 
     let triggerEl = null;
 
@@ -30,7 +30,7 @@ if (modal) {
         <span class="badge" data-type="year">${project.year || ''}</span>`;
 
         elTitle.textContent = project.title ?? '';
-        elDesc.textContent  = project.description ?? '';
+        elDesc.textContent = project.description ?? '';
 
         elMeta.innerHTML = `
         <div class="modal-meta-item">
@@ -59,7 +59,7 @@ if (modal) {
     // ── Open / Close ─────────────────────────────────────
 
     function openModal(projectId) {
-        const btn     = document.querySelector(`[data-open-modal="${projectId}"]`);
+        const btn = document.querySelector(`[data-open-modal="${projectId}"]`);
         const article = btn?.closest('[data-project]');
         if (!article) return;
 
@@ -104,7 +104,7 @@ if (modal) {
 
         const focusable = getFocusable();
         const first = focusable[0];
-        const last  = focusable[focusable.length - 1];
+        const last = focusable[focusable.length - 1];
 
         if (e.key === 'Tab') {
             if (e.shiftKey && document.activeElement === first) {

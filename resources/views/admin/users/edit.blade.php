@@ -39,9 +39,8 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <x-admin.ui.input name="password" :label="__('admin.users.new_password')" type="password" icon="icofont-lock"
-                    :placeholder="__('admin.users.new_password_placeholder')"
-                    help="Mínimo 8 caracteres. Déjalo vacío para mantener la actual." x-model="form.password"
-                    @change="form.validate('password')" />
+                    :placeholder="__('admin.users.new_password_placeholder')" help="Mínimo 8 caracteres. Déjalo vacío para mantener la actual."
+                    x-model="form.password" @change="form.validate('password')" />
 
                 <x-admin.ui.input name="password_confirmation" :label="__('admin.users.confirm_new_password')" type="password" icon="icofont-lock"
                     :placeholder="__('admin.users.new_password_confirm_placeholder')" x-model="form.password_confirmation"

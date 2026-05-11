@@ -26,8 +26,7 @@ class Input extends Component
         public ?string $min = null,
         public ?string $max = null,
         public ?string $inputmode = null,
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

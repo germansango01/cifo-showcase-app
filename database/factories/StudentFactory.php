@@ -21,7 +21,7 @@ class StudentFactory extends Factory
         $lastName = $this->faker->lastName();
 
         return [
-            'name' => $firstName . ' ' . $lastName,
+            'name' => $firstName.' '.$lastName,
             'email' => $this->faker->optional(0.7)->safeEmail(),
         ];
     }

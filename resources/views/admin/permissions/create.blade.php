@@ -13,18 +13,12 @@
     <x-admin.ui.card class="max-w-lg">
         <form method="POST" action="{{ route('permissions.store') }}" novalidate x-data="{
             form: $form('post', '{{ route('permissions.store') }}', { name: '' })
-        }" @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('permissions.index') }}' })">
+        }"
+            @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('permissions.index') }}' })">
             @csrf
 
-            <x-admin.ui.input
-                name="name"
-                :label="__('admin.permissions.name')"
-                icon="icofont-key"
-                :placeholder="__('admin.permissions.name_placeholder')"
-                :required="true"
-                :help="__('admin.permissions.name_help')"
-                x-model="form.name"
-                @change="form.validate('name')" />
+            <x-admin.ui.input name="name" :label="__('admin.permissions.name')" icon="icofont-key" :placeholder="__('admin.permissions.name_placeholder')" :required="true"
+                :help="__('admin.permissions.name_help')" x-model="form.name" @change="form.validate('name')" />
 
             <div class="flex justify-end gap-2 mt-6">
                 <x-admin.ui.button :ghost="true" :href="route('permissions.index')">

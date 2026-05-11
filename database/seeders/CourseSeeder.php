@@ -14,12 +14,12 @@ class CourseSeeder extends Seeder
     public function run(): void
     {
         Course::factory()->count(10)->create()
-        ->each(function ($course) {
-            $course->teachers()->attach(
-                Teacher::inRandomOrder()
-                    ->take(rand(1, 2))
-                    ->pluck('id')
-            );
-        });
+            ->each(function ($course) {
+                $course->teachers()->attach(
+                    Teacher::inRandomOrder()
+                        ->take(rand(1, 2))
+                        ->pluck('id')
+                );
+            });
     }
 }

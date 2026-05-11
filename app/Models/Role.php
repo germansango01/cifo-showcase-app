@@ -11,6 +11,7 @@ class Role extends SpatieRole
 
     /**
      * Los atributos que se pueden asignar masivamente.
+     *
      * * @var array<int, string>
      */
     protected $fillable = [

@@ -16,13 +16,12 @@ class Actions extends Component
         public ?string $showHref = null,
         public ?string $deleteAction = null,   // URL del form DELETE
         public int|string|null $deleteId = null, // ID único para el modal
-    ) {
-    }
+    ) {}
 
     /** Unique modal ID derived from deleteId or a random fallback. */
     public function modalId(): string
     {
-        return 'delete-modal-' . ($this->deleteId ?? uniqid());
+        return 'delete-modal-'.($this->deleteId ?? uniqid());
     }
 
     /**

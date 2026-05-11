@@ -9,29 +9,26 @@
     <div class="mb-6">
         <h1 class="text-2xl font-bold">{{ __('admin.tags.edit') }}</h1>
         <p class="text-sm opacity-70">
-            <code class="bg-base-200 px-1.5 py-0.5 rounded text-xs">{{ $tag->getTranslation('slug', 'es', false) }}</code>
+            <code
+                class="bg-base-200 px-1.5 py-0.5 rounded text-xs">{{ $tag->getTranslation('slug', 'es', false) }}</code>
         </p>
     </div>
 
     <x-admin.ui.card class="max-w-lg">
-        <form method="POST" action="{{ route('tags.update', $tag) }}" novalidate
-            x-data="{
-                form: $form('patch', '{{ route('tags.update', $tag) }}', {
-                    name: {
-                        es: @js($tag->getTranslation('name', 'es', false)),
-                        ca: @js($tag->getTranslation('name', 'ca', false))
-                    }
-                })
-            }"
+        <form method="POST" action="{{ route('tags.update', $tag) }}" novalidate x-data="{
+            form: $form('patch', '{{ route('tags.update', $tag) }}', {
+                name: {
+                    es: @js($tag->getTranslation('name', 'es', false)),
+                    ca: @js($tag->getTranslation('name', 'ca', false))
+                }
+            })
+        }"
             @submit.prevent="form.submit({ onSuccess: () => window.location.href = '{{ route('tags.index') }}' })">
             @csrf
             @method('PATCH')
 
-            <x-admin.ui.translatable-input name="name" :label="__('admin.tags.name')"
-                icon="icofont-price" :required="true"
-                :value-es="old('name.es', $tag->getTranslation('name', 'es', false))"
-                :value-ca="old('name.ca', $tag->getTranslation('name', 'ca', false))"
-                form-var="form" />
+            <x-admin.ui.translatable-input name="name" :label="__('admin.tags.name')" icon="icofont-price" :required="true"
+                :value-es="old('name.es', $tag->getTranslation('name', 'es', false))" :value-ca="old('name.ca', $tag->getTranslation('name', 'ca', false))" form-var="form" />
 
             <div class="mt-4 flex flex-wrap gap-x-6 gap-y-1 text-xs opacity-50">
                 <span><i class="icofont-calendar"></i> {{ __('admin.common.created_at') }}:

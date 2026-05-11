@@ -16,8 +16,7 @@ class Avatar extends Component
         public ?string $src = null,
         public string $size = 'md',   // xs | sm | md | lg
         public bool $ring = false,
-    ) {
-    }
+    ) {}
 
     public function initials(): string
     {
@@ -25,7 +24,7 @@ class Avatar extends Component
         $first = mb_strtoupper(mb_substr($parts[0] ?? '?', 0, 1));
         $last = isset($parts[1]) ? mb_strtoupper(mb_substr($parts[1], 0, 1)) : '';
 
-        return $first . $last;
+        return $first.$last;
     }
 
     public function sizeClass(): string

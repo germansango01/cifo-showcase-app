@@ -15,8 +15,7 @@ class Alert extends Component
         public string $type = 'info',
         public bool $dismissible = false,
         public ?string $icon = null,
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

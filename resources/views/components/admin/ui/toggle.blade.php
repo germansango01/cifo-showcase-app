@@ -3,8 +3,7 @@
 <div class="{{ $inline ? 'inline-flex items-center gap-2' : 'fieldset w-full' }}">
     <label class="flex items-center gap-3 cursor-pointer {{ $inline ? '' : 'py-1' }}">
         <input type="checkbox" name="{{ $name }}" id="{{ $name }}" value="{{ $value }}"
-            @checked(old($name, $checked)) @disabled($disabled)
-            aria-invalid="{{ $hasError ? 'true' : 'false' }}"
+            @checked(old($name, $checked)) @disabled($disabled) aria-invalid="{{ $hasError ? 'true' : 'false' }}"
             aria-describedby="{{ $name }}-help"
             {{ $attributes->merge(['class' => 'toggle toggle-primary' . ($hasError ? ' toggle-error' : '')]) }} />
         @if ($label)
@@ -25,7 +24,9 @@
         </p>
     @else
         <span id="{{ $name }}-help" class="sr-only">
-            @error($name){{ $message }}@enderror
+            @error($name)
+                {{ $message }}
+            @enderror
         </span>
     @endif
 </div>

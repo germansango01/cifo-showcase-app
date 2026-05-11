@@ -1,8 +1,8 @@
 @props([
-    'id'         => 'confirm-delete',
-    'resource'   => '',
-    'titleKey'   => 'admin.common.confirm_delete',
-    'nameVar'    => 'deleteName',
+    'id' => 'confirm-delete',
+    'resource' => '',
+    'titleKey' => 'admin.common.confirm_delete',
+    'nameVar' => 'deleteName',
 ])
 
 <div x-data="{ {{ $nameVar }}: '', deleteUrl: '' }">
@@ -12,7 +12,8 @@
         <div class="modal-box max-w-sm">
             <h3 class="font-bold text-lg mb-2">{{ __($titleKey) }}</h3>
             <form method="dialog">
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" aria-label="{{ __('admin.common.close') }}">✕</button>
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                    aria-label="{{ __('admin.common.close') }}">✕</button>
             </form>
             <p class="text-sm mb-1">
                 {!! __('admin.common.confirm_delete_msg') !!}

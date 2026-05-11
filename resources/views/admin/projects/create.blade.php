@@ -11,9 +11,7 @@
     </div>
 
     <form method="POST" action="{{ route('admin.projects.store') }}" enctype="multipart/form-data" novalidate
-        class="space-y-6"
-        x-data="{ filesHaveErrors: false }"
-        @files-url-validity.window="filesHaveErrors = $event.detail.hasErrors">
+        class="space-y-6" x-data="{ filesHaveErrors: false }" @files-url-validity.window="filesHaveErrors = $event.detail.hasErrors">
         @csrf
 
         {{-- ── (a) Translatable texts ── --}}
@@ -41,36 +39,29 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6">
 
                 <div class="md:col-span-2 lg:col-span-1">
-                    <x-admin.ui.select name="course_id" :label="__('admin.projects.course')" icon="icofont-book-alt"
-                        :options="$courseOptions" :placeholder="__('admin.projects.course_placeholder')" :required="true" />
+                    <x-admin.ui.select name="course_id" :label="__('admin.projects.course')" icon="icofont-book-alt" :options="$courseOptions"
+                        :placeholder="__('admin.projects.course_placeholder')" :required="true" />
                 </div>
 
                 <x-admin.ui.select name="status" :label="__('admin.projects.status')" icon="icofont-flag" :options="[
-                    'draft'     => __('admin.projects.status_draft'),
-                    'pending'   => __('admin.projects.status_pending'),
+                    'draft' => __('admin.projects.status_draft'),
+                    'pending' => __('admin.projects.status_pending'),
                     'published' => __('admin.projects.status_published'),
-                    'rejected'  => __('admin.projects.status_rejected'),
-                ]" :selected="old('status', 'draft')" :required="true" />
+                    'rejected' => __('admin.projects.status_rejected'),
+                ]"
+                    :selected="old('status', 'draft')" :required="true" />
 
-                <x-admin.ui.input name="project_date" type="month" :label="__('admin.projects.date')"
-                    icon="icofont-calendar" :required="true" />
+                <x-admin.ui.input name="project_date" type="month" :label="__('admin.projects.date')" icon="icofont-calendar"
+                    :required="true" />
 
-                <x-admin.ui.input name="repo_url" type="url" :label="__('admin.projects.repo_url')"
-                    icon="icofont-code" />
+                <x-admin.ui.input name="repo_url" type="url" :label="__('admin.projects.repo_url')" icon="icofont-code" />
 
-                <x-admin.ui.input name="live_url" type="url" :label="__('admin.projects.live_url')"
-                    icon="icofont-globe" />
+                <x-admin.ui.input name="live_url" type="url" :label="__('admin.projects.live_url')" icon="icofont-globe" />
 
                 @if ($students->count())
                     <div class="col-span-full">
-                        <x-admin.ui.select-multiple
-                            name="students"
-                            :label="__('admin.projects.students')"
-                            icon="icofont-students-alt"
-                            :options="$students->pluck('name', 'id')->all()"
-                            :search-placeholder="__('admin.students.search_placeholder')"
-                            :help="__('admin.projects.section_students_sub')"
-                            :required="true" />
+                        <x-admin.ui.select-multiple name="students" :label="__('admin.projects.students')" icon="icofont-students-alt"
+                            :options="$students->pluck('name', 'id')->all()" :search-placeholder="__('admin.students.search_placeholder')" :help="__('admin.projects.section_students_sub')" :required="true" />
                     </div>
                 @endif
 
@@ -101,9 +92,11 @@
                         <div class="flex flex-wrap gap-2 mt-2">
                             @foreach ($tags as $tag)
                                 <label class="cursor-pointer">
-                                    <input type="checkbox" name="tags[]" value="{{ $tag->id }}" class="peer sr-only"
+                                    <input type="checkbox" name="tags[]" value="{{ $tag->id }}"
+                                        class="peer sr-only"
                                         {{ in_array($tag->id, old('tags', [])) ? 'checked' : '' }} />
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm border border-base-300
+                                    <span
+                                        class="inline-flex items-center px-3 py-1 rounded-full text-sm border border-base-300
                                         peer-checked:bg-primary peer-checked:text-primary-content peer-checked:border-primary
                                         hover:border-primary transition-colors select-none">
                                         {{ $tag->name }}

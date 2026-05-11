@@ -3,7 +3,8 @@
         'class' => 'flex flex-col items-center justify-center py-14 px-6 text-center w-full h-full',
     ]) }}>
 
-    <div class="mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-base-200 text-base-content/40 shadow-inner">
+    <div
+        class="mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-base-200 text-base-content/40 shadow-inner">
         <i class="{{ $icon }} text-3xl" aria-hidden="true"></i>
     </div>
 

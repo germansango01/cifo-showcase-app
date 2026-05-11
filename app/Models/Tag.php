@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\TagFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,8 +14,9 @@ use Spatie\Translatable\HasTranslations;
 #[Fillable(['name', 'slug'])]
 class Tag extends Model
 {
-    /** @use HasFactory<\Database\Factories\TagFactory> */
+    /** @use HasFactory<TagFactory> */
     use HasFactory;
+
     use HasTranslatableSlug;
     use HasTranslations;
     use SoftDeletes;

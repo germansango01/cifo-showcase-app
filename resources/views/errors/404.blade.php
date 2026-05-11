@@ -14,8 +14,8 @@
         <rect x="104" y="122" width="64" height="6" rx="3" fill="oklch(46.9% 0.152 301.7)"
             fill-opacity="0.15" />
         <circle cx="178" cy="148" r="28" fill="oklch(46.9% 0.152 301.7)" />
-        <text x="178" y="156" text-anchor="middle" font-family="system-ui, sans-serif" font-size="28"
-            font-weight="700" fill="white">?</text>
+        <text x="178" y="156" text-anchor="middle" font-family="system-ui, sans-serif" font-size="28" font-weight="700"
+            fill="white">?</text>
         <circle cx="68" cy="62" r="4" fill="oklch(74.1% 0.131 82.1)" />
         <circle cx="76" cy="42" r="2.5" fill="oklch(74.1% 0.131 82.1)" opacity="0.7" />
         <circle cx="56" cy="48" r="2" fill="oklch(74.1% 0.131 82.1)" opacity="0.5" />

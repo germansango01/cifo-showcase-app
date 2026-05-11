@@ -13,8 +13,7 @@ class Toast extends Component
      */
     public function __construct(
         public int $duration = 4000,
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.
