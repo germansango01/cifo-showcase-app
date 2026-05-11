@@ -10,7 +10,11 @@
 
 SHOWCASE es una plataforma web desarrollada para la gestión y publicación de proyectos académicos realizados por alumnos del CIFO.
 
-![Dashboard WebApp](./images/Dashboard.png)
+<!-- ![Dashboard WebApp](./imgs/Dashboard.png) -->
+<p align="center">
+<img src="./images/web_pantalla_principal.png" height="500">
+<img src="./images/Dashboard.png" height="500">
+</p>
 
 La aplicación combina:
 
@@ -194,7 +198,10 @@ users
 
 ## 🔗 Relaciones de la base de datos
 
-![CifoBD E-R](./images/cifobd.png)
+<!-- ![CifoBD E-R](./imgs/cifobd.png) -->
+<p align="center">
+<img src="./images/cifobd.png" height="850">
+</p>
 
 ---
 
@@ -439,8 +446,22 @@ Profesor: Manel Plaza
 
 ## 📸 Capturas del proyecto
 
-![Permisos segun Roles](./images/Permisos_segun_roles.png)
-![CRUD Proyectos](./images/Listado_CRUD_Proyectos.png)
+<!-- ![Permisos segun Roles](./imgs/Permisos_segun_roles.png)
+![CRUD Proyectos](./imgs/Listado_CRUD_Proyectos.png) -->
+
+### 🌈 FrontEnd
+
+<p align="center">
+<img src="./images/web_modal_proyecto.png" height="500">
+<img src="./images/web_sobre_cifo.png" height="500">
+</p>
+
+### 🗄️ BackEnd
+
+<p align="center">
+<img src="./images/Permisos_segun_roles.png" height="500">
+<img src="./images/Listado_CRUD_Proyectos.png" height="500">
+</p>
 
 ---
 
