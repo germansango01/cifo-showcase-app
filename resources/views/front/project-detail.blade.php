@@ -1,17 +1,22 @@
 @php
-    $title        = $project->title;
-    $desc         = $project->description;
-    $courseCode   = $project->course?->course_code ?? '';
-    $courseName   = $project->course?->name ?? $courseCode;
+    $title = $project->title;
+    $desc = $project->description;
+    $courseCode = $project->course?->course_code ?? '';
+    $courseName = $project->course?->name ?? $courseCode;
     $categoryName = $project->course?->category?->name ?? '';
-    $year         = $project->project_date?->year;
-    $heroMedia    = $project->getFeaturedImage();
-    $heroUrl      = $heroMedia?->getUrl() ?? asset('images/placeholder.webp');
-    $allMedia     = $project->getMedia('images');
-    $galleryData  = $allMedia->values()->map(fn ($m, $i) => [
-        'src' => $m->getUrl(),
-        'alt' => $m->getCustomProperty('alt_text') ?: ($title . ' — ' . ($i + 1)),
-    ])->toArray();
+    $year = $project->project_date?->year;
+    $heroMedia = $project->getFeaturedImage();
+    $heroUrl = $heroMedia?->getUrl() ?? asset('images/placeholder.webp');
+    $allMedia = $project->getMedia('images');
+    $galleryData = $allMedia
+        ->values()
+        ->map(
+            fn($m, $i) => [
+                'src' => $m->getUrl(),
+                'alt' => $m->getCustomProperty('alt_text') ?: $title . ' — ' . ($i + 1),
+            ],
+        )
+        ->toArray();
 @endphp
 
 <x-layouts.app :title="$title" :description="$desc" ogType="article" :ogImage="$heroUrl">
@@ -81,14 +86,16 @@
 
                                     <button class="carousel-btn" data-direction="prev"
                                         aria-label="{{ __('front.project.carousel_prev') }}">
-                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                            aria-hidden="true">
                                             <path d="M12 4L6 10l6 6" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" />
                                         </svg>
                                     </button>
                                     <button class="carousel-btn" data-direction="next"
                                         aria-label="{{ __('front.project.carousel_next') }}">
-                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                            aria-hidden="true">
                                             <path d="M8 4l6 6-6 6" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" />
                                         </svg>
@@ -118,7 +125,7 @@
                                 <dt>{{ __('front.project.meta_category') }}</dt>
                                 <dd>
                                     <a href="{{ route('projects.category', ['category' => $project->course->category->slug]) }}"
-                                       class="badge" data-type="category">
+                                        class="badge" data-type="category">
                                         {{ $categoryName }}
                                     </a>
                                 </dd>
@@ -127,8 +134,7 @@
                             @if ($courseCode)
                                 <dt>{{ __('front.project.meta_course') }}</dt>
                                 <dd>
-                                    <a href="{{ route('projects.course', ['course' => $courseCode]) }}"
-                                       class="badge" data-type="course">
+                                    <a href="#{{-- route('projects.course', ['course' => $courseCode]) --}}" class="badge" data-type="course">
                                         {{ $courseName }}
                                     </a>
                                 </dd>
@@ -166,8 +172,8 @@
                             <h3>{{ __('front.project.tags_title') }}</h3>
                             <div class="project-detail-tags-list">
                                 @foreach ($project->tags as $tag)
-                                    <a href="{{ route('projects.tag', ['tag' => $tag->slug]) }}"
-                                       class="badge" data-type="tag">{{ $tag->name }}</a>
+                                    <a href="{{ route('projects.tag', ['tag' => $tag->slug]) }}" class="badge"
+                                        data-type="tag">{{ $tag->name }}</a>
                                 @endforeach
                             </div>
                         </div>

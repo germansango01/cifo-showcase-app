@@ -36,7 +36,7 @@ class Category extends Model
     {
         $slugField = $this->getSlugOptions()->slugField;
 
-        if (($field ?? $slugField) === $slugField) {
+        if ($field === $slugField) {
             return $this->where(function ($q) use ($slugField, $value) {
                 foreach (['es', 'ca'] as $locale) {
                     $q->orWhere("{$slugField}->{$locale}", $value);

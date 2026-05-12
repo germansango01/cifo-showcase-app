@@ -25,7 +25,7 @@
         @csrf
         @method('PATCH')
 
-        <x-admin.ui.card class="max-w-lg">
+        <x-admin.ui.card>
             <div class="space-y-4">
                 <x-admin.ui.input name="name" :label="__('admin.teachers.col_name')" icon="icofont-user" :required="true"
                     x-model="form.name" @change="form.validate('name')" />
@@ -43,7 +43,7 @@
         </x-admin.ui.card>
 
         @if ($courseOptions->count())
-            <x-admin.ui.card class="max-w-lg">
+            <x-admin.ui.card>
                 <h2 class="text-base font-semibold mb-1">{{ __('admin.teachers.courses') }}</h2>
                 <p class="text-sm opacity-60 mb-3">{{ __('admin.teachers.courses_sub') }}</p>
                 <fieldset class="fieldset w-full">
