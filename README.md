@@ -11,6 +11,7 @@
 SHOWCASE es una plataforma web desarrollada para la gestión y publicación de proyectos académicos realizados por alumnos del CIFO.
 
 <!-- ![Dashboard WebApp](./imgs/Dashboard.png) -->
+
 <p align="center">
 <img src="./images/web_pantalla_principal.png" height="500">
 <img src="./images/Dashboard.png" height="500">
@@ -199,6 +200,7 @@ users
 ## 🔗 Relaciones de la base de datos
 
 <!-- ![CifoBD E-R](./imgs/cifobd.png) -->
+
 <p align="center">
 <img src="./images/cifobd.png" height="850">
 </p>
@@ -251,6 +253,7 @@ composer update
 php artisan migrate:fresh --seed
 php artisan optimize:clear
 php artisan storage:link
+npm install
 npm run build
 ```
 
@@ -441,6 +444,12 @@ Franco Calderón
 ```text
 Profesor: Manel Plaza
 ```
+
+---
+
+## 🔗 Link del repositorio
+
+[Repositorio GitHub](https://github.com/germansango01/cifo-showcase-app.git)
 
 ---
 
