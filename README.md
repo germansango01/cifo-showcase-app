@@ -264,7 +264,11 @@ npm run build
 Abrir en navegador:
 
 ```text
-https://localhost:8080/miapp.test/es
+Depende de server local XAMPP:
+http://localhost/carpeta/plublic/es
+
+Si tienen configurado un virtualhost Local:
+http://cifoapp.test
 ```
 
 ---
