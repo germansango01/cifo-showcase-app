@@ -417,10 +417,15 @@ La plataforma permite:
 
 ## 🎨 Interfaz y experiencia de usuario
 
-El frontend fue diseñado utilizando:
+El Backend (Dashboard) fue diseñado utilizando:
 
 - TailwindCSS
 - DaisyUI
+
+El frontend fue diseñado utilizando:
+
+- CSS Moderno
+- Javascript vanilla
 
 Incorporando:
 
