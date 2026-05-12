@@ -71,7 +71,7 @@
                     {{-- Description --}}
                     <section class="project-detail-section" aria-labelledby="section-description">
                         <h2 id="section-description">{{ __('front.project.section_about') }}</h2>
-                        <p class="project-detail-description">{{ $desc }}</p>
+                        <div class="project-detail-description">{!! $desc !!}</div>
                     </section>
 
                     {{-- Gallery --}}
