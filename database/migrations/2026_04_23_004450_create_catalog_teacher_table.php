@@ -4,22 +4,22 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class () extends Migration {
+return new class() extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('course_teacher', function (Blueprint $table) {
-            $table->foreignId('course_id')
-                ->constrained('courses')
+        Schema::create('catalog_teacher', function (Blueprint $table) {
+            $table->foreignId('catalog_id')
+                ->constrained('catalogs')
                 ->onDelete('cascade');
 
             $table->foreignId('teacher_id')
                 ->constrained('teachers')
                 ->onDelete('cascade');
 
-            $table->primary(['course_id', 'teacher_id']);
+            $table->primary(['catalog_id', 'teacher_id']);
         });
     }
 
@@ -28,6 +28,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('course_teacher');
+        Schema::dropIfExists('catalog_teacher');
     }
 };

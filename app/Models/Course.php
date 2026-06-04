@@ -22,13 +22,13 @@ class Course extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function projects()
-    {
-        return $this->hasMany(Project::class);
-    }
+    // public function projects()
+    // {
+    //     return $this->hasMany(Project::class);
+    // }
 
-    public function teachers()
-    {
-        return $this->belongsToMany(Teacher::class);
-    }
+    // public function teachers()
+    // {
+    //     return $this->belongsToMany(Teacher::class);
+    // }
 }

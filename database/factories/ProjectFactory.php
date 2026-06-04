@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Course;
+use App\Models\Catalog;
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,9 +18,9 @@ class ProjectFactory extends Factory
         $title = $this->faker->unique()->words(4, true);
 
         return [
-            'course_id' => Course::inRandomOrder()->first()?->id ?? Course::factory(),
+            'catalog_id' => Catalog::inRandomOrder()->first()?->id ?? Catalog::factory(),
             'project_date' => $this->faker->dateTimeBetween('-2 years', 'now'),
-            'title' => ['es' => ucfirst($title).' (ES)', 'ca' => ucfirst($title).' (CA)'],
+            'title' => ['es' => ucfirst($title) . ' (ES)', 'ca' => ucfirst($title) . ' (CA)'],
             'description' => ['es' => $this->faker->paragraph(), 'ca' => $this->faker->paragraph()],
             'repo_url' => $this->faker->optional()->url(),
             'live_url' => $this->faker->optional()->url(),

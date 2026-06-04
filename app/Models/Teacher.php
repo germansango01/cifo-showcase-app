@@ -13,8 +13,8 @@ class Teacher extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public function courses()
+    public function catalogs()
     {
-        return $this->belongsToMany(Course::class);
+        return $this->belongsToMany(Catalog::class);
     }
 }

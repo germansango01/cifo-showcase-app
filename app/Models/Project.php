@@ -14,7 +14,7 @@ use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
 
 #[Fillable([
-    'course_id',
+    'catalog_id',
     'slug',
     'project_date',
     'title',
@@ -91,7 +91,7 @@ class Project extends Model implements HasMedia
     public function getFeaturedImage(): ?Media
     {
         return $this->getMedia('images')->first(
-            fn (Media $m) => (bool) $m->getCustomProperty('is_featured')
+            fn(Media $m) => (bool) $m->getCustomProperty('is_featured')
         ) ?? $this->getFirstMedia('images');
     }
 
@@ -108,9 +108,9 @@ class Project extends Model implements HasMedia
         return $this->belongsToMany(Student::class);
     }
 
-    public function course()
+    public function catalog()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(Catalog::class);
     }
 
     public function tags()
