@@ -18,7 +18,7 @@ class CourseFactory extends Factory
 
         return [
             'category_id' => Category::inRandomOrder()->first()?->id ?? Category::factory(),
-            'course_code' => strtoupper($this->faker->unique()->bothify('CRS-###-???')),
+            'course_code' => $this->faker->unique()->numerify('IFC####'),
             'name' => (function () {
                 $tech = $this->faker->randomElement(['Laravel', 'Vue', 'React', 'PHP', 'Node.js', 'UX/UI', 'DevOps', 'Python']);
 
